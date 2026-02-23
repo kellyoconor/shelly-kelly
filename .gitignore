@@ -13,3 +13,11 @@ npm-debug.log*
 
 # OS
 .DS_Store
+
+# Credentials (never commit)
+credentials/
+*.creds.json
+strava.json
+
+# ClawHub cache
+.clawhub/
