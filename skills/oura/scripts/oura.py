@@ -66,16 +66,31 @@ def personal_info():
 
 def daily_brief(date=None):
     """Combined sleep + readiness + activity summary."""
-    d = date or yesterday_str()
+    d = date or today_str()
     today = today_str()
     brief = {"date": d}
     try:
         sl = api_get("daily_sleep", {"start_date": d, "end_date": d})
-        if sl.get("data"): brief["sleep"] = sl["data"][0]
+        if sl.get("data"):
+            brief["sleep"] = sl["data"][0]
+        elif d == today:
+            # Fallback to yesterday if today hasn't synced yet
+            yd = yesterday_str()
+            sl = api_get("daily_sleep", {"start_date": yd, "end_date": yd})
+            if sl.get("data"):
+                brief["sleep"] = sl["data"][0]
+                brief["sleep_fallback"] = yd
     except: pass
     try:
         rd = api_get("daily_readiness", {"start_date": d, "end_date": d})
-        if rd.get("data"): brief["readiness"] = rd["data"][0]
+        if rd.get("data"):
+            brief["readiness"] = rd["data"][0]
+        elif d == today:
+            yd = yesterday_str()
+            rd = api_get("daily_readiness", {"start_date": yd, "end_date": yd})
+            if rd.get("data"):
+                brief["readiness"] = rd["data"][0]
+                brief["readiness_fallback"] = yd
     except: pass
     try:
         act = api_get("daily_activity", {"start_date": today, "end_date": today})

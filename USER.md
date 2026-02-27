@@ -8,4 +8,10 @@
 
 ## Context
 
-Just getting started! Building this out as we go.
+- Works at Comcast/Xfinity HQ in Philly (27th floor)
+- Role: AI and Emerging Products
+- Not here for work stuff — Shelly is life stuff and vibes only
+- Enjoys the engineering/building side of AI personally
+- Marathon runner, SoulCycle, post-ACL (2022)
+- Solo traveled to Scotland (early 2026) — foundational moment
+- 2026 word: Choose Brave
