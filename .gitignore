@@ -21,3 +21,5 @@ strava.json
 
 # ClawHub cache
 .clawhub/
+.spotify_cache
+__pycache__/
