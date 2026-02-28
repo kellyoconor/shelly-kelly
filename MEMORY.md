@@ -46,7 +46,12 @@
 - 2 vanilla syrup, 2 hazelnut syrup, 1 Splenda, whole milk 1/2"
 - Hot in winter, iced in summer
 
+### Piercing (Feb 27, 2026)
+- Got second holes at Catbird Piercing Studio, 103 S 18th St, Philly
+- Done on Feb 27 (not 28)
+
 ## Lessons Learned
+- **Take notes in real time during convos** — don't wait until after. Kelly asked for this explicitly (Feb 28)
 - Cron "announce" delivery doesn't send to WhatsApp — use message tool directly in the agentTurn prompt
 - Skills in /openclaw/ get wiped on redeploy — always put them in /data/workspace/skills/
 - WhatsApp plugin gets disabled by `doctor --fix` — bootstrap.sh re-enables it
