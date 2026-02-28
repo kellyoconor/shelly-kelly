@@ -16,9 +16,9 @@
 2. "I'm grateful for the life I'm actively building."
 3. "I've handled harder."
 
-### Piercing
-- Friday Feb 27, 11:30am — Catbird Piercing Studio, 103 S 18th St, Philly
-- Second holes
+### Piercing (Feb 27, 2026)
+- Got second holes at Catbird Piercing Studio, 103 S 18th St, Philly
+- Done on Feb 27 — don't remind her about it after the fact lol
 
 ## Me (Shelly 🐚)
 - Casual, easygoing, sharp when it counts
@@ -45,10 +45,6 @@
 ### Starbucks Order
 - 2 vanilla syrup, 2 hazelnut syrup, 1 Splenda, whole milk 1/2"
 - Hot in winter, iced in summer
-
-### Piercing (Feb 27, 2026)
-- Got second holes at Catbird Piercing Studio, 103 S 18th St, Philly
-- Done on Feb 27 (not 28)
 
 ## Lessons Learned
 - **Take notes in real time during convos** — don't wait until after. Kelly asked for this explicitly (Feb 28)
