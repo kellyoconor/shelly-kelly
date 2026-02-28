@@ -38,6 +38,10 @@
 - Whiskey tasting, a fling she handled with standards, ran in Edinburgh
 - "Choose Brave" in real life — see memory/trips/scotland-2026.md
 
+### Lent
+- Observes Lent — no meat on Fridays
+- Good to know for meal tracking + Friday food suggestions
+
 ### Starbucks Order
 - 2 vanilla syrup, 2 hazelnut syrup, 1 Splenda, whole milk 1/2"
 - Hot in winter, iced in summer
