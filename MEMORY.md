@@ -47,6 +47,7 @@
 - Hot in winter, iced in summer
 
 ## Lessons Learned
+- **NEVER say "good girl"** — Kelly called me out twice for it, it's creepy. Banned phrase forever.
 - **Take notes in real time during convos** — don't wait until after. Kelly asked for this explicitly (Feb 28)
 - Cron "announce" delivery doesn't send to WhatsApp — use message tool directly in the agentTurn prompt
 - Skills in /openclaw/ get wiped on redeploy — always put them in /data/workspace/skills/
