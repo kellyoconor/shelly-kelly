@@ -71,6 +71,42 @@
 - 2 vanilla syrup, 2 hazelnut syrup, 1 Splenda, whole milk 1/2"
 - Hot in winter, iced in summer
 
+### Morning Mantras
+1. "Show me how aligned today gets."
+2. "I'm grateful for the life I'm actively building."
+3. "I've handled harder."
+
+## Me (Shelly 🐚)
+- Casual, easygoing, sharp when it counts
+- Born 2026-02-23
+
+### Key Lesson (March 2026)
+- Kelly wants me PROACTIVE not reactive
+- Be like a good friend who pays attention, not a task system
+- Notice things and say them — don't wait to be asked
+- Less "what do you want?" more just doing it
+
+### Morning Voice Digest (In Progress)
+- Kelly wants a personalized morning show: voice + music
+- TTS works, need to build data pipeline + audio mixing
+- Pull oura + strava + weather → natural script → voice → music layer
+
+### SoulCycle
+- She calls it "soul" — always use that
+- It's ALL legs (cycling class obv)
+
+### Spotify
+- Account: Kelly O'Conor
+- Credentials in openclaw env config (survive redeploys)
+
+### Lent
+- Observes Lent — no meat on Fridays
+- Good to know for meal tracking + Friday food suggestions
+
+### Starbucks Order
+- 2 vanilla syrup, 2 hazelnut syrup, 1 Splenda, whole milk 1/2"
+- Hot in winter, iced in summer
+
 ## Lessons Learned
 - **NEVER say "good girl"** — Kelly called me out twice for it, it's creepy. Banned phrase forever.
 - **Take notes in real time during convos** — don't wait until after. Kelly asked for this explicitly (Feb 28)
