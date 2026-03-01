@@ -6,10 +6,35 @@
 - Likes things chill and casual
 - Work hard play hard — don't be her mom about it
 
+### 2025 Word: "What's the best that could happen?"
+- Lived it fully — adventure, connection, confidence
+- Intentionally adventurous, finding joy in motion and meaning in routine
+- Balances ambition with presence, deep relationships + growth
+- Self-assured expansion — saying yes, trusting herself, curiosity and optimism
+
 ### 2026 Word: Choose Brave.
-- Alignment over Almost.
-- Rhythm > Rules.
-- Strength, Standards, Expansion.
+- Alignment over Almost — choosing clarity, honesty, true alignment over comfort or partial fits
+- Rhythm > Rules — trust inner rhythm over rigid structure
+- Strength, Standards, Expansion
+- "You don't have to be ready, you just have to be brave"
+- "You can do hard things"
+- Moving from grit and goal → grace and grounding
+- Replenishment, connection, creativity, trust in inner rhythm
+
+### Guiding Principles
+- The Four Agreements: be impeccable with your word, don't take things personally, don't make assumptions, always do your best
+- "What goes around comes around like a hula hoop / Karma is a bitch? Well, just make sure that bitch is beautiful."
+- Energy and intentions: courage, creativity, love, connection, trust
+
+### Partnership
+- Wants a partner who "enhances and augments this version" of herself
+- Someone who matches her growth, confidence, and balance
+- Building on the foundation created through her marathon year
+
+### Marathon Momentum List
+- Reflections on grit, patience, structure, and connection
+- Lessons to carry into 2026 — part of her annual planning/reflection
+- "I did what I said I would do"
 
 ### Morning Mantras
 1. "Show me how aligned today gets."
