@@ -9,6 +9,9 @@
 ## Big Projects
 - [ ] **"Promote to Shelly" bridge** — Lightweight context transfer from ChatGPT → Kelly OS. Kelly says "promote this to shelly as [category]" in ChatGPT, a GPT Action calls an endpoint that writes to memory/YYYY-MM-DD.md + tracking files. Keeps ChatGPT as messy thinking space, Shelly as structured synthesis. Needs: endpoint spec, GPT Action setup, memory write format, category routing (brave moments, alignment, reflections, etc). Full design doc in memory.
 
+## Bugs
+- [ ] **FlightClaw round trip search** — crashes on round trip results (AttributeError: 'tuple' has no 'price'). Report or fix.
+
 ## Done
 - [x] Spotify env vars saved to config (2026-03-01)
 - [x] ElevenLabs API key saved to config (2026-03-01)
