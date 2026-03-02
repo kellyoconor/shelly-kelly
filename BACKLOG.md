@@ -6,6 +6,9 @@
 - [ ] **Morning voice digest** — Build the full pipeline: oura + strava + weather → script → voice + music layer
 - [ ] **Spotify setup** — ✅ Credentials working, but explore playlists/DJ features more
 
+## Learn Later
+- [ ] **ACP Agents** — external coding agents (Codex, Claude Code, Gemini CLI) through OpenClaw. Power user feature for when Kelly wants to level up. Docs: docs.openclaw.ai/tools/acp-agents
+
 ## Big Projects
 - [ ] **"Promote to Shelly" bridge** — Lightweight context transfer from ChatGPT → Kelly OS. Kelly says "promote this to shelly as [category]" in ChatGPT, a GPT Action calls an endpoint that writes to memory/YYYY-MM-DD.md + tracking files. Keeps ChatGPT as messy thinking space, Shelly as structured synthesis. Needs: endpoint spec, GPT Action setup, memory write format, category routing (brave moments, alignment, reflections, etc). Full design doc in memory.
 
