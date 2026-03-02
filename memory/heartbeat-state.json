@@ -1,15 +1,20 @@
 {
   "lastChecks": {
-    "email": null,
+    "email": 1772460000,
     "calendar": null,
     "weather": null
   },
   "inbox": {
-    "lastSeenTimestamp": "2026-03-02T13:00:00.000Z",
+    "lastSeenTimestamp": "2026-03-02T14:30:00.000Z",
     "processedThreadIds": [
       "5eb11f8d-bab4-4f61-a7e4-6bbb14dad60f",
       "a542de88-cb28-42f4-bdee-ea3a058bbc1f",
-      "5e1111f5-26f6-4302-b434-93a7e68513d7"
+      "5e1111f5-26f6-4302-b434-93a7e68513d7",
+      "950f8735-b299-425e-96ac-ec4200565871",
+      "484ea2b6-9f06-4a3e-a36d-ca6e1f06ecea",
+      "92b2609e-2568-41b2-b666-4af093d6db4d",
+      "5929ab3b-cad4-46a3-867d-b31536603137",
+      "011cf970-9533-4439-bed1-f9276f0b1530"
     ]
   }
 }

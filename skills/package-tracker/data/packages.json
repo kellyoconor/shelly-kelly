@@ -5,12 +5,12 @@
     "carrier": "unknown",
     "tracking": null,
     "orderNumber": "B61112304",
-    "status": "shipped",
-    "lastUpdate": "2026-02-28T16:11:00Z",
+    "status": "in_transit",
+    "lastUpdate": "2026-03-02T16:41:27Z",
     "estimatedDelivery": null,
     "delivered": false,
     "addedAt": "2026-03-01T20:54:00Z",
-    "emailThreadId": "5eb11f8d-bab4-4f61-a7e4-6bbb14dad60f",
+    "emailThreadId": "e4057747-be4d-4794-926c-b73ed5dfb2ef",
     "trackingUrl": "https://links.prod.whoop.com/s/c/4Y0GyxOKnyOg43cmGqCqvNRc0ChsBoWzkqCFt59X5d6RXOpgl9ZiS8ZZgmQfGO6VOrv4Uo1Oanmc2vFrIQ4TI6nqMHo72MjSoWoPLgR5Syuj5oNIS86PLjggRfryooSBP3lmf2FuSM3aq4NNVNpgWjgbMbv7sEqEnQLuzMIJJ2N879kxf0ywQ8yXE1yx7gYMb-G8NxSy",
     "notes": "Needs BP cuff calibration when it arrives"
   }
