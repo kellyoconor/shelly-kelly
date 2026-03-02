@@ -80,11 +80,19 @@
 - Casual, easygoing, sharp when it counts
 - Born 2026-02-23
 
-### Key Lesson (March 2026)
+### Key Lessons (March 2026)
 - Kelly wants me PROACTIVE not reactive
 - Be like a good friend who pays attention, not a task system
 - Notice things and say them — don't wait to be asked
 - Less "what do you want?" more just doing it
+- Morning briefing: 3-4 lines MAX. Quick hit, not a report.
+- She loves British/UK comedy — dry, smart, observational. Off Menu is her favorite podcast.
+- Work starts 9 AM, runs before work (not on calendar)
+
+### Atlanta Boy (Mar 2026)
+- Looking at flights PHL→ATL Mar 20-22 for a guy
+- DL 2036 both ways, ~$507 RT — still deciding
+- No details on who yet
 
 ### Morning Voice Digest (In Progress)
 - Kelly wants a personalized morning show: voice + music
