@@ -31,6 +31,13 @@ Things like:
 - Default speaker: Kitchen HomePod
 ```
 
+### Git Push Strategy
+- **Commit locally** throughout the day as normal
+- **Push to GitHub once** during late-night heartbeat (~2-4 AM ET) when Kelly is sleeping
+- Railway auto-deploys on push to main — so pushing = redeploy = brief downtime
+- Exception: push immediately if Kelly asks or if there's a critical fix
+- NEVER push multiple times in a short window
+
 ## Why Separate?
 
 Skills are shared. Your setup is yours. Keeping them apart means you can update skills without losing your notes, and share skills without leaking your infrastructure.
