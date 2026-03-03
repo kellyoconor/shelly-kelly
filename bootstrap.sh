@@ -1,7 +1,23 @@
 #!/usr/bin/env bash
 # bootstrap.sh — runs on every container start (before gateway)
-# Ensures WhatsApp plugin stays enabled after doctor/redeploy
+# Installs system deps + ensures config survives redeploys
 
+set -e
+
+# ── System packages (wiped on redeploy) ──────────────────────
+echo "[bootstrap] Installing system packages..."
+apt-get update -qq
+apt-get install -y -qq chromium ffmpeg python3-pip > /dev/null 2>&1
+echo "[bootstrap] chromium $(chromium --version 2>/dev/null | grep -oP '[\d.]+')"
+echo "[bootstrap] ffmpeg installed"
+
+# ── Python packages (wiped on redeploy) ──────────────────────
+echo "[bootstrap] Installing Python packages..."
+pip3 install --break-system-packages -q \
+  requests python-dotenv faster-whisper websocket-client Pillow 2>/dev/null
+echo "[bootstrap] Python packages installed"
+
+# ── Config checks ────────────────────────────────────────────
 CONFIG="${OPENCLAW_STATE_DIR:-/data/.clawdbot}/openclaw.json"
 
 if [ -f "$CONFIG" ]; then

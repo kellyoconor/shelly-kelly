@@ -89,6 +89,20 @@
 - She loves British/UK comedy — dry, smart, observational. Off Menu is her favorite podcast.
 - Work starts 9 AM, runs before work (not on calendar)
 
+### NWSL Interview (Mar 2026)
+- Director, Technical Product Management at NWSL
+- Hiring manager: MZ — they had wild personal connections (Hello Sunshine, Ralph Lauren, rowing)
+- Interview went great, genuine chemistry
+- Role: build digital product org from scratch, no budget until 2027
+- 3 days/week in NYC, $165k — Kelly at $160k at Comcast with zero commute
+- Money is the main concern — functionally a pay cut with commute costs
+- Kelly loves the opportunity but doesn't need to leave — strong leverage
+- Process TBD, probably more rounds
+
+### Nantucket Trip (Jun 2026)
+- PHL → ACK June 18-21, American Airlines AA 4545
+- Confirmation: QCQHXF, Seat 10D both ways
+
 ### Atlanta Boy (Mar 2026)
 - Looking at flights PHL→ATL Mar 20-22 for a guy
 - DL 2036 both ways, ~$507 RT — still deciding
