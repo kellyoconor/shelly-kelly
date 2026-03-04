@@ -116,5 +116,67 @@
 
 ---
 
+---
+
+## 8. Morning Voice Digest — Personalized Morning Show
+**Priority:** On hold (depends on ElevenLabs/TTS decision)
+**Effort:** ~3-4 hours
+
+**Problem:** You want to wake up to a voice message — not just text. A personalized morning show with sleep data, weather, training plan, vibes, maybe background music.
+
+**What to do:**
+- Build data pipeline: pull oura + strava + weather + calendar → natural conversational script
+- TTS the script into a voice clip (needs a voice you like — ElevenLabs backlogged for now)
+- Layer in background music (ffmpeg mixing)
+- Schedule via cron to deliver to WhatsApp before you wake up
+- The Mirror question could be the "closing thought" of the show
+
+**Status:** TTS works technically, but voice selection is paused. Data pipeline partially exists via The Mirror. Resume when ElevenLabs voice is sorted.
+
+---
+
+## 9. Calendar Integration
+**Priority:** High (Kelly called this "the biggest unlock")
+**Effort:** ~30 min
+
+**Problem:** Calendar is connected and working (Google Calendar OAuth) but Kelly was initially hesitant about privacy. It's actually already wired up and used in morning briefings.
+
+**What to do:**
+- Verify calendar is pulling events correctly (it returned "no events" today — was that accurate?)
+- Explore deeper calendar use: prep notes before meetings, travel time reminders, schedule density analysis for The Mirror
+- Consider: weekly calendar preview on Sunday nights?
+- Kelly controls visibility via her dedicated Google account — she decides what Shelly sees
+
+---
+
+## 10. Atlanta Flight Tracking (Mar 20-22)
+**Priority:** Time-sensitive (trip is Mar 20)
+**Effort:** ~15 min
+
+**Problem:** Kelly was looking at PHL → ATL flights for Mar 20-22. DL 2036 both ways, ~$507 RT. She was sleeping on it.
+
+**What to do:**
+- Check if flightclaw skill is set up and working
+- Set up a price watch for PHL → ATL Mar 20-22
+- Alert Kelly if price drops significantly
+- She hasn't confirmed booking yet — follow up closer to date if no update
+
+---
+
+## 11. ElevenLabs Voice Selection
+**Priority:** Low (parked — cost concern)
+**Effort:** ~15 min when ready
+
+**Problem:** Edge TTS voices sound robotic/creepy. ElevenLabs has great voices but costs money. Kelly doesn't want to spend on this right now.
+
+**What to do (when ready):**
+- Send Kelly audio samples of top ElevenLabs voices (Jessica, Sarah, Lily, Bella)
+- Let her pick a favorite
+- Set as default TTS voice
+- Re-enable voice notes in morning briefing
+- Explore: ElevenLabs free tier? Any free minutes per month?
+
+---
+
 *Last updated: 2026-03-03*
 *Add new items as they come up. Tackle these when you've got time and energy — none are urgent.*
