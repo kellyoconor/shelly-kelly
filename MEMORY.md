@@ -88,6 +88,11 @@
 - Morning briefing: 3-4 lines MAX. Quick hit, not a report.
 - She loves British/UK comedy — dry, smart, observational. Off Menu is her favorite podcast.
 - Work starts 9 AM, runs before work (not on calendar)
+- **STEP-BY-STEP UPDATES ON EVERYTHING** — before, during, after. No silent work. This is SUPER important to her.
+- **Batch config changes** — never do multiple restarts back-to-back. One patch, one restart.
+- **No system changes during active convos** — maintenance goes overnight or when she's not chatting
+- **Restart loop protection** — if 2+ restarts in 5 min, STOP and message her instead of continuing
+- **Always give her an escape hatch** — remind her of /restart, Railway dashboard as nuclear option
 
 ### NWSL Interview (Mar 2026)
 - Director, Technical Product Management at NWSL
