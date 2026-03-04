@@ -37,6 +37,7 @@ Things like:
 - Railway auto-deploys on push to main — so pushing = redeploy = brief downtime
 - Exception: push immediately if Kelly asks or if there's a critical fix
 - NEVER push multiple times in a short window
+- **If 5+ commits stack up unpushed, nudge Kelly** to confirm a push (remind her it triggers a redeploy)
 
 ## Why Separate?
 

@@ -1,182 +1,64 @@
-# BACKLOG.md — Rainy Day Projects
+# BACKLOG.md — Shelly Optimization & Feature Backlog
 
-## 1. Token Optimization — Stop Burning Money
-**Priority:** High (saves real $$$)
-**Effort:** ~1-2 hours
+## 🔴 High Priority
 
-**Problem:** We're running Opus ($15/M input, $75/M output) for EVERYTHING — including heartbeats, cron jobs, and simple tasks that don't need a big brain. That's like taking a Ferrari to the grocery store.
+### Token Optimization — Stop Running Opus for Everything
+- **Why:** Opus is expensive and slow. Not every task needs it.
+- **Status:** Backlog
+- **Estimation:** TBD
 
-**What to do:**
-- Switch heartbeats to Sonnet (way cheaper, plenty smart for "check inbox, anything new?")
-- Set cron jobs to use Sonnet by default (morning briefing, package tracker, etc.)
-- Keep Opus for main session conversations where you need depth
-- Audit MEMORY.md size — it loads every turn and it's growing. Trim outdated stuff, move historical details to daily logs
-- Review bootstrap file sizes (AGENTS.md, SOUL.md, USER.md, TOOLS.md) — every character costs tokens every single message
-- Consider context pruning settings (cache-ttl mode) to auto-trim old tool results from conversation history
+## 🟡 Medium Priority
 
-**How to measure:** Check session_status before and after — compare token counts per message.
+### Lean Bootstrap Files — Trim MEMORY.md and Friends
+- **Why:** Every session loads MEMORY.md, SOUL.md, USER.md, AGENTS.md — bloated = more tokens burned
+- **Status:** Backlog
+- **Estimation:** TBD
 
----
+### Fix Browser Tool — Unlock X/Twitter and Web Browsing
+- **Why:** Can't load tweets, web pages block scrapers
+- **Status:** Backlog
+- **Estimation:** TBD
 
-## 2. Lean Bootstrap Files
-**Priority:** Medium (compounds over time)
-**Effort:** ~1 hour
+### Fix Image Tool — sharp Package
+- **Why:** Can't view Kelly's photos. OOM-killed on install attempt.
+- **Status:** Blocked (memory issues on install)
+- **Estimation:** TBD
 
-**Problem:** MEMORY.md is loaded into context every turn. It's getting long — marathon history, Scotland trip details, dating notes, NWSL interview details. All of that eats tokens even when it's not relevant to the current conversation.
+### Config Tuning for Cost — Context Pruning, Heartbeat Model, Subagent Model
+- **Why:** Heartbeats and subagents don't need Opus. Context pruning reduces token burn.
+- **Status:** Backlog
+- **Estimation:** TBD
 
-**What to do:**
-- Audit MEMORY.md — what MUST be in every conversation vs what can live in memory search only?
-- Core identity stuff stays (mantras, preferences, Starbucks order, key rules)
-- Historical events move to daily logs or a separate `memory/archive.md` that only gets pulled via semantic search
-- Same audit for AGENTS.md — is every instruction still relevant?
-- Measure before/after: count characters in all bootstrap files combined
-- Goal: cut bootstrap size by 30-50% without losing anything important
+## 🟢 Low Priority
 
----
+### Multi-Agent Setup — Split Shelly from System Ops
+- **Why:** Separate life assistant from infra/maintenance agent
+- **Status:** Backlog (cool but complex)
+- **Estimation:** TBD
 
-## 3. Multi-Agent Setup
-**Priority:** Low (cool but not urgent)
-**Effort:** ~2-3 hours
+### Brave Search API — Proper Web Search
+- **Why:** Better search results, free tier available
+- **Status:** Backlog
+- **Estimation:** TBD
 
-**Problem:** Everything runs through one agent — morning briefings, casual chat, system maintenance, data analysis. The article suggests separate agents for different purposes, each with their own workspace and memory.
+## ⏸️ On Hold
 
-**What to do:**
-- Consider splitting into 2 agents:
-  - **Shelly** (personal) — daily chat, vibes, reflective questions, life stuff
-  - **Ops** (system) — heartbeats, cron jobs, monitoring, maintenance tasks
-- Each gets its own workspace, memory, and tool permissions
-- Ops agent could run on Sonnet permanently (cheaper, faster for system tasks)
-- Shelly stays on Opus for the real conversations
-- Set up bindings so WhatsApp → Shelly, system tasks → Ops
-- Could also add a dedicated research agent with browser access
+### Morning Voice Digest — Personalized Morning Show with Voice + Music
+- **Why:** Paused until TTS/ElevenLabs voice is sorted
+- **Status:** On hold
 
-**Tradeoffs:** More complex setup, agents can't easily share context. Start simple with 2, expand later.
+### ElevenLabs Voice — Find the Right Voice
+- **Why:** Parked due to cost concerns
+- **Status:** On hold
 
----
+## 💡 Enhancements
 
-## 4. Fix Browser Tool
-**Priority:** Medium (unlocks X/Twitter, web research, Gmail checking)
-**Effort:** ~30 min
+### Calendar Integration — Go Deeper
+- **Why:** Weekly previews, meeting prep, schedule density for The Mirror
+- **Status:** Backlog
+- **Estimation:** TBD
 
-**Problem:** Browser tool isn't starting after the v2026.3.2 update. Chromium is installed but CDP (Chrome DevTools Protocol) isn't connecting.
-
-**What to do:**
-- Debug why `browser start` fails — check if Chromium path is still correct after update
-- Test with `openclaw browser status`
-- May need to update browser config for new version
-- Once working: can read tweets, browse web pages, interact with sites that block simple fetches
-- Opens up possibilities like Gmail inbox checking via browser instead of API
-
----
-
-## 5. Fix Image Tool (sharp package)
-**Priority:** Medium (you send me photos and I can't see them)
-**Effort:** ~15 min
-
-**Problem:** `sharp` package missing after update. Needed to resize images before AI analysis. Install failed due to Railway memory limits during compilation.
-
-**What to do:**
-- Try `pnpm add sharp --config.platform=linuxmusl` (prebuilt binary, skips compilation)
-- Or `npm install --os=linux --cpu=x64 sharp` 
-- Or add sharp to the OpenClaw package.json so it survives future updates
-- Test by sending a photo after install
-- Add to bootstrap.sh so it reinstalls on redeploy
-
----
-
-## 6. Set Up Brave Search API
-**Priority:** Low (nice to have)
-**Effort:** ~15 min
-
-**Problem:** `web_search` tool doesn't work — needs a Brave Search API key. Currently I can only use `web_fetch` which doesn't work on sites that block scrapers (like X).
-
-**What to do:**
-- Sign up at https://brave.com/search/api/ (free tier: 2,000 queries/month)
-- Add API key to OpenClaw config: `openclaw configure --section web`
-- Or add to config: `tools.web.search.apiKey`
-- Once set up: proper web search results, better research capability
-- Pairs well with browser tool for full web access
-
----
-
-## 7. Config Tuning for Cost
-**Priority:** Medium (money savings)
-**Effort:** ~1 hour
-
-**Problem:** We haven't tuned any of the cost-related config settings. Running defaults everywhere.
-
-**What to do:**
-- **Context pruning:** Enable `cache-ttl` mode to auto-trim old tool results (they're huge and stick around forever)
-- **Compaction settings:** Review `memoryFlush` — make sure important stuff gets saved to MEMORY.md before old messages get compressed
-- **Heartbeat model:** Set `heartbeat.model` to Sonnet explicitly
-- **Subagent model:** Set `subagents.model` to Sonnet (most sub-tasks don't need Opus)
-- **Block streaming:** Consider enabling for WhatsApp to reduce back-and-forth API calls
-- **Bootstrap max chars:** Review `bootstrapMaxChars` setting — cap how much of each file gets injected
-- Run `session_status` to see current token usage as baseline, then compare after changes
-
----
-
----
-
-## 8. Morning Voice Digest — Personalized Morning Show
-**Priority:** On hold (depends on ElevenLabs/TTS decision)
-**Effort:** ~3-4 hours
-
-**Problem:** You want to wake up to a voice message — not just text. A personalized morning show with sleep data, weather, training plan, vibes, maybe background music.
-
-**What to do:**
-- Build data pipeline: pull oura + strava + weather + calendar → natural conversational script
-- TTS the script into a voice clip (needs a voice you like — ElevenLabs backlogged for now)
-- Layer in background music (ffmpeg mixing)
-- Schedule via cron to deliver to WhatsApp before you wake up
-- The Mirror question could be the "closing thought" of the show
-
-**Status:** TTS works technically, but voice selection is paused. Data pipeline partially exists via The Mirror. Resume when ElevenLabs voice is sorted.
-
----
-
-## 9. Calendar Integration
-**Priority:** High (Kelly called this "the biggest unlock")
-**Effort:** ~30 min
-
-**Problem:** Calendar is connected and working (Google Calendar OAuth) but Kelly was initially hesitant about privacy. It's actually already wired up and used in morning briefings.
-
-**What to do:**
-- Verify calendar is pulling events correctly (it returned "no events" today — was that accurate?)
-- Explore deeper calendar use: prep notes before meetings, travel time reminders, schedule density analysis for The Mirror
-- Consider: weekly calendar preview on Sunday nights?
-- Kelly controls visibility via her dedicated Google account — she decides what Shelly sees
-
----
-
-## 10. Atlanta Flight Tracking (Mar 20-22)
-**Priority:** Time-sensitive (trip is Mar 20)
-**Effort:** ~15 min
-
-**Problem:** Kelly was looking at PHL → ATL flights for Mar 20-22. DL 2036 both ways, ~$507 RT. She was sleeping on it.
-
-**What to do:**
-- Check if flightclaw skill is set up and working
-- Set up a price watch for PHL → ATL Mar 20-22
-- Alert Kelly if price drops significantly
-- She hasn't confirmed booking yet — follow up closer to date if no update
-
----
-
-## 11. ElevenLabs Voice Selection
-**Priority:** Low (parked — cost concern)
-**Effort:** ~15 min when ready
-
-**Problem:** Edge TTS voices sound robotic/creepy. ElevenLabs has great voices but costs money. Kelly doesn't want to spend on this right now.
-
-**What to do (when ready):**
-- Send Kelly audio samples of top ElevenLabs voices (Jessica, Sarah, Lily, Bella)
-- Let her pick a favorite
-- Set as default TTS voice
-- Re-enable voice notes in morning briefing
-- Explore: ElevenLabs free tier? Any free minutes per month?
-
----
-
-*Last updated: 2026-03-03*
-*Add new items as they come up. Tackle these when you've got time and energy — none are urgent.*
+### Atlanta Flight Tracking — PHL → ATL Mar 20-22
+- **Why:** Price watch for Kelly's trip
+- **Status:** Backlog
+- **Estimation:** TBD
