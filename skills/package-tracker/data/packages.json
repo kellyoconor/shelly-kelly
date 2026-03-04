@@ -5,13 +5,13 @@
     "carrier": "unknown",
     "tracking": null,
     "orderNumber": "B61112304",
-    "status": "in_transit",
-    "lastUpdate": "2026-03-02T16:41:27Z",
-    "estimatedDelivery": null,
+    "status": "out_for_delivery",
+    "lastUpdate": "2026-03-04T13:11:00Z",
+    "estimatedDelivery": "2026-03-04",
     "delivered": false,
     "addedAt": "2026-03-01T20:54:00Z",
     "emailThreadId": "e4057747-be4d-4794-926c-b73ed5dfb2ef",
-    "trackingUrl": "https://links.prod.whoop.com/s/c/4Y0GyxOKnyOg43cmGqCqvNRc0ChsBoWzkqCFt59X5d6RXOpgl9ZiS8ZZgmQfGO6VOrv4Uo1Oanmc2vFrIQ4TI6nqMHo72MjSoWoPLgR5Syuj5oNIS86PLjggRfryooSBP3lmf2FuSM3aq4NNVNpgWjgbMbv7sEqEnQLuzMIJJ2N879kxf0ywQ8yXE1yx7gYMb-G8NxSy",
-    "notes": "Needs BP cuff calibration when it arrives"
+    "trackingUrl": "https://links.prod.whoop.com/s/c/3HZ_IwJumwkoM4GRVYH2ITHVWqvNinBApqGSUByJP6BC5UVFT53t215iK6Pp-FXhcnCXbNq0c-g6qpji8Tyoya7m4wU4pyq9ybEJ1ouwW6x6dddUcrzrvls7lBwYOx9JAFv_u5FZHBSIyjiVSygt-YBT6kyMxLpjQasXxtVvD6-gTyiBSYKxDiUU5_SrKga35erWPSp95ra4xJINv6YDee_pCH8nMCQZUW-_YI4wXm7Y4GnxVwANRqN3p8NUaJXl_iAxH6a4qb3Mci28klEScv3MANWpB-CXCZzdZ-NVAky-Iov1biSFsVN26SmX1QtDrOISh2oVAOrNvkPjHUYD9Fkp3HzhW74XKVUjpgNarZy8VNj2zxQcnPh2eijXX-VOouMdxcK620dgGX5SbBdH28RoF99pUwVaYWgG9RjC8vmt70w",
+    "notes": "Arriving today! Download WHOOP app and prepare for setup"
   }
 ]

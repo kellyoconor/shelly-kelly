@@ -113,10 +113,12 @@
 - DL 2036 both ways, ~$507 RT — still deciding
 - No details on who yet
 
-### Morning Voice Digest (In Progress)
+### Morning Voice Digest (PAUSED)
 - Kelly wants a personalized morning show: voice + music
-- TTS works, need to build data pipeline + audio mixing
-- Pull oura + strava + weather → natural script → voice → music layer
+- TTS works but voice quality isn't right yet
+- **NO VOICE NOTES in morning briefing** until ElevenLabs is set up with a voice she likes
+- She wants an Irish woman voice — Edge TTS options sounded robotic
+- Pull oura + strava + weather → natural script → voice → music layer (future)
 
 ### SoulCycle
 - She calls it "soul" — always use that
