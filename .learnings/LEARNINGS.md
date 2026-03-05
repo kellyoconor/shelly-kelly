@@ -1,45 +1,57 @@
-# Learnings
+# Self-Improvement Learnings Log
 
-Corrections, insights, and knowledge gaps captured during development.
+## [LRN-20260305-001] memory_not_reading_own_notes
 
-**Categories**: correction | insight | knowledge_gap | best_practice
-**Areas**: frontend | backend | infra | tests | docs | config
-**Statuses**: pending | in_progress | resolved | wont_fix | promoted | promoted_to_skill
-
-## Status Definitions
-
-| Status | Meaning |
-|--------|---------|
-| `pending` | Not yet addressed |
-| `in_progress` | Actively being worked on |
-| `resolved` | Issue fixed or knowledge integrated |
-| `wont_fix` | Decided not to address (reason in Resolution) |
-| `promoted` | Elevated to CLAUDE.md, AGENTS.md, or copilot-instructions.md |
-| `promoted_to_skill` | Extracted as a reusable skill |
-
-## Skill Extraction Fields
-
-When a learning is promoted to a skill, add these fields:
-
-```markdown
-**Status**: promoted_to_skill
-**Skill-Path**: skills/skill-name
-```
-
-Example:
-```markdown
-## [LRN-20250115-001] best_practice
-
-**Logged**: 2025-01-15T10:00:00Z
+**Logged**: 2026-03-05T11:49:00Z
 **Priority**: high
-**Status**: promoted_to_skill
-**Skill-Path**: skills/docker-m1-fixes
-**Area**: infra
+**Status**: pending
+**Area**: workflow
 
 ### Summary
-Docker build fails on Apple Silicon due to platform mismatch
-...
-```
+I keep writing lessons down but not reading them before taking actions, leading to repeated mistakes
+
+### Details
+Pattern identified by Kelly: "Day 2 of me asking" about voice notes. I wrote NO VOICE NOTES rule in memory but sent voice note anyway in morning briefing. Same with forgetting daily Obsidian vault writing. I write corrections down but don't actually follow them.
+
+### Suggested Action
+Create pre-flight checklist that forces me to read memory files before:
+- Morning briefings
+- Any TTS/voice actions  
+- Major tasks
+- Configuration changes
+
+### Metadata
+- Source: user_feedback
+- Related Files: memory/2026-03-05.md, MEMORY.md
+- Tags: memory, workflow, corrections
+- Recurrence-Count: 3+
+- Pattern-Key: workflow.memory_not_consulted
 
 ---
 
+## [LRN-20260305-002] voice_notes_banned
+
+**Logged**: 2026-03-05T11:49:30Z
+**Priority**: high
+**Status**: pending  
+**Area**: communication
+
+### Summary
+NO VOICE NOTES until ElevenLabs Irish voice is set up - Edge TTS sounds robotic
+
+### Details
+Kelly has told me multiple times: "NO VOICE NOTES until ElevenLabs is set up with Irish voice." Edge TTS voice is robotic and she hates it. It's also a waste of tokens. I keep forgetting and sending voice notes anyway, especially in morning briefings.
+
+### Suggested Action
+1. Remove voice note from morning briefing cron job ✅ DONE
+2. Add "NO VOICE NOTES" check to pre-flight checklist
+3. Never use `tts` tool until Kelly explicitly says ElevenLabs is configured
+
+### Metadata
+- Source: user_feedback
+- Related Files: memory/2026-03-05.md
+- Tags: communication, voice, tts
+- Recurrence-Count: 3+
+- Pattern-Key: communication.voice_notes_forbidden
+
+---
