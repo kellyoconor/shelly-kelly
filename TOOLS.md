@@ -39,6 +39,11 @@ Things like:
 - NEVER push multiple times in a short window
 - **If 5+ commits stack up unpushed, nudge Kelly** to confirm a push (remind her it triggers a redeploy)
 
+### File Creation Defaults
+- **When Kelly asks for files**: Create in `/data/kelly-vault/` (Obsidian vault) by default
+- She accesses documents through Obsidian, not as code files
+- Auto-sync to git so they appear in her vault immediately
+
 ## Why Separate?
 
 Skills are shared. Your setup is yours. Keeping them apart means you can update skills without losing your notes, and share skills without leaking your infrastructure.
