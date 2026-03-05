@@ -14,5 +14,33 @@
     "emailThreadId": "e4057747-be4d-4794-926c-b73ed5dfb2ef",
     "trackingUrl": "https://links.prod.whoop.com/s/c/smLJCCJm-8UvCqGxIDyXfiGteWjJIPUvLQWOMD6F5etptoKqjTQZHfOJBKaxHsFmKegDlvM0X1pcW0tkFzJbHN9zar8lccOTqwFzHtpJ8ZvSgEF-4pJCbCAgFlRXuRFiZrAK2aGogWVo3Cc9_K_XvmIIdDLPWJ1IYs4wuUqWe2HXr4m1ajXAZIDut6XGiTcveutUQMaa3QeOedejjTRfunGCZdCoH6yM9wCioSx6M1kUi_KMb9Ro2N0hjUt0P8CRYHpA",
     "notes": "DELIVERED and SET UP! BP cuff calibrated, ready for workout tracking"
+  },
+  {
+    "id": "amazon-lemme-sleep-gummies",
+    "name": "Lemme Sleep Gummies (60ct)",
+    "carrier": "amazon",
+    "tracking": null,
+    "orderNumber": "112-1885628-7791406",
+    "status": "out_for_delivery",
+    "lastUpdate": "2026-03-05T19:00:00Z",
+    "estimatedDelivery": "2026-03-05",
+    "delivered": false,
+    "addedAt": "2026-03-05T19:00:00Z",
+    "emailThreadId": "543cd4fb-e4b4-4f37-add4-9169aee919ab",
+    "notes": "Arriving today 10 AM - 3 PM. Melatonin + elderberry + magnesium sleep gummies."
+  },
+  {
+    "id": "amazon-dado-whoop-band",
+    "name": "DADO Silicone WHOOP Band (Starlight)",
+    "carrier": "amazon",
+    "tracking": null,
+    "orderNumber": "112-6307655-8385052",
+    "status": "ordered",
+    "lastUpdate": "2026-03-05T19:00:00Z",
+    "estimatedDelivery": "2026-03-06",
+    "delivered": false,
+    "addedAt": "2026-03-05T19:00:00Z",
+    "emailThreadId": "67536dd0-4819-4e1b-a37c-2870f94b9e11",
+    "notes": "Replacement WHOOP band, Starlight color. Arriving Friday Mar 6."
   }
 ]
