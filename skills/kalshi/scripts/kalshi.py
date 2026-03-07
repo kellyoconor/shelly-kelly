@@ -6,7 +6,12 @@ Kalshi API Client for prediction market trading and data.
 import requests
 import json
 import os
+import time
+import base64
 from typing import Dict, List, Optional
+from cryptography.hazmat.primitives import serialization, hashes
+from cryptography.hazmat.primitives.asymmetric import padding
+from cryptography.hazmat.backends import default_backend
 
 class KalshiAPI:
     """
@@ -18,19 +23,56 @@ class KalshiAPI:
     """
     
     def __init__(self):
-        self.base_url = "https://api.elections.kalshi.com"
-        self.user_id = os.getenv("KALSHI_USER_ID")
-        self.api_key = os.getenv("KALSHI_API_KEY")
+        self.base_url = "https://trading-api.kalshi.com"
+        self.api_key = os.getenv("KALSHI_API_KEY")  # This is the Key ID
+        self.private_key_str = os.getenv("KALSHI_PRIVATE_KEY")
+        
+        if not self.api_key or not self.private_key_str:
+            raise ValueError("KALSHI_API_KEY and KALSHI_PRIVATE_KEY environment variables must be set")
+        
+        # Load the private key
+        self.private_key = serialization.load_pem_private_key(
+            self.private_key_str.encode('utf-8'),
+            password=None,
+            backend=default_backend()
+        )
+        
         self.session = requests.Session()
-        
-        if not self.user_id or not self.api_key:
-            raise ValueError("KALSHI_USER_ID and KALSHI_API_KEY environment variables must be set")
-        
-        # Set up authentication headers
         self.session.headers.update({
-            "Authorization": f"Bearer {self.api_key}",
             "Content-Type": "application/json"
         })
+    
+    def _sign_request(self, method: str, path: str) -> Dict[str, str]:
+        """Generate authentication headers for Kalshi API."""
+        # Current timestamp in milliseconds
+        timestamp = int(time.time() * 1000)
+        timestamp_str = str(timestamp)
+        
+        # Strip query parameters from path before signing
+        path_without_query = path.split('?')[0]
+        
+        # Create message to sign: timestamp + method + path
+        msg_string = timestamp_str + method.upper() + path_without_query
+        
+        # Sign with RSA-PSS
+        message = msg_string.encode('utf-8')
+        signature = self.private_key.sign(
+            message,
+            padding.PSS(
+                mgf=padding.MGF1(hashes.SHA256()),
+                salt_length=padding.PSS.DIGEST_LENGTH
+            ),
+            hashes.SHA256()
+        )
+        
+        # Base64 encode signature
+        signature_b64 = base64.b64encode(signature).decode('utf-8')
+        
+        return {
+            'KALSHI-ACCESS-KEY': self.api_key,
+            'KALSHI-ACCESS-SIGNATURE': signature_b64,
+            'KALSHI-ACCESS-TIMESTAMP': timestamp_str
+        }
     
     def get_markets(self, status: str = "open", limit: int = 20) -> Dict:
         """
@@ -40,12 +82,18 @@ class KalshiAPI:
             status: Market status (open, closed, settled)
             limit: Number of markets to return
         """
+        path = "/trade-api/v2/markets"
         params = {
             "status": status,
             "limit": limit
         }
         
-        response = self.session.get(f"{self.base_url}/trade-api/v2/markets", params=params)
+        # Add authentication headers
+        auth_headers = self._sign_request("GET", path)
+        headers = {**self.session.headers, **auth_headers}
+        
+        response = requests.get(f"{self.base_url}{path}", params=params, headers=headers)
+        response.raise_for_status()
         return response.json()
     
     def get_market(self, market_ticker: str) -> Dict:
@@ -65,7 +113,14 @@ class KalshiAPI:
     
     def get_balance(self) -> Dict:
         """Get user's account balance."""
-        response = self.session.get(f"{self.base_url}/trade-api/v2/portfolio/balance")
+        path = "/trade-api/v2/portfolio/balance"
+        
+        # Add authentication headers
+        auth_headers = self._sign_request("GET", path)
+        headers = {**self.session.headers, **auth_headers}
+        
+        response = requests.get(f"{self.base_url}{path}", headers=headers)
+        response.raise_for_status()
         return response.json()
     
     def place_order(self, market_ticker: str, side: str, action: str, 
