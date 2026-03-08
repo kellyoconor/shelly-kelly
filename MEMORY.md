@@ -63,19 +63,6 @@
 - Whiskey tasting, a fling she handled with standards, ran in Edinburgh
 - "Choose Brave" in real life — see memory/trips/scotland-2026.md
 
-### Lent
-- Observes Lent — no meat on Fridays
-- Good to know for meal tracking + Friday food suggestions
-
-### Starbucks Order
-- 2 vanilla syrup, 2 hazelnut syrup, 1 Splenda, whole milk 1/2"
-- Hot in winter, iced in summer
-
-### Morning Mantras
-1. "Show me how aligned today gets."
-2. "I'm grateful for the life I'm actively building."
-3. "I've handled harder."
-
 ## Me (Shelly 🐚)
 - Casual, easygoing, sharp when it counts
 - Born 2026-02-23
@@ -93,6 +80,26 @@
 - **No system changes during active convos** — maintenance goes overnight or when she's not chatting
 - **Restart loop protection** — if 2+ restarts in 5 min, STOP and message her instead of continuing
 - **Always give her an escape hatch** — remind her of /restart, Railway dashboard as nuclear option
+
+### Communication & Style (Mar 2026)
+- **Stop writing novels** — messages getting too long, break into multiple short messages OR just chill
+- **ALWAYS check day of week** in morning briefings — said "Friday" when it was Saturday (major error)
+- **Include Mirror question** in morning brief, not just mantra — Kelly had to ask where it was
+- **Create daily Obsidian notes** — use vault-cli.py daily, add to morning routine
+- **Default to /data/kelly-vault/** for file creation — she wants them in Obsidian, not workspace
+
+### The Mirror 🪞 (Mar 2026)
+- Custom skill for reflective morning questions
+- Pulls Oura + Strava + Calendar, asks ONE introspective question
+- Not prescriptive — like a therapist, not a fitness coach
+- Kelly named it "The Mirror" — reflects your data back as a question
+- Successfully integrated into morning briefing cron
+
+### Period Support Pattern (Mar 2026)
+- Workshop day + period = brutal combo, needed extra support
+- Comfort food/wine as medicine, not bad choices
+- Workout guilt when tired — remind her body needs rest
+- "Being harder on herself than she'd be to a friend" — self-compassion coaching works
 
 ### NWSL Interview (Mar 2026)
 - Director, Technical Product Management at NWSL
@@ -128,17 +135,24 @@
 - Account: Kelly O'Conor
 - Credentials in openclaw env config (survive redeploys)
 
-### Lent
-- Observes Lent — no meat on Fridays
-- Good to know for meal tracking + Friday food suggestions
+### Critical Automation (Mar 6, 2026) **HIGH PRIORITY**
+Kelly emphasized "please make sure this happens" — monitor these jobs carefully:
+- **Nightly maintenance (3:00 AM)** — backup vault FIRST, then delete session files >5 days
+- **Weekly memory sweep (Sunday 2:00 AM)** — review daily files, curate key items for MEMORY.md (keep lean)
+- **Auto git push (3:30 AM)** — auto-commit workspace changes (triggers Railway redeploy)
+- **Morning brief integration** — flag any overnight automation issues
 
-### Starbucks Order
-- 2 vanilla syrup, 2 hazelnut syrup, 1 Splenda, whole milk 1/2"
-- Hot in winter, iced in summer
+### Sports Skills Upgrade (Mar 6, 2026)
+- Installed 15 sports data skills from sports-skills.sh
+- NFL, NBA, Polymarket, Kalshi, betting analysis, cross-platform odds comparison
+- Major capability upgrade: real-time data vs blind betting
+- Kalshi API credentials provided but auth still needs fixing
 
 ## Lessons Learned
 - **NEVER say "good girl"** — Kelly called me out twice for it, it's creepy. Banned phrase forever.
 - **Take notes in real time during convos** — don't wait until after. Kelly asked for this explicitly (Feb 28)
+- **Morning briefing FUNDAMENTALS** — always double-check day of week, include Mirror question
+- **Communication style** — stop writing novels, step-by-step updates always, files to vault by default
 - Cron "announce" delivery doesn't send to WhatsApp — use message tool directly in the agentTurn prompt
 - Skills in /openclaw/ get wiped on redeploy — always put them in /data/workspace/skills/
 - WhatsApp plugin gets disabled by `doctor --fix` — bootstrap.sh re-enables it

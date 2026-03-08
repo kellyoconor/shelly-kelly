@@ -1,6 +1,6 @@
 {
-  "date": "2026-03-07",
-  "day_of_week": "Saturday",
+  "date": "2026-03-08",
+  "day_of_week": "Sunday",
   "oura": {
     "sleep_efficiency": 79.0,
     "body_temp_deviation": 0.25,
@@ -13,7 +13,7 @@
     "trained_today": false
   },
   "calendar": {
-    "event_count": 2,
+    "event_count": 1,
     "density": "light"
   }
 }

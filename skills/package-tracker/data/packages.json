@@ -36,12 +36,13 @@
     "carrier": "amazon",
     "tracking": null,
     "orderNumber": "112-6307655-8385052",
-    "status": "in_transit",
-    "lastUpdate": "2026-03-07T01:00:00Z",
+    "status": "delivered",
+    "lastUpdate": "2026-03-07T19:00:00Z",
     "estimatedDelivery": "2026-03-06",
-    "delivered": false,
+    "delivered": true,
+    "deliveredAt": "2026-03-06T18:00:00Z",
     "addedAt": "2026-03-05T19:00:00Z",
     "emailThreadId": "67536dd0-4819-4e1b-a37c-2870f94b9e11",
-    "notes": "Estimated delivery Mar 6. Updated to in_transit on delivery day. No delivery confirmation email received yet."
+    "notes": "Estimated delivery Mar 6. 24h+ past window with no issues reported — marked delivered Mar 7."
   }
 ]
