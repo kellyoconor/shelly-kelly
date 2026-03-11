@@ -2,16 +2,16 @@
   "date": "2026-03-09",
   "day_of_week": "Monday",
   "oura": {
-    "sleep_efficiency": 95.0,
-    "body_temp_deviation": 0.1,
-    "hrv": 44.0
+    "sleep_efficiency": 58.0,
+    "body_temp_deviation": 0.25,
+    "hrv": 66.0
   },
   "strava": {
     "recent_count": 11,
     "trained_today": false
   },
   "calendar": {
-    "event_count": 1,
-    "density": "light"
+    "event_count": 0,
+    "density": "clear"
   }
 }

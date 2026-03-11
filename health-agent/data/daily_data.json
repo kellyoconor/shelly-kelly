@@ -1,0 +1,94 @@
+{
+  "2026-03-09": {
+    "date": "2026-03-09",
+    "oura": {
+      "date": "2026-03-09",
+      "sleep": {
+        "score": 66,
+        "total_sleep_hours": 10.0,
+        "efficiency": 58,
+        "deep_sleep": 17,
+        "rem_sleep": 77,
+        "restfulness": 49
+      },
+      "readiness": {
+        "score": 73,
+        "hrv_balance": 66,
+        "resting_heart_rate": 79,
+        "sleep_balance": 88,
+        "recovery_index": 76,
+        "temperature_deviation": 0.4
+      },
+      "source": "oura",
+      "collected_at": "2026-03-10T13:45:27.274856"
+    },
+    "strava_runs": [],
+    "collected_at": "2026-03-10T13:45:25.768956"
+  },
+  "2026-03-08": {
+    "date": "2026-03-08",
+    "oura": {
+      "date": "2026-03-08",
+      "sleep": {
+        "score": 61,
+        "total_sleep_hours": 4.8,
+        "efficiency": 95,
+        "deep_sleep": 90,
+        "rem_sleep": 39,
+        "restfulness": 87
+      },
+      "readiness": {
+        "score": 50,
+        "hrv_balance": 44,
+        "resting_heart_rate": 1,
+        "sleep_balance": 56,
+        "recovery_index": 89,
+        "temperature_deviation": 0.16
+      },
+      "source": "oura",
+      "collected_at": "2026-03-10T13:45:28.714703"
+    },
+    "strava_runs": [],
+    "collected_at": "2026-03-10T13:45:27.848834"
+  },
+  "2026-03-07": {
+    "date": "2026-03-07",
+    "oura": {
+      "date": "2026-03-07",
+      "sleep": {
+        "score": 71,
+        "total_sleep_hours": 7.0,
+        "efficiency": 79,
+        "deep_sleep": 87,
+        "rem_sleep": 67,
+        "restfulness": 52
+      },
+      "readiness": {
+        "score": 67,
+        "hrv_balance": 55,
+        "resting_heart_rate": 78,
+        "sleep_balance": 62,
+        "recovery_index": 30,
+        "temperature_deviation": 0.26
+      },
+      "source": "oura",
+      "collected_at": "2026-03-10T13:45:30.181213"
+    },
+    "strava_runs": [
+      {
+        "date": "2026-03-07",
+        "distance_miles": 7.5,
+        "duration_seconds": 3919,
+        "pace_min_per_mile": 8.7,
+        "average_hr": 180.5,
+        "max_hr": 195.0,
+        "elevation_gain": 31.0,
+        "suffer_score": 231.0,
+        "strava_id": 17637792754,
+        "source": "strava",
+        "collected_at": "2026-03-10T13:45:30.485676"
+      }
+    ],
+    "collected_at": "2026-03-10T13:45:29.057206"
+  }
+}

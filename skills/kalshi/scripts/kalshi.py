@@ -23,7 +23,7 @@ class KalshiAPI:
     """
     
     def __init__(self):
-        self.base_url = "https://trading-api.kalshi.com"
+        self.base_url = "https://api.elections.kalshi.com"
         self.api_key = os.getenv("KALSHI_API_KEY")  # This is the Key ID
         self.private_key_str = os.getenv("KALSHI_PRIVATE_KEY")
         
@@ -103,12 +103,26 @@ class KalshiAPI:
     
     def get_portfolio(self) -> Dict:
         """Get user's current portfolio and positions."""
-        response = self.session.get(f"{self.base_url}/trade-api/v2/portfolio")
+        path = "/trade-api/v2/portfolio"
+        
+        # Add authentication headers
+        auth_headers = self._sign_request("GET", path)
+        headers = {**self.session.headers, **auth_headers}
+        
+        response = requests.get(f"{self.base_url}{path}", headers=headers)
+        response.raise_for_status()
         return response.json()
     
     def get_positions(self) -> Dict:
         """Get user's current positions across all markets."""
-        response = self.session.get(f"{self.base_url}/trade-api/v2/portfolio/positions")
+        path = "/trade-api/v2/portfolio/positions"
+        
+        # Add authentication headers
+        auth_headers = self._sign_request("GET", path)
+        headers = {**self.session.headers, **auth_headers}
+        
+        response = requests.get(f"{self.base_url}{path}", headers=headers)
+        response.raise_for_status()
         return response.json()
     
     def get_balance(self) -> Dict:
@@ -151,13 +165,26 @@ class KalshiAPI:
         if no_price is not None:
             order_data["no_price"] = no_price
             
-        response = self.session.post(f"{self.base_url}/trade-api/v2/orders", json=order_data)
+        # Add authentication headers like other methods
+        path = "/trade-api/v2/portfolio/orders"
+        auth_headers = self._sign_request("POST", path)
+        headers = {**self.session.headers, **auth_headers}
+        
+        response = requests.post(f"{self.base_url}{path}", json=order_data, headers=headers)
+        response.raise_for_status()
         return response.json()
     
     def get_orders(self, status: str = "resting") -> Dict:
         """Get user's orders by status (resting, executed, canceled)."""
+        path = "/trade-api/v2/portfolio/orders"
         params = {"status": status}
-        response = self.session.get(f"{self.base_url}/trade-api/v2/orders", params=params)
+        
+        # Add authentication headers
+        auth_headers = self._sign_request("GET", path)
+        headers = {**self.session.headers, **auth_headers}
+        
+        response = requests.get(f"{self.base_url}{path}", params=params, headers=headers)
+        response.raise_for_status()
         return response.json()
     
     def cancel_order(self, order_id: str) -> Dict:
