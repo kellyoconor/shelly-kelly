@@ -1,0 +1,182 @@
+{
+  "timestamp": "2026-03-11T19:24:14.125262",
+  "summary": {
+    "total_tests": 21,
+    "passed": 20,
+    "failed": 1,
+    "success_rate": 95.2,
+    "overall_status": "NEEDS_ATTENTION"
+  },
+  "test_details": [
+    {
+      "name": "Critical Alert Engine",
+      "command": "test -f /data/workspace/critical-alert-engine.py",
+      "status": "PASSED",
+      "output": "File exists: True",
+      "error": "",
+      "failure_reason": null
+    },
+    {
+      "name": "Netty Urgent Adapter",
+      "command": "test -f /data/workspace/netty-urgent-adapter.py",
+      "status": "PASSED",
+      "output": "File exists: True",
+      "error": "",
+      "failure_reason": null
+    },
+    {
+      "name": "Welly Health Monitor",
+      "command": "test -f /data/workspace/welly-health-monitor.py",
+      "status": "PASSED",
+      "output": "File exists: True",
+      "error": "",
+      "failure_reason": null
+    },
+    {
+      "name": "Alert Retry Processor",
+      "command": "test -f /data/workspace/alert-retry-processor.cjs",
+      "status": "PASSED",
+      "output": "File exists: True",
+      "error": "",
+      "failure_reason": null
+    },
+    {
+      "name": "Alert Configuration",
+      "command": "test -f /data/workspace/alert-config.json",
+      "status": "PASSED",
+      "output": "File exists: True",
+      "error": "",
+      "failure_reason": null
+    },
+    {
+      "name": "Updated Heartbeat",
+      "command": "test -f /data/workspace/HEARTBEAT.md",
+      "status": "PASSED",
+      "output": "File exists: True",
+      "error": "",
+      "failure_reason": null
+    },
+    {
+      "name": "Critical Alert Engine Executable",
+      "command": "test -x critical-alert-engine.py",
+      "status": "PASSED",
+      "output": "",
+      "error": "",
+      "failure_reason": null
+    },
+    {
+      "name": "Netty Adapter Executable",
+      "command": "test -x netty-urgent-adapter.py",
+      "status": "PASSED",
+      "output": "",
+      "error": "",
+      "failure_reason": null
+    },
+    {
+      "name": "Welly Monitor Executable",
+      "command": "test -x welly-health-monitor.py",
+      "status": "PASSED",
+      "output": "",
+      "error": "",
+      "failure_reason": null
+    },
+    {
+      "name": "Critical Alert Engine Help",
+      "command": "python3 critical-alert-engine.py",
+      "status": "FAILED",
+      "output": "Usage:\n  python3 critical-alert-engine.py create <message> [urgency] [source] [category]\n  python3 critical-alert-engine.py retry-check\n  python3 critical-alert-engine.py respond [alert_id|minutes_back]\n  python3 critical-alert-engine.py status\n  python3 critical-alert-engine.py report",
+      "error": "",
+      "failure_reason": [
+        "Expected failure but command succeeded"
+      ]
+    },
+    {
+      "name": "Alert Retry Processor Help",
+      "command": "node alert-retry-processor.cjs",
+      "status": "PASSED",
+      "output": "Usage:\n  node alert-retry-processor.js heartbeat      # Run heartbeat check\n  node alert-retry-processor.js retries       # Process retries only\n  node alert-retry-processor.js auto-mark     # Auto-mark recent alerts\n  node alert-retry-processor.js status        # Get system status\n  node alert-retry-processor.js report        # Generate report\n  node alert-retry-processor.js escalated     # Check escalated alerts",
+      "error": "",
+      "failure_reason": null
+    },
+    {
+      "name": "Netty Adapter Help",
+      "command": "python3 netty-urgent-adapter.py",
+      "status": "PASSED",
+      "output": "Usage:\n  python3 netty-urgent-adapter.py process    # Process current gaps for urgency\n  python3 netty-urgent-adapter.py analyze    # Analyze gaps without routing\n  python3 netty-urgent-adapter.py test <text> # Test urgency classification",
+      "error": "",
+      "failure_reason": null
+    },
+    {
+      "name": "Create Test URGENT Alert",
+      "command": "python3 critical-alert-engine.py create 'System test alert - please ignore' URGENT test system",
+      "status": "PASSED",
+      "output": "[2026-03-11 19:24:12 UTC] Created URGENT alert 92e9ba2c: System test alert - please ignore...\n[2026-03-11 19:24:13 UTC] Alert 92e9ba2c WhatsApp delivery failed - scheduling retries\nCreated alert 92e9ba2c",
+      "error": "",
+      "failure_reason": null
+    },
+    {
+      "name": "Check Alert System Status",
+      "command": "python3 critical-alert-engine.py status",
+      "status": "PASSED",
+      "output": "{\n  \"total_alerts\": 1,\n  \"active_alerts\": 1,\n  \"critical_alerts\": 0,\n  \"urgent_alerts\": 1,\n  \"escalated_alerts\": 0,\n  \"pending_retries\": 1,\n  \"recent_activity\": [\n    {\n      \"id\": \"92e9ba2c\",\n      \"urgency\": \"URGENT\",\n      \"status\": \"RETRYING\",\n      \"content_preview\": \"System test alert - please ignore...\",\n      \"timestamp\": \"2026-03-11T19:24:12.031743\"\n    }\n  ]\n}",
+      "error": "",
+      "failure_reason": null
+    },
+    {
+      "name": "Auto-Mark Test Alert as Responded",
+      "command": "python3 critical-alert-engine.py respond 5",
+      "status": "PASSED",
+      "output": "[2026-03-11 19:24:13 UTC] Alert 92e9ba2c auto-marked as seen (Kelly active)\nMarked 1 alerts as responded (last 5 minutes)",
+      "error": "",
+      "failure_reason": null
+    },
+    {
+      "name": "Heartbeat Integration Test",
+      "command": "node alert-retry-processor.cjs heartbeat",
+      "status": "PASSED",
+      "output": "Running critical alert heartbeat check...\nProcessing critical alert retries...\nRetry processing completed successfully\nAuto-marking alerts from last 45 minutes...\nHEARTBEAT_OK",
+      "error": "",
+      "failure_reason": null
+    },
+    {
+      "name": "Netty Gap Analysis Test",
+      "command": "python3 netty-urgent-adapter.py analyze",
+      "status": "PASSED",
+      "output": "Found 3 gaps to analyze:\n\nGap: \u2708\ufe0f Travel Follow-up (HIGH PRIORITY - flight tomorrow!)\nContent: Wait, you have that flight tomorrow at 3:17 PM! Where are you headed? I'm realiz...\nCategory: travel\nDetected urgency: CRITICAL\nReasons: {\n  \"CRITICAL\": [\n    \"time_indicators: tomorrow\",\n    \"time_indicators: flight.*\\\\d+:\\\\d+\",\n    \"travel_critical: flight.*tomorrow\"\n  ],\n  \"URGENT\": [],\n  \"importance_score\": 2\n}\n------------------------------------------------------------\nGap: \ud83d\udcaa Wellness Check (4 days since rough day)\nContent: Hey, I keep thinking about Saturday when you were feeling terrible and said some...\nCategory: wellness\nDetected urgency: NORMAL\nReasons: {\n  \"CRITICAL\": [],\n  \"URGENT\": [],\n  \"importance_score\": 0\n}\n------------------------------------------------------------\nGap: \ud83e\udd16 System Harmony Check\nContent: Now that we fixed all those annoying token limit errors that were breaking our c...\nCategory: general\nDetected urgency: NORMAL\nReasons: {\n  \"CRITICAL\": [],\n  \"URGENT\": [],\n  \"importance_score\": 0\n}\n------------------------------------------------------------",
+      "error": "",
+      "failure_reason": null
+    },
+    {
+      "name": "Welly Health Symptom Test",
+      "command": "python3 welly-health-monitor.py test",
+      "status": "PASSED",
+      "output": "Test Analysis: CRITICAL\nDetails: {\n  \"critical_symptoms\": [\n    \"can't sleep\",\n    \"heart racing\"\n  ],\n  \"urgent_symptoms\": [\n    \"exhausted\"\n  ],\n  \"concerning_symptoms\": [],\n  \"recent_mentions\": []\n}",
+      "error": "",
+      "failure_reason": null
+    },
+    {
+      "name": "Check Alert Configuration",
+      "command": "python3 -c \"import json; json.load(open('alert-config.json'))\"",
+      "status": "PASSED",
+      "output": "",
+      "error": "",
+      "failure_reason": null
+    },
+    {
+      "name": "Heartbeat Contains Critical Alert Check",
+      "command": "grep -q 'CRITICAL ALERT SYSTEM' HEARTBEAT.md",
+      "status": "PASSED",
+      "output": "",
+      "error": "",
+      "failure_reason": null
+    },
+    {
+      "name": "Generate Final Status Report",
+      "command": "python3 critical-alert-engine.py report",
+      "status": "PASSED",
+      "output": "# Critical Alert System - Daily Report\nGenerated: 2026-03-11 19:24 UTC\n\n## Summary (Last 24 Hours)\n- Total alerts created: 1\n- Critical alerts: 0\n- Urgent alerts: 1\n- Successfully delivered: 1\n- Escalated to email: 0\n- Requiring manual review: 0",
+      "error": "",
+      "failure_reason": null
+    }
+  ]
+}

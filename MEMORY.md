@@ -65,3 +65,6 @@
 - Oura sleep data: use TODAY's date for last night
 - Skills go in /data/workspace/skills/ (survive redeploys)
 - WhatsApp gets disabled by doctor --fix, needs bootstrap re-enable
+
+### Subagents
+- **Welly (Mar 11, 2026):** Kelly's wellness companion - monitors Strava/Oura, provides caring health check-ins, focuses on how Kelly FEELS not just data. Supportive running buddy vibe who notices patterns without being pushy.

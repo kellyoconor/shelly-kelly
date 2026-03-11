@@ -1,0 +1,54 @@
+#!/bin/bash
+# Helper script for sending proactive messages with automatic tracking
+# Usage: ./send-proactive "message content" [category] [target]
+
+if [ $# -lt 1 ]; then
+    echo "Usage: ./send-proactive \"message content\" [category] [target]"
+    echo ""
+    echo "Examples:"
+    echo "  ./send-proactive \"Hey! How are you feeling about tonight's NWSL game?\" nwsl kelly"
+    echo "  ./send-proactive \"Quick wellness check - how's your energy today?\" wellness"
+    echo "  ./send-proactive \"Any thoughts on Atlanta plans for this weekend?\" atlanta"
+    exit 1
+fi
+
+MESSAGE="$1"
+CATEGORY="${2:-check-in}"
+TARGET="${3:-kelly}"
+
+echo "📱 Sending proactive message..."
+echo "📝 Content: $MESSAGE"
+echo "🏷️  Category: $CATEGORY"
+echo "🎯 Target: $TARGET"
+echo ""
+
+# Log the message first to get tracking ID
+MESSAGE_ID=$(node /data/workspace/proactive-tracker.cjs log "$MESSAGE" "$CATEGORY" | grep "Logged proactive message:" | cut -d' ' -f4)
+
+if [ -z "$MESSAGE_ID" ]; then
+    echo "❌ Failed to log message for tracking"
+    exit 1
+fi
+
+# Send the actual WhatsApp message
+echo "🚀 Sending via WhatsApp..."
+node -e "
+const { message } = require('./index.js'); // Assuming this exposes the message function
+message({ 
+    action: 'send', 
+    channel: 'whatsapp', 
+    target: '$TARGET', 
+    message: '$MESSAGE' 
+}).then(() => {
+    console.log('✅ Message sent! Tracking ID: $MESSAGE_ID');
+}).catch(err => {
+    console.log('❌ Send failed:', err);
+    process.exit(1);
+});
+"
+
+echo ""
+echo "📋 Tracking ID: $MESSAGE_ID"
+echo "⏱️  Will check for response in 35 minutes"
+echo "💡 Kelly's response will be auto-detected, or you can manually mark:"
+echo "    node proactive-tracker.cjs respond $MESSAGE_ID"

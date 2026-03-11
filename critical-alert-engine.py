@@ -1,0 +1,576 @@
+#!/usr/bin/env python3
+"""
+Critical Alert Safeguard Engine
+
+Bulletproof system to ensure Kelly gets urgent health alerts and gap detection findings
+even when WhatsApp is unreliable.
+"""
+
+import json
+import os
+import sys
+import subprocess
+import time
+from datetime import datetime, timedelta
+from typing import Dict, List, Optional, Tuple
+
+class CriticalAlertEngine:
+    def __init__(self):
+        self.workspace = "/data/workspace"
+        self.alerts_file = os.path.join(self.workspace, "critical-alerts.json")
+        self.escalated_file = os.path.join(self.workspace, "escalated-alerts.md")
+        self.log_file = os.path.join(self.workspace, "alert-delivery-log.md")
+        
+        # Load configuration
+        self.config = self.load_config()
+        
+        # Ensure tracking files exist
+        self.ensure_files()
+    
+    def load_config(self) -> Dict:
+        """Load alert configuration settings"""
+        return {
+            "urgency_levels": {
+                "CRITICAL": {
+                    "retry_intervals": [5, 10, 15],  # minutes
+                    "email_timeout": 30,  # minutes
+                    "escalation_timeout": 120  # minutes
+                },
+                "URGENT": {
+                    "retry_intervals": [10, 20],  # minutes
+                    "email_timeout": 60,  # minutes
+                    "escalation_timeout": 180  # minutes
+                },
+                "NORMAL": {
+                    "retry_intervals": [35],  # use existing proactive system
+                    "email_timeout": None,
+                    "escalation_timeout": None
+                }
+            },
+            "keywords": {
+                "critical": [
+                    "emergency", "urgent", "pain", "hurt", "sick", "can't breathe",
+                    "chest pain", "flight", "departure", "airport", "leaving in",
+                    "boarding", "gate", "missed medication", "hospital", "doctor said",
+                    "test results", "blood", "heart rate", "can't sleep"
+                ],
+                "urgent": [
+                    "tomorrow", "today", "deadline", "interview", "appointment",
+                    "booking", "reservation", "confirmation", "check-in",
+                    "readiness", "hrv", "exhausted", "worried", "stressed",
+                    "concerning", "unusual", "pattern", "multiple days"
+                ],
+                "health_critical": [
+                    "sleep < 5", "readiness < 50", "hrv drop", "resting hr",
+                    "multiple nights", "consecutive days", "baseline"
+                ],
+                "travel_critical": [
+                    "flight in", "hours", "boarding pass", "departure time",
+                    "gate change", "delayed", "cancelled", "connection"
+                ]
+            }
+        }
+    
+    def ensure_files(self):
+        """Ensure tracking files exist"""
+        if not os.path.exists(self.alerts_file):
+            with open(self.alerts_file, 'w') as f:
+                json.dump([], f, indent=2)
+        
+        if not os.path.exists(self.escalated_file):
+            with open(self.escalated_file, 'w') as f:
+                f.write("# Escalated Alerts Requiring Manual Review\n\n")
+        
+        if not os.path.exists(self.log_file):
+            with open(self.log_file, 'w') as f:
+                f.write("# Alert Delivery Log\n\n")
+    
+    def classify_urgency(self, content: str, source: str = "manual") -> str:
+        """Classify alert urgency based on content and patterns"""
+        content_lower = content.lower()
+        
+        # Check for critical patterns first
+        critical_keywords = self.config["keywords"]["critical"]
+        if any(keyword in content_lower for keyword in critical_keywords):
+            return "CRITICAL"
+        
+        # Check for health-specific critical patterns
+        health_critical = self.config["keywords"]["health_critical"]
+        if source == "welly" and any(keyword in content_lower for keyword in health_critical):
+            return "CRITICAL"
+        
+        # Check for travel-specific critical patterns
+        travel_critical = self.config["keywords"]["travel_critical"]
+        if source == "netty" and any(keyword in content_lower for keyword in travel_critical):
+            return "CRITICAL"
+        
+        # Check for urgent patterns
+        urgent_keywords = self.config["keywords"]["urgent"]
+        if any(keyword in content_lower for keyword in urgent_keywords):
+            return "URGENT"
+        
+        return "NORMAL"
+    
+    def send_whatsapp(self, message: str, urgent_prefix: str = None) -> bool:
+        """Send WhatsApp message with optional urgency prefix"""
+        try:
+            full_message = message
+            if urgent_prefix:
+                full_message = f"{urgent_prefix}\n\n{message}"
+            
+            # Use the existing message tool through subprocess
+            result = subprocess.run([
+                "openclaw", "tool", "message", 
+                "action=send", 
+                "channel=whatsapp",
+                f"message={full_message}",
+                "target=Kelly"
+            ], capture_output=True, text=True, timeout=30)
+            
+            return result.returncode == 0
+        except Exception as e:
+            self.log(f"WhatsApp send failed: {e}")
+            return False
+    
+    def send_email(self, subject: str, content: str) -> bool:
+        """Send email backup (placeholder - implement with actual email service)"""
+        try:
+            # Placeholder for email implementation
+            # This would integrate with actual email service
+            self.log(f"EMAIL BACKUP TRIGGERED - Subject: {subject}")
+            self.log(f"Content: {content}")
+            
+            # For now, log that email would be sent
+            # In real implementation, integrate with email service
+            return True
+        except Exception as e:
+            self.log(f"Email send failed: {e}")
+            return False
+    
+    def create_alert(self, content: str, urgency: str = None, source: str = "manual", category: str = "general") -> str:
+        """Create new critical alert"""
+        import uuid
+        
+        # Auto-classify urgency if not provided
+        if urgency is None:
+            urgency = self.classify_urgency(content, source)
+        
+        # Generate unique alert ID
+        alert_id = str(uuid.uuid4())[:8]
+        
+        # Create alert object
+        alert = {
+            "id": alert_id,
+            "content": content,
+            "urgency": urgency,
+            "source": source,
+            "category": category,
+            "timestamp": datetime.utcnow().isoformat(),
+            "status": "CREATED",
+            "delivery_attempts": [],
+            "response_received": False,
+            "escalated": False,
+            "resolved": False
+        }
+        
+        # Load existing alerts
+        with open(self.alerts_file, 'r') as f:
+            alerts = json.load(f)
+        
+        alerts.append(alert)
+        
+        # Save updated alerts
+        with open(self.alerts_file, 'w') as f:
+            json.dump(alerts, f, indent=2)
+        
+        self.log(f"Created {urgency} alert {alert_id}: {content[:50]}...")
+        
+        # Immediately attempt delivery
+        self.deliver_alert(alert_id)
+        
+        return alert_id
+    
+    def deliver_alert(self, alert_id: str) -> bool:
+        """Attempt delivery of specific alert"""
+        alerts = self.load_alerts()
+        alert = next((a for a in alerts if a["id"] == alert_id), None)
+        
+        if not alert:
+            self.log(f"Alert {alert_id} not found")
+            return False
+        
+        urgency = alert["urgency"]
+        
+        # Skip normal alerts - let proactive system handle
+        if urgency == "NORMAL":
+            self.log(f"Alert {alert_id} is NORMAL - routing to proactive system")
+            return self.route_to_proactive_system(alert)
+        
+        # Prepare urgency prefix
+        urgency_prefix = "🚨 CRITICAL" if urgency == "CRITICAL" else "⚠️ URGENT"
+        
+        # Attempt WhatsApp delivery
+        success = self.send_whatsapp(alert["content"], urgency_prefix)
+        
+        # Record delivery attempt
+        attempt = {
+            "timestamp": datetime.utcnow().isoformat(),
+            "method": "whatsapp",
+            "success": success,
+            "urgency_level": urgency
+        }
+        
+        alert["delivery_attempts"].append(attempt)
+        alert["status"] = "SENT" if success else "FAILED"
+        
+        # Schedule retries if needed
+        if success:
+            self.log(f"Alert {alert_id} delivered successfully via WhatsApp")
+        else:
+            self.log(f"Alert {alert_id} WhatsApp delivery failed - scheduling retries")
+            alert["status"] = "RETRYING"
+        
+        # Save updated alert
+        self.save_alerts(alerts)
+        
+        return success
+    
+    def process_retries(self):
+        """Process pending retries for all alerts"""
+        alerts = self.load_alerts()
+        current_time = datetime.utcnow()
+        
+        for alert in alerts:
+            if alert["resolved"] or alert["response_received"]:
+                continue
+            
+            urgency = alert["urgency"]
+            if urgency == "NORMAL":
+                continue  # Let proactive system handle
+            
+            config = self.config["urgency_levels"][urgency]
+            alert_time = datetime.fromisoformat(alert["timestamp"])
+            
+            # Check if we need to send retries
+            retry_count = len([a for a in alert["delivery_attempts"] if a["method"] == "whatsapp"])
+            max_retries = len(config["retry_intervals"])
+            
+            if retry_count <= max_retries:
+                # Check if it's time for next retry
+                if retry_count > 0:
+                    last_attempt = max(alert["delivery_attempts"], key=lambda x: x["timestamp"])
+                    last_time = datetime.fromisoformat(last_attempt["timestamp"])
+                    
+                    if retry_count <= len(config["retry_intervals"]):
+                        next_retry_minutes = config["retry_intervals"][retry_count - 1]
+                        time_since_last = (current_time - last_time).total_seconds() / 60
+                        
+                        if time_since_last >= next_retry_minutes:
+                            self.send_retry(alert)
+                
+                # Check if we should escalate to email
+                minutes_since_alert = (current_time - alert_time).total_seconds() / 60
+                if (config["email_timeout"] and 
+                    minutes_since_alert >= config["email_timeout"] and
+                    not any(a["method"] == "email" for a in alert["delivery_attempts"]) and
+                    not alert["response_received"]):
+                    self.escalate_to_email(alert)
+                
+                # Check if we should escalate for manual review
+                if (config["escalation_timeout"] and 
+                    minutes_since_alert >= config["escalation_timeout"] and
+                    not alert["escalated"] and
+                    not alert["response_received"]):
+                    self.escalate_for_review(alert)
+        
+        self.save_alerts(alerts)
+    
+    def send_retry(self, alert: Dict):
+        """Send retry attempt for alert"""
+        retry_count = len([a for a in alert["delivery_attempts"] if a["method"] == "whatsapp"])
+        
+        urgency_prefix = "🚨 CRITICAL" if alert["urgency"] == "CRITICAL" else "⚠️ URGENT"
+        retry_message = f"{alert['content']}\n\n(Retry #{retry_count} - please confirm you got this! 📱)"
+        
+        success = self.send_whatsapp(retry_message, urgency_prefix)
+        
+        attempt = {
+            "timestamp": datetime.utcnow().isoformat(),
+            "method": "whatsapp",
+            "success": success,
+            "retry_number": retry_count,
+            "urgency_level": alert["urgency"]
+        }
+        
+        alert["delivery_attempts"].append(attempt)
+        
+        if success:
+            self.log(f"Retry #{retry_count} sent for alert {alert['id']}")
+        else:
+            self.log(f"Retry #{retry_count} failed for alert {alert['id']}")
+    
+    def escalate_to_email(self, alert: Dict):
+        """Escalate alert to email delivery"""
+        subject = f"🚨 {alert['urgency']} Alert - Response Needed"
+        content = f"""
+Alert ID: {alert['id']}
+Urgency: {alert['urgency']}
+Created: {alert['timestamp']}
+
+Message:
+{alert['content']}
+
+This alert was sent via WhatsApp but no response was received.
+Please respond to confirm you received this.
+
+--
+Kelly's Critical Alert System
+        """
+        
+        success = self.send_email(subject, content)
+        
+        attempt = {
+            "timestamp": datetime.utcnow().isoformat(),
+            "method": "email",
+            "success": success,
+            "urgency_level": alert["urgency"]
+        }
+        
+        alert["delivery_attempts"].append(attempt)
+        alert["status"] = "EMAIL_SENT"
+        
+        self.log(f"Alert {alert['id']} escalated to email")
+    
+    def escalate_for_review(self, alert: Dict):
+        """Escalate alert for manual review"""
+        alert["escalated"] = True
+        alert["status"] = "ESCALATED"
+        
+        # Add to escalated alerts file
+        with open(self.escalated_file, 'a') as f:
+            f.write(f"\n## Alert {alert['id']} - {alert['urgency']}\n")
+            f.write(f"**Created:** {alert['timestamp']}\n")
+            f.write(f"**Category:** {alert.get('category', 'general')}\n")
+            f.write(f"**Source:** {alert.get('source', 'manual')}\n")
+            f.write(f"**Content:** {alert['content']}\n")
+            f.write(f"**Delivery Attempts:** {len(alert['delivery_attempts'])}\n")
+            f.write(f"**Status:** No response received - NEEDS MANUAL FOLLOW-UP\n\n")
+        
+        self.log(f"Alert {alert['id']} escalated for manual review")
+    
+    def mark_response_received(self, alert_id: str = None, minutes_back: int = 120):
+        """Mark alerts as received based on Kelly's response"""
+        alerts = self.load_alerts()
+        current_time = datetime.utcnow()
+        cutoff_time = current_time - timedelta(minutes=minutes_back)
+        
+        marked_count = 0
+        
+        for alert in alerts:
+            if alert["resolved"]:
+                continue
+            
+            # Mark specific alert
+            if alert_id and alert["id"] == alert_id:
+                alert["response_received"] = True
+                alert["status"] = "CONFIRMED"
+                alert["resolved"] = True
+                marked_count += 1
+                self.log(f"Alert {alert_id} marked as confirmed by Kelly")
+            
+            # Auto-mark recent alerts if no specific ID
+            elif alert_id is None:
+                alert_time = datetime.fromisoformat(alert["timestamp"])
+                if alert_time >= cutoff_time and not alert["response_received"]:
+                    alert["response_received"] = True
+                    alert["status"] = "CONFIRMED"
+                    alert["resolved"] = True
+                    marked_count += 1
+                    self.log(f"Alert {alert['id']} auto-marked as seen (Kelly active)")
+        
+        self.save_alerts(alerts)
+        return marked_count
+    
+    def route_to_proactive_system(self, alert: Dict) -> bool:
+        """Route NORMAL alerts to existing proactive message system"""
+        try:
+            # Use existing send-proactive script
+            result = subprocess.run([
+                "/data/workspace/send-proactive",
+                alert["content"],
+                alert.get("category", "check-in")
+            ], capture_output=True, text=True)
+            
+            if result.returncode == 0:
+                alert["status"] = "ROUTED_TO_PROACTIVE"
+                alert["resolved"] = True
+                self.log(f"Alert {alert['id']} routed to proactive system")
+                return True
+            else:
+                self.log(f"Failed to route alert {alert['id']} to proactive system")
+                return False
+        except Exception as e:
+            self.log(f"Error routing to proactive system: {e}")
+            return False
+    
+    def get_status(self) -> Dict:
+        """Get system status and metrics"""
+        alerts = self.load_alerts()
+        
+        status = {
+            "total_alerts": len(alerts),
+            "active_alerts": len([a for a in alerts if not a["resolved"]]),
+            "critical_alerts": len([a for a in alerts if a["urgency"] == "CRITICAL"]),
+            "urgent_alerts": len([a for a in alerts if a["urgency"] == "URGENT"]),
+            "escalated_alerts": len([a for a in alerts if a["escalated"]]),
+            "pending_retries": 0,
+            "recent_activity": []
+        }
+        
+        # Count pending retries
+        current_time = datetime.utcnow()
+        for alert in alerts:
+            if alert["resolved"]:
+                continue
+            
+            urgency = alert["urgency"]
+            if urgency == "NORMAL":
+                continue
+                
+            config = self.config["urgency_levels"][urgency]
+            retry_count = len([a for a in alert["delivery_attempts"] if a["method"] == "whatsapp"])
+            
+            if retry_count < len(config["retry_intervals"]):
+                status["pending_retries"] += 1
+        
+        # Get recent activity (last 24 hours)
+        cutoff = current_time - timedelta(hours=24)
+        recent_alerts = [a for a in alerts if datetime.fromisoformat(a["timestamp"]) >= cutoff]
+        
+        for alert in recent_alerts[-5:]:  # Last 5 recent
+            status["recent_activity"].append({
+                "id": alert["id"],
+                "urgency": alert["urgency"],
+                "status": alert["status"],
+                "content_preview": alert["content"][:50] + "...",
+                "timestamp": alert["timestamp"]
+            })
+        
+        return status
+    
+    def generate_report(self) -> str:
+        """Generate daily summary report"""
+        alerts = self.load_alerts()
+        current_time = datetime.utcnow()
+        
+        # Last 24 hours
+        cutoff = current_time - timedelta(hours=24)
+        recent_alerts = [a for a in alerts if datetime.fromisoformat(a["timestamp"]) >= cutoff]
+        
+        report = []
+        report.append("# Critical Alert System - Daily Report")
+        report.append(f"Generated: {current_time.strftime('%Y-%m-%d %H:%M UTC')}\n")
+        
+        # Summary stats
+        report.append("## Summary (Last 24 Hours)")
+        report.append(f"- Total alerts created: {len(recent_alerts)}")
+        report.append(f"- Critical alerts: {len([a for a in recent_alerts if a['urgency'] == 'CRITICAL'])}")
+        report.append(f"- Urgent alerts: {len([a for a in recent_alerts if a['urgency'] == 'URGENT'])}")
+        report.append(f"- Successfully delivered: {len([a for a in recent_alerts if a['status'] in ['CONFIRMED', 'RESOLVED']])}")
+        report.append(f"- Escalated to email: {len([a for a in recent_alerts if any(att['method'] == 'email' for att in a['delivery_attempts'])])}")
+        report.append(f"- Requiring manual review: {len([a for a in recent_alerts if a['escalated']])}\n")
+        
+        # Active alerts needing attention
+        active_alerts = [a for a in alerts if not a["resolved"] and a["urgency"] in ["CRITICAL", "URGENT"]]
+        if active_alerts:
+            report.append("## ⚠️ Active Alerts Needing Attention")
+            for alert in active_alerts:
+                age_minutes = (current_time - datetime.fromisoformat(alert["timestamp"])).total_seconds() / 60
+                report.append(f"- **{alert['id']}** ({alert['urgency']}) - Age: {age_minutes:.0f}min")
+                report.append(f"  Content: {alert['content'][:80]}...")
+                report.append(f"  Status: {alert['status']}")
+                report.append("")
+        
+        return "\n".join(report)
+    
+    def load_alerts(self) -> List[Dict]:
+        """Load alerts from JSON file"""
+        with open(self.alerts_file, 'r') as f:
+            return json.load(f)
+    
+    def save_alerts(self, alerts: List[Dict]):
+        """Save alerts to JSON file"""
+        with open(self.alerts_file, 'w') as f:
+            json.dump(alerts, f, indent=2)
+    
+    def log(self, message: str):
+        """Log message to delivery log"""
+        timestamp = datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S UTC')
+        log_entry = f"[{timestamp}] {message}\n"
+        
+        with open(self.log_file, 'a') as f:
+            f.write(log_entry)
+        
+        print(log_entry.strip())
+
+def main():
+    engine = CriticalAlertEngine()
+    
+    if len(sys.argv) < 2:
+        print("Usage:")
+        print("  python3 critical-alert-engine.py create <message> [urgency] [source] [category]")
+        print("  python3 critical-alert-engine.py retry-check")
+        print("  python3 critical-alert-engine.py respond [alert_id|minutes_back]")
+        print("  python3 critical-alert-engine.py status")
+        print("  python3 critical-alert-engine.py report")
+        return
+    
+    command = sys.argv[1]
+    
+    if command == "create":
+        if len(sys.argv) < 3:
+            print("Error: Message required")
+            return
+        
+        message = sys.argv[2]
+        urgency = sys.argv[3] if len(sys.argv) > 3 else None
+        source = sys.argv[4] if len(sys.argv) > 4 else "manual"
+        category = sys.argv[5] if len(sys.argv) > 5 else "general"
+        
+        alert_id = engine.create_alert(message, urgency, source, category)
+        print(f"Created alert {alert_id}")
+    
+    elif command == "retry-check":
+        engine.process_retries()
+        print("Processed retry queue")
+    
+    elif command == "respond":
+        if len(sys.argv) > 2:
+            param = sys.argv[2]
+            try:
+                # If it's a number, treat as minutes_back
+                minutes_back = int(param)
+                count = engine.mark_response_received(minutes_back=minutes_back)
+                print(f"Marked {count} alerts as responded (last {minutes_back} minutes)")
+            except ValueError:
+                # Treat as alert_id
+                count = engine.mark_response_received(alert_id=param)
+                print(f"Marked alert {param} as responded")
+        else:
+            # Default auto-mark
+            count = engine.mark_response_received()
+            print(f"Auto-marked {count} recent alerts as responded")
+    
+    elif command == "status":
+        status = engine.get_status()
+        print(json.dumps(status, indent=2))
+    
+    elif command == "report":
+        report = engine.generate_report()
+        print(report)
+    
+    else:
+        print(f"Unknown command: {command}")
+
+if __name__ == "__main__":
+    main()

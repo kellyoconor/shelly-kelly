@@ -1,0 +1,199 @@
+{
+  "system_info": {
+    "version": "1.0.0",
+    "created": "2026-03-11",
+    "description": "Critical Alert Safeguard System Configuration"
+  },
+  
+  "urgency_levels": {
+    "CRITICAL": {
+      "retry_intervals_minutes": [5, 10, 15],
+      "email_backup_timeout_minutes": 30,
+      "manual_escalation_timeout_minutes": 120,
+      "whatsapp_prefix": "🚨 CRITICAL",
+      "description": "Immediate threats to health/safety, time-critical travel issues"
+    },
+    "URGENT": {
+      "retry_intervals_minutes": [10, 20],
+      "email_backup_timeout_minutes": 60,
+      "manual_escalation_timeout_minutes": 180,
+      "whatsapp_prefix": "⚠️ URGENT",
+      "description": "Concerning health patterns, important deadlines, urgent follow-ups"
+    },
+    "NORMAL": {
+      "retry_intervals_minutes": [35],
+      "email_backup_timeout_minutes": null,
+      "manual_escalation_timeout_minutes": null,
+      "whatsapp_prefix": null,
+      "description": "Standard check-ins, routine follow-ups - uses existing proactive system"
+    }
+  },
+  
+  "classification_keywords": {
+    "critical_indicators": [
+      "emergency", "urgent", "pain", "hurt", "sick", "can't breathe",
+      "chest pain", "flight", "departure", "airport", "leaving in",
+      "boarding", "gate", "missed medication", "hospital", "doctor said",
+      "test results", "blood", "heart rate", "can't sleep"
+    ],
+    "urgent_indicators": [
+      "tomorrow", "today", "deadline", "interview", "appointment",
+      "booking", "reservation", "confirmation", "check-in",
+      "readiness", "hrv", "exhausted", "worried", "stressed",
+      "concerning", "unusual", "pattern", "multiple days"
+    ],
+    "health_critical": [
+      "sleep < 5", "readiness < 50", "hrv drop", "resting hr",
+      "multiple nights", "consecutive days", "baseline"
+    ],
+    "travel_critical": [
+      "flight in", "hours", "boarding pass", "departure time",
+      "gate change", "delayed", "cancelled", "connection"
+    ]
+  },
+  
+  "health_monitoring": {
+    "critical_thresholds": {
+      "sleep_hours_minimum": 5.0,
+      "consecutive_poor_sleep_nights": 3,
+      "readiness_score_minimum": 50,
+      "hrv_drop_percentage": 25,
+      "resting_hr_elevation_bpm": 15,
+      "recovery_score_minimum": 25,
+      "consecutive_critical_days": 2
+    },
+    "urgent_thresholds": {
+      "sleep_hours_minimum": 6.0,
+      "consecutive_poor_sleep_nights": 2,
+      "readiness_score_minimum": 60,
+      "hrv_drop_percentage": 15,
+      "resting_hr_elevation_bpm": 10,
+      "recovery_score_minimum": 40,
+      "consecutive_concerning_days": 3
+    },
+    "symptom_keywords": {
+      "critical": [
+        "chest pain", "can't breathe", "dizzy", "fainted", "collapsed",
+        "severe pain", "emergency", "hospital", "urgent care",
+        "can't sleep", "heart racing", "panic", "numb", "tingling"
+      ],
+      "urgent": [
+        "exhausted", "can't recover", "always tired", "drained",
+        "stressed", "overwhelmed", "burnt out", "constant fatigue",
+        "sore", "aching", "injured", "hurting", "inflammation"
+      ],
+      "concerning": [
+        "tired", "low energy", "sluggish", "off", "weird",
+        "unusual", "different", "not right", "struggling"
+      ]
+    }
+  },
+  
+  "gap_detection": {
+    "time_sensitivity_patterns": {
+      "critical_time": [
+        "tomorrow", "today", "in \\d+ hours?", "flight.*\\d+:\\d+",
+        "departure.*\\d+:\\d+", "boarding", "gate", "airport",
+        "leaving in", "check[- ]out"
+      ],
+      "urgent_time": [
+        "this week", "deadline", "interview.*\\d+ days? ago",
+        "appointment.*yesterday", "results.*waiting",
+        "booking.*expires?", "reservation.*pending"
+      ]
+    },
+    "importance_keywords": [
+      "health", "medical", "doctor", "hospital", "pain", "sick",
+      "flight", "travel", "airport", "hotel", "reservation",
+      "interview", "job", "deadline", "application", "urgent",
+      "emergency", "family", "mom", "dad"
+    ],
+    "category_mapping": {
+      "travel": ["travel", "flight", "airport", "hotel", "reservation"],
+      "health": ["wellness", "health", "medical", "doctor", "pain"],
+      "family": ["family", "mom", "dad", "friend", "social"],
+      "work": ["work", "interview", "job", "deadline", "application"],
+      "general": []
+    }
+  },
+  
+  "delivery_settings": {
+    "whatsapp": {
+      "enabled": true,
+      "timeout_seconds": 30,
+      "target": "Kelly"
+    },
+    "email_backup": {
+      "enabled": false,
+      "service": "gmail",
+      "user": "kelly@example.com",
+      "subject_prefix": "🚨 Critical Alert - Response Needed"
+    },
+    "response_detection": {
+      "auto_mark_window_minutes": 45,
+      "confirmation_keywords": ["got it", "thanks", "yes", "no", "ok", "okay"],
+      "activity_indicators": ["any message from Kelly within window"]
+    }
+  },
+  
+  "monitoring": {
+    "heartbeat_frequency": "every heartbeat",
+    "health_assessment_frequency": "every 3-4 heartbeats", 
+    "gap_processing_frequency": "2-3x daily",
+    "daily_report_generation": true,
+    "log_retention_days": 30,
+    "success_metrics": {
+      "critical_delivery_target_minutes": 5,
+      "critical_confirmation_target_minutes": 30,
+      "urgent_delivery_target_minutes": 10,
+      "urgent_confirmation_target_minutes": 60,
+      "acceptable_false_positive_rate": 0.20
+    }
+  },
+  
+  "file_locations": {
+    "alerts_database": "critical-alerts.json",
+    "delivery_log": "alert-delivery-log.md",
+    "escalated_queue": "escalated-alerts.md",
+    "pending_checkins": "pending_checkins.md",
+    "health_logs": "memory/welly-health-YYYYMMDD.md",
+    "gap_processing_logs": "memory/netty-urgency-YYYYMMDD.md"
+  },
+  
+  "integration": {
+    "netty_gap_detection": {
+      "enabled": true,
+      "automatic_urgency_processing": true,
+      "promote_urgent_to_alerts": true
+    },
+    "welly_health_monitoring": {
+      "enabled": true,
+      "automatic_health_assessment": true,
+      "create_alerts_for_concerns": true
+    },
+    "proactive_message_system": {
+      "enabled": true,
+      "handle_normal_priority": true,
+      "activity_detection_integration": true
+    },
+    "heartbeat_system": {
+      "enabled": true,
+      "priority_order": ["critical_alerts", "health_monitoring", "gap_processing", "standard_checks"]
+    }
+  },
+  
+  "tuning_notes": {
+    "common_adjustments": [
+      "Lower health thresholds if missing important patterns",
+      "Raise thresholds if too many false positives",
+      "Adjust retry timing based on Kelly's response patterns",
+      "Add/remove keywords based on actual usage patterns"
+    ],
+    "monitoring_tips": [
+      "Review daily logs for delivery success rates",
+      "Check escalated queue weekly for unresolved items", 
+      "Monitor false positive feedback from Kelly",
+      "Track response times to optimize retry intervals"
+    ]
+  }
+}

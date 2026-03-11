@@ -1,0 +1,12 @@
+[
+  {
+    "id": "mmm6zl3u5tr1f1r7zpx",
+    "content": "Test message for system check",
+    "category": "test",
+    "timestamp": "2026-03-11T15:26:55.386Z",
+    "responded": true,
+    "retried": false,
+    "retry_sent_at": null,
+    "response_time": "2026-03-11T15:26:55.439Z"
+  }
+]

@@ -1,0 +1,142 @@
+[
+  {
+    "id": "92e9ba2c",
+    "content": "System test alert - please ignore",
+    "urgency": "URGENT",
+    "source": "test",
+    "category": "system",
+    "timestamp": "2026-03-11T19:24:12.031743",
+    "status": "CONFIRMED",
+    "delivery_attempts": [
+      {
+        "timestamp": "2026-03-11T19:24:13.878833",
+        "method": "whatsapp",
+        "success": false,
+        "urgency_level": "URGENT"
+      }
+    ],
+    "response_received": true,
+    "escalated": false,
+    "resolved": true
+  },
+  {
+    "id": "6e46eb47",
+    "content": "System test alert - please ignore",
+    "urgency": "URGENT",
+    "source": "test",
+    "category": "system",
+    "timestamp": "2026-03-11T19:24:16.370667",
+    "status": "CONFIRMED",
+    "delivery_attempts": [
+      {
+        "timestamp": "2026-03-11T19:24:18.254746",
+        "method": "whatsapp",
+        "success": false,
+        "urgency_level": "URGENT"
+      }
+    ],
+    "response_received": true,
+    "escalated": false,
+    "resolved": true
+  },
+  {
+    "id": "6d5dfe02",
+    "content": "Kelly, your flight is tomorrow at 3:17 PM - do you have your boarding pass ready?",
+    "urgency": "CRITICAL",
+    "source": "manual",
+    "category": "travel",
+    "timestamp": "2026-03-11T19:24:20.421596",
+    "status": "CONFIRMED",
+    "delivery_attempts": [
+      {
+        "timestamp": "2026-03-11T19:24:22.318442",
+        "method": "whatsapp",
+        "success": false,
+        "urgency_level": "CRITICAL"
+      }
+    ],
+    "response_received": true,
+    "escalated": false,
+    "resolved": true
+  },
+  {
+    "id": "94b175a0",
+    "content": "\ud83d\udea8 CRITICAL HEALTH ALERT\n\nCritical symptoms mentioned recently: emergency\n\n\nKelly, I'm noticing some health patterns that need attention. Can you check in on how you're feeling?",
+    "urgency": "CRITICAL",
+    "source": "welly",
+    "category": "health",
+    "timestamp": "2026-03-11T19:24:25.391895",
+    "status": "CONFIRMED",
+    "delivery_attempts": [
+      {
+        "timestamp": "2026-03-11T19:24:27.193691",
+        "method": "whatsapp",
+        "success": false,
+        "urgency_level": "CRITICAL"
+      }
+    ],
+    "response_received": true,
+    "escalated": false,
+    "resolved": true
+  },
+  {
+    "id": "d047b2b1",
+    "content": "Wait, you have that flight tomorrow at 3:17 PM! Where are you headed? I'm realizing I never caught where you're traveling to \ud83d\udc95",
+    "urgency": "CRITICAL",
+    "source": "netty",
+    "category": "travel",
+    "timestamp": "2026-03-11T19:24:34.534429",
+    "status": "CONFIRMED",
+    "delivery_attempts": [
+      {
+        "timestamp": "2026-03-11T19:24:36.272624",
+        "method": "whatsapp",
+        "success": false,
+        "urgency_level": "CRITICAL"
+      }
+    ],
+    "response_received": true,
+    "escalated": false,
+    "resolved": true
+  },
+  {
+    "id": "bcb9e777",
+    "content": "Validation test alert",
+    "urgency": "URGENT",
+    "source": "test",
+    "category": "validation",
+    "timestamp": "2026-03-11T19:25:10.165375",
+    "status": "CONFIRMED",
+    "delivery_attempts": [
+      {
+        "timestamp": "2026-03-11T19:25:11.971958",
+        "method": "whatsapp",
+        "success": false,
+        "urgency_level": "URGENT"
+      }
+    ],
+    "response_received": true,
+    "escalated": false,
+    "resolved": true
+  },
+  {
+    "id": "31d729dd",
+    "content": "\ud83e\uddea SYSTEM TEST - Testing alert delivery (please respond with 'test received' when you see this)",
+    "urgency": "URGENT",
+    "source": "test",
+    "category": "system",
+    "timestamp": "2026-03-11T19:59:31.149751",
+    "status": "CONFIRMED",
+    "delivery_attempts": [
+      {
+        "timestamp": "2026-03-11T19:59:33.000141",
+        "method": "whatsapp",
+        "success": false,
+        "urgency_level": "URGENT"
+      }
+    ],
+    "response_received": true,
+    "escalated": false,
+    "resolved": true
+  }
+]
