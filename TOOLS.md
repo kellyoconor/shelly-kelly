@@ -39,10 +39,11 @@ Things like:
 - **Always ask before committing** — let Kelly approve the commit message and confirm she's happy with changes
 - Use OpenClaw's git workflow commands
 
-### File Creation Defaults
-- **When Kelly asks for files**: Create in `/data/kelly-vault/` (Obsidian vault) by default
-- She accesses documents through Obsidian, not as code files
-- Auto-sync to git so they appear in her vault immediately
+### File Creation Defaults (Updated Mar 12, 2026)
+- **Operational logs, updates, agent state**: `/data/workspace/memory/` (workspace memory)
+- **Personal documents when explicitly requested**: `/data/kelly-vault/` (Obsidian vault)
+- **Don't offer both options** — make the call based on content type
+- Auto-sync to git so Obsidian files appear in her vault immediately
 
 ## Why Separate?
 
