@@ -36,6 +36,7 @@ Things like:
 - Railway auto-deploys on push to main — brief downtime is fine for immediate iteration
 - **Commit message format**: One line, short and descriptive of what changed
 - **Prompt Kelly to commit** whenever we finish meaningful work
+- **Always ask before committing** — let Kelly approve the commit message and confirm she's happy with changes
 - Use OpenClaw's git workflow commands
 
 ### File Creation Defaults
