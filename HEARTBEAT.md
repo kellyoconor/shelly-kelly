@@ -56,14 +56,17 @@ Check MEMORY.md size: `python3 /data/workspace/scripts/memory-auto-trim.py`
    - Only NORMAL gaps remain in pending_checkins.md
 2. **Then check normal gaps:** Read `/data/workspace/pending_checkins.md`
 3. If normal gaps found: Pick most relevant prompt and ask Kelly naturally
-4. If no normal gaps or prompts used: Move to manual check-ins below
+4. **CRITICAL**: After sending a message, clear or mark it as sent in pending_checkins.md to avoid spam
+5. If no normal gaps or prompts used: Move to manual check-ins below
 
 **Note:** Critical travel/health gaps are now handled by alert system above, not heartbeat timing!
 
 ## Personal Check-ins (backup when Netty quiet)
-- How are you feeling about NWSL after a few days to think?
-- Atlanta guy still on your mind? Trip still happening?
-- Any stress building up this week that you haven't mentioned?
+**Read recent memory files first** to understand current context, then ask relevant follow-ups based on patterns from the past week:
+- Follow up on topics/decisions you've been processing  
+- Check in on stressors or situations you've mentioned
+- Ask about things you seemed uncertain about
+- **Base questions on YOUR actual patterns**, not generic prompts
 
 ## Other Checks (as time allows)
 - Email (2-4 times per day)
