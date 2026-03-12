@@ -31,13 +31,12 @@ Things like:
 - Default speaker: Kitchen HomePod
 ```
 
-### Git Push Strategy
-- **Commit locally** throughout the day as normal
-- **Push to GitHub once** during late-night heartbeat (~2-4 AM ET) when Kelly is sleeping
-- Railway auto-deploys on push to main — so pushing = redeploy = brief downtime
-- Exception: push immediately if Kelly asks or if there's a critical fix
-- NEVER push multiple times in a short window
-- **If 5+ commits stack up unpushed, nudge Kelly** to confirm a push (remind her it triggers a redeploy)
+### Git Push Strategy (Updated Mar 12, 2026)
+- **Commit and push immediately** after each logical unit of work (feature, fix, config change)
+- Railway auto-deploys on push to main — brief downtime is fine for immediate iteration
+- **Commit message format**: One line, short and descriptive of what changed
+- **Prompt Kelly to commit** whenever we finish meaningful work
+- Use OpenClaw's git workflow commands
 
 ### File Creation Defaults
 - **When Kelly asks for files**: Create in `/data/kelly-vault/` (Obsidian vault) by default
