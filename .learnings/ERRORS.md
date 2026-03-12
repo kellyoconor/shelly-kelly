@@ -45,4 +45,33 @@ Current time: 4:27 PM ET
 - Related Files: cron job configs, monty alert system
 - Session Context: Fresh session after recent token fixes
 
+## [ERR-20260312-001] agentmail_module_missing
+
+**Logged**: 2026-03-12T16:00:00-05:00
+**Priority**: medium
+**Status**: pending
+**Area**: email
+
+### Summary
+AgentMail skill is documented but agentmail Python module is not installed, preventing email access
+
+### Error
+```
+ModuleNotFoundError: No module named 'agentmail'
+```
+
+### Context
+- Kelly sent flight delay info to shelly@agentmail.to  
+- Tried to check inbox using /data/workspace/skills/agentmail/scripts/client.py
+- Skill documentation indicates email should be accessible
+- Missing Python package prevents any email operations
+
+### Suggested Fix
+Install agentmail package or update skill to use different email access method
+
+### Metadata
+- Reproducible: yes
+- Related Files: /data/workspace/skills/agentmail/scripts/client.py
+- Impact: Can't read emails sent to agent inbox
+
 ---

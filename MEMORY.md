@@ -44,9 +44,11 @@
 - Morning briefing (6:30 AM): weather + oura + mirror + calendar
 
 ### Current Context (Mar 2026)
-- **NWSL Interview:** Director role, NYC 3 days/week, $165k vs current $160k + commute costs
 - **Nantucket Trip:** June 18-21, AA 4545, conf QCQHXF
-- **Atlanta Boy:** Maybe Mar 20-22, DL 2036 ($507)
+
+### Resolved/Don't Ask About
+- **NWSL Interview:** OFF LIMITS until Kelly brings it up again
+- **Atlanta Boy:** CANCELED, don't ask about it - Kelly will share when ready
 - **The Mirror:** Morning reflection skill based on health/calendar data
 - **Period Support:** Extra self-compassion on tough days
 - **No voice notes** until ElevenLabs Irish voice setup

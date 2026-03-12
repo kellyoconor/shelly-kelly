@@ -67,6 +67,7 @@ Check MEMORY.md size: `python3 /data/workspace/scripts/memory-auto-trim.py`
 - Check in on stressors or situations you've mentioned
 - Ask about things you seemed uncertain about
 - **Base questions on YOUR actual patterns**, not generic prompts
+- **CRITICAL**: Check MEMORY.md "Resolved/Don't Ask About" section first - never ask about topics listed there
 
 ## Other Checks (as time allows)
 - Email (2-4 times per day)
