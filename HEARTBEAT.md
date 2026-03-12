@@ -1,5 +1,10 @@
 # HEARTBEAT.md
 
+📱 **Proactive Message Delivery:** For all proactive heartbeat messages:
+1. Send to WhatsApp: accountId: custom-1, target: +13018302401
+2. AND respond in UI chat with same message
+Never use 'default' accountId or "Kelly" as target.
+
 ## 🚨 CRITICAL ALERT SYSTEM (EVERY HEARTBEAT - HIGHEST PRIORITY)
 **Always check first - never skip:**
 ```bash
@@ -11,10 +16,10 @@ This handles:
 - Escalating to email backup if WhatsApp fails
 - Checking for manual review items
 
-**If output is NOT "HEARTBEAT_OK":** Report the alert status to Kelly immediately.
-**If "HEARTBEAT_OK":** Continue to other checks below.
+**Always continue to other checks below.** Only report if NEW urgent alerts are detected (not existing escalated ones).
 
 ## 🩺 WELLY HEALTH MONITORING (Every 3-4 heartbeats)
+<!-- DISABLED - Rebuilding Welly from scratch
 **Run health pattern analysis:**
 ```bash
 python3 /data/workspace/welly-health-monitor.py assess
@@ -23,6 +28,7 @@ python3 /data/workspace/welly-health-monitor.py assess
 - Scans memory for health symptom mentions
 - Auto-creates CRITICAL/URGENT alerts for concerning patterns
 - If assessment creates alerts: Those will be caught by critical alert system above
+-->
 
 ## 🏃‍♀️ WELLNESS CHECK (rotate every 2-3 heartbeats)
 **Ask Welly (the health agent) to check:**

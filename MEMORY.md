@@ -64,7 +64,7 @@
 - SoulCycle = "soul"
 - Oura sleep data: use TODAY's date for last night
 - Skills go in /data/workspace/skills/ (survive redeploys)
-- WhatsApp gets disabled by doctor --fix, needs bootstrap re-enable
+- **WhatsApp + UI delivery:** Proactive heartbeat messages go to BOTH WhatsApp (accountId: custom-1, target: +13018302401) AND UI chat response
 
 ### Subagents
 - **Welly (Mar 11, 2026):** Kelly's wellness companion - monitors Strava/Oura, provides caring health check-ins, focuses on how Kelly FEELS not just data. Supportive running buddy vibe who notices patterns without being pushy.

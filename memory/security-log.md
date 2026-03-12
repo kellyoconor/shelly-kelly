@@ -1,24 +1,27 @@
 # Security Review Log
 
-## 2026-03-10 02:00 AM
-Security review passed — all clear
-- ✅ No API keys found in markdown/text files
-- ✅ Git log clean (normal auto-commit from 2026-03-09)
-- ✅ OpenClaw config permissions secure (600, root only)
-- ✅ Running processes normal (OpenClaw components only)
-- ✅ Disk usage healthy (53% main, 47% /data)
-- ✅ WhatsApp allowlist restricted to Kelly's number only (+13018302401)
-- ✅ No hardcoded credentials found (only UUIDs/thread IDs)
+## March 12, 2026 - 2:00 AM ET
+❌ **CRITICAL SECURITY ISSUE FOUND**
 
-## 2026-03-11 02:00 AM
-Security review passed — all clear
-- ✅ No API keys found in markdown/text files
-- ✅ Git log clean (no commits in last 24h)
-- ✅ OpenClaw config permissions secure (600, root only)
-- ✅ Running processes normal (OpenClaw components only)
-- ✅ Disk usage healthy (52% main, 46% /data)
-- ✅ WhatsApp allowlist restricted to Kelly's number only (+13018302401)
-- ✅ No hardcoded credentials found in workspace files
+### Issues Detected:
+- **Exposed API Keys in openclaw.json**: Multiple credentials stored in plain text instead of being properly redacted:
+  - OpenAI API key: sk-proj-d6rzZ7N...
+  - Strava Client Secret: ec781d245...
+  - Brave API key: BSAzBnwaTw...
+  - Google Client Secret: GOCSPX-Rx8sz...
+  - Google Refresh Token: 1//01cwyxcF...
+  - Kalshi API key and private key fully exposed
 
-## Previous Reviews
-(Future reviews will be logged here)
+### Checks Passed:
+✅ WhatsApp allowlist properly restricted to +13018302401  
+✅ File permissions secure (openclaw.json has 600 perms)  
+✅ No suspicious processes running  
+✅ Disk usage healthy (46% used on /data)  
+✅ Git history clean (normal commits)  
+✅ No hardcoded secrets in workspace files (only doc references)
+
+### Action Taken:
+- Sent critical alert to Kelly via WhatsApp
+- Recommended immediate config remediation
+
+---

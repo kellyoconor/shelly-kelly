@@ -362,41 +362,26 @@ Kelly's Critical Alert System
         
         self.log(f"Alert {alert['id']} escalated for manual review")
     
-    def mark_response_received(self, alert_id: str = None, confirmed_by_user: bool = True, minutes_back: int = None):
+    def mark_response_received(self, alert_id: str = None, confirmed_by_user: bool = True):
         """Mark specific alert as received - ONLY when Kelly explicitly responds"""
         alerts = self.load_alerts()
         marked_count = 0
         
-        if minutes_back is not None:
-            # Time-based marking for auto-confirmation when Kelly is active
-            import datetime
-            cutoff_time = datetime.datetime.now() - datetime.timedelta(minutes=minutes_back)
+        for alert in alerts:
+            if alert["resolved"]:
+                continue
             
-            for alert in alerts:
-                if alert["resolved"]:
-                    continue
-                
-                alert_time = datetime.datetime.fromisoformat(alert["timestamp"].replace('Z', '+00:00'))
-                if alert_time >= cutoff_time:
-                    alert["response_received"] = True
-                    alert["status"] = "AUTO_CONFIRMED"
-                    alert["resolved"] = True
-                    marked_count += 1
-                    self.log(f"Auto-marked alert {alert['id']} as responded (within {minutes_back} minutes)")
+            # CRITICAL FIX: Only mark specific alert as confirmed when explicitly called
+            if alert_id and alert["id"] == alert_id and confirmed_by_user:
+                alert["response_received"] = True
+                alert["status"] = "CONFIRMED"
+                alert["resolved"] = True
+                marked_count += 1
+                self.log(f"Alert {alert_id} confirmed by Kelly's explicit response")
+                break  # Only mark the specific alert
         
-        elif alert_id:
-            # Specific alert marking
-            for alert in alerts:
-                if alert["resolved"]:
-                    continue
-                
-                if alert["id"] == alert_id and confirmed_by_user:
-                    alert["response_received"] = True
-                    alert["status"] = "CONFIRMED"
-                    alert["resolved"] = True
-                    marked_count += 1
-                    self.log(f"Alert {alert_id} confirmed by Kelly's explicit response")
-                    break  # Only mark the specific alert
+        # REMOVED: Auto-marking logic that was causing false confirmations
+        # No more auto-marking alerts as "seen" without explicit user response
         
         self.save_alerts(alerts)
         return marked_count
