@@ -39,6 +39,15 @@ Things like:
 - **Always ask before committing** — let Kelly approve the commit message and confirm she's happy with changes
 - Use OpenClaw's git workflow commands
 
+### Definition of Done (Updated Mar 12, 2026)
+Before any task can be marked complete, it must include:
+- **Repo and branch** (e.g., `kellyoconor/shelly-kelly:main`)
+- **Commit hash** (full SHA or short hash)
+- **What files changed** (list of modified/added/deleted files)
+- **Verification that the changes actually work** (test output, functionality check)
+- **Screenshot or artifact** if it's a UI change
+- **No exceptions** — this is required for every development task
+
 ### File Creation Defaults (Updated Mar 12, 2026)
 - **Operational logs, updates, agent state**: `/data/workspace/memory/` (workspace memory)
 - **Personal documents when explicitly requested**: `/data/kelly-vault/` (Obsidian vault)
