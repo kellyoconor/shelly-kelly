@@ -54,6 +54,7 @@
 - **No voice notes** until ElevenLabs Irish voice setup
 
 ### Recent Lessons
+- **Heartbeat Engagement (Mar 13):** Kelly caught me doing HEARTBEAT_OK without actually engaging - ran critical alerts but skipped wellness checks/personal check-ins. HEARTBEAT_OK means "nothing needs attention" but should still do rotating checks and be proactive
 - **Session Management Crisis (Mar 10):** Built proper cleanup scripts, monitoring
 - **Context Window:** Increased 200k→400k tokens to handle heavy workspace loading
 - NEVER say "good girl" — banned phrase
