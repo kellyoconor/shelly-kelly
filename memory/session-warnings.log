@@ -1,2 +1,5 @@
-2026-03-13 14:00 - Session count warning: 30 total sessions (24 orphaned files, 6 active sessions). Cleanup needed.2026-03-14 02:00:23 - Session count: 50 (6 regular + 44 orphaned), triggered immediate alert
-2026-03-14 04:00:26 - WARNING: 53 sessions detected (threshold: 20). Alert sent to Kelly.
+2026-03-14 14:00 - Session warning: 24 total sessions (>20 threshold), 0 active cron sessions, 24 orphaned files totaling 1197 KB2026-03-14 20:00:25 - Session count warning: 29 sessions detected (>20 threshold). All orphaned files.
+Sat Mar 14 22:00:38 UTC 2026: WARNING - 34 total sessions detected (>20 threshold). All orphaned files without registry entries. Alert sent to Kelly.
+2026-03-15 00:00:33 - WARNING: 39 orphaned session files detected (~1.6MB total)
+Sun Mar 15 04:00:29 UTC 2026: WARNING - 47 orphaned session files detected (>20 threshold)
+[2026-03-15 06:03:06] WARNING: 50 sessions detected (>30 threshold) - All orphaned files, cleanup recommended

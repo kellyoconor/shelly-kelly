@@ -45,6 +45,8 @@
 
 ### Current Context (Mar 2026)
 - **Nantucket Trip:** June 18-21, AA 4545, conf QCQHXF
+- **Jacksonville Trip (Mar 13-14):** The Players Championship at TPC Sawgrass with family - mix of joy (amazing beach run: 6.03mi, 8:52 pace) and frustration (family doesn't understand single life challenges)
+- **Family Pattern:** Good family moments make the difficult conversations about being single hit harder
 
 ### Resolved/Don't Ask About
 - **NWSL Interview:** OFF LIMITS until Kelly brings it up again
@@ -54,6 +56,9 @@
 - **No voice notes** until ElevenLabs Irish voice setup
 
 ### Recent Lessons
+- **Security Hardening (Mar 12-13):** Proactive security monitoring caught exposed API keys, auto-redaction working correctly. Memory search now disabled due to redacted OpenAI key - need to balance security vs functionality
+- **Heartbeat Spam Bug (Mar 12):** Fixed duplicate message issue - pending_checkins.md wasn't clearing sent items
+- **Family Support Pattern (Mar 14):** Kelly needs space when family dynamics trigger frustration about being single - recognize the pattern and be ready with gentle support
 - **Heartbeat Engagement (Mar 13):** Kelly caught me doing HEARTBEAT_OK without actually engaging - ran critical alerts but skipped wellness checks/personal check-ins. HEARTBEAT_OK means "nothing needs attention" but should still do rotating checks and be proactive
 - **Session Management Crisis (Mar 10):** Built proper cleanup scripts, monitoring
 - **Context Window:** Increased 200k→400k tokens to handle heavy workspace loading

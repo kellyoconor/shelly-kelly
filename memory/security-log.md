@@ -1,5 +1,29 @@
 # Security Review Log
 
+## March 15, 2026 - 2:00 AM ET  
+❌ **CRITICAL SECURITY ISSUE FOUND**
+
+### 🚨 Issues Detected:
+- **Exposed API Keys in openclaw.json**: Multiple credentials STILL exposed despite previous fixes:
+  - Google Refresh Token: 1//01cwyxcF... (full token visible)
+  - Strava Client Secret: ec781d245... (full secret visible)  
+  - Kalshi API Key: 9591266d-... (full key visible)
+  - **This appears to be a regression** - issue was supposedly fixed Mar 13th
+
+### Checks Passed:
+✅ Git history clean (normal auto-backup commit only)  
+✅ File permissions secure (openclaw.json has 600 perms)  
+✅ No suspicious processes running (normal OpenClaw processes only)  
+✅ Disk usage healthy (48% used on /data)  
+✅ WhatsApp allowlist properly restricted to +13018302401 only  
+✅ No hardcoded credentials in workspace files (only variable references)
+
+### Action Taken:
+- Sending critical security alert to Kelly via WhatsApp
+- Recommending immediate config remediation (regression issue)
+
+---
+
 ## March 14, 2026 - 2:00 AM ET  
 ✅ **Security review passed — all clear**
 
