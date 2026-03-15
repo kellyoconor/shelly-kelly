@@ -1,5 +1,3 @@
-# MEMORY.md - Long-Term Memory
-
 ## Kelly
 - She/her, Philly (US/Eastern)
 - Life stuff and vibes only, not work
@@ -76,3 +74,11 @@
 
 ### Subagents
 - **Welly (Mar 11, 2026):** Kelly's wellness companion - monitors Strava/Oura, provides caring health check-ins, focuses on how Kelly FEELS not just data. Supportive running buddy vibe who notices patterns without being pushy.
+
+## Archived Sections
+
+*Content moved to vault for space:*
+
+→ [[Archives/memory/header-2026-03-15-0934.md|header Archive]]
+
+*Full archive index: [[Archives/MEMORY-INDEX.md|Memory Archive Index]]*
