@@ -49,6 +49,17 @@ Check MEMORY.md size: `python3 /data/workspace/scripts/memory-auto-trim.py`
 - If >3k chars: Auto-archives and reports to Kelly
 - If trim occurred: Log to daily memory file
 
+## 🔬 RESEARCH CO-PILOT STATUS (rotate every 2-3 heartbeats)
+**Check research system activity:**
+```bash
+cd /data/workspace/kelly-research-copilot && python3 src/main.py --status
+```
+- **Monitor research activity**: New files created, topics discovered, research sessions
+- **System health**: Check if monitoring is active, any errors
+- **Report findings**: If research activity detected in last 24h, tell Kelly what was researched
+- **Brief format**: "🔬 Research Co-Pilot active: 2 new research files on [topics]" or similar
+- If no activity: continue to other checks
+
 ## 🔍 NETTY CHECK-INS (rotate 2-3x daily)
 **Enhanced gap detection with urgency routing:**
 1. **First, process gaps for urgency:** `python3 /data/workspace/netty-urgent-adapter.py process`
