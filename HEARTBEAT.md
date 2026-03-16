@@ -39,28 +39,30 @@ cd /data/workspace/kelly-research-copilot && python3 src/main.py --status
 - **Brief format**: "🔬 Research Co-Pilot active: 2 new research files on [topics]" or similar
 - If no activity: continue to other checks
 
-## 📊 MANDATORY CONTEXT CHECK (rotate every heartbeat)
-**BEFORE any proactive message, run context check:**
+## 🧠 KELLY STATE UPDATE (every heartbeat - MANDATORY)
+**BEFORE any proactive message, update Kelly State file:**
 ```bash
-python3 /data/workspace/scripts/smart-context-check.py
+python3 /data/workspace/scripts/update-kelly-state.py
 ```
-This shows what I should/shouldn't ask about based on actual data from ALL sources:
-- 🏃‍♀️ **Running**: Strava activity, recent workouts
-- 📅 **Calendar**: Today's meetings and events  
-- 💍 **Health**: Oura readiness, sleep scores
-- 📚 **Obsidian**: Recent decisions, projects, mood
-- 🔬 **Research**: Co-Pilot activity and discoveries
-- 📧 **Email**: Recent messages and activity
+This updates `/data/workspace/kelly-state.md` with my current natural knowledge about Kelly.
 
-**CRITICAL RULE:** Never ask about activities without checking first:
-- ❌ Don't ask "How was your run?" without checking Strava  
-- ❌ Don't ask about schedule without checking calendar
-- ❌ Don't ask about sleep without checking Oura data
-- ❌ Don't assume anything happened - CHECK FIRST
+**The file contains:**
+- **Physical**: Recent running activity, health metrics (readiness/sleep)
+- **Schedule**: Today's meetings and availability  
+- **Focus**: Current projects, vault activity, research activity
 
-**The context check is mandatory, not optional. If I skip it, I create awkward corrections for Kelly.**
+**CRITICAL MENTAL SHIFT:** kelly-state.md is loaded as workspace context and represents things I naturally know about Kelly, NOT a report to analyze.
 
-**Use the data to inform every conversation, not just heartbeats.**
+**Kelly State becomes working memory that:**
+- Quietly shapes my responses and tone
+- Prevents generic questions when context makes them awkward
+- Informs what topics are relevant right now
+- Stays in the background unless specifically relevant
+
+**DO NOT constantly repeat Kelly State details back to her.**
+**DO let Kelly State naturally influence how I respond.**
+
+**Example:** If Kelly State shows "hasn't run since Thursday," don't ask "how was your run" and don't say "since you haven't run since Thursday." Just naturally avoid running questions and maybe be more gentle if she seems to be in a rest phase.
 
 ## Context Monitoring (rotate every 2-3 heartbeats)  
 Check main session token usage. If:
