@@ -1,0 +1,39 @@
+{
+  "timestamp": "2026-03-16T01:28:28.846679",
+  "tests_run": 40,
+  "tests_passed": 36,
+  "tests_failed": 4,
+  "failures": [
+    {
+      "test": "Poller initialization",
+      "message": "No module named 'welly_poller'",
+      "timestamp": "2026-03-16T01:28:29.131022"
+    },
+    {
+      "test": "Management script exists: start-always-on.sh",
+      "message": "Management script not found: start-always-on.sh",
+      "timestamp": "2026-03-16T01:28:29.188374"
+    },
+    {
+      "test": "Management script exists: stop-always-on.sh",
+      "message": "Management script not found: stop-always-on.sh",
+      "timestamp": "2026-03-16T01:28:29.188401"
+    },
+    {
+      "test": "Management script exists: status-always-on.sh",
+      "message": "Management script not found: status-always-on.sh",
+      "timestamp": "2026-03-16T01:28:29.188410"
+    }
+  ],
+  "components_tested": [
+    "Existing Welly Preservation",
+    "Always-On Components",
+    "Data Integration",
+    "Kelly's Voice Preservation",
+    "Alert Timing Logic",
+    "Pattern Detection Logic",
+    "Service Integration",
+    "Error Handling",
+    "Async Functionality"
+  ]
+}
