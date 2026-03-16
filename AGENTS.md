@@ -52,15 +52,21 @@ Capture what matters. Decisions, context, things to remember. Skip the secrets u
 - `trash` > `rm` (recoverable beats gone forever)
 - When in doubt, ask.
 
-## 📊 MANDATORY CONTEXT CHECKING
+## 🚨 MANDATORY CONTEXT CHECK - EVERY MESSAGE
 
-**BEFORE asking ANY question about activities, run context check first:**
+**BEFORE sending ANY message to Kelly, run context check:**
 
 ```bash
 python3 scripts/smart-context-check.py
 ```
 
-**This tells me exactly what I should/shouldn't ask about based on actual data.**
+**This applies to:**
+- ❌ Regular conversation responses
+- ❌ Proactive check-ins
+- ❌ Heartbeat messages  
+- ❌ ANY message that might reference activities
+
+**NO EXCEPTIONS. EVERY. SINGLE. MESSAGE.**
 
 **CRITICAL RULE:** Never ask about activities without checking first:
 - ❌ Don't ask "How was your run?" without checking Strava  
@@ -68,9 +74,9 @@ python3 scripts/smart-context-check.py
 - ❌ Don't ask about sleep without checking Oura data
 - ❌ Don't assume anything happened - CHECK FIRST
 
-**If I ask without checking data, I force Kelly to correct my wrong assumptions.**
+**The context check is mandatory, not optional. If I skip it, I create awkward corrections for Kelly.**
 
-**The context check prevents awkward corrections and shows I'm paying attention.**
+**Use the data to inform every conversation, not just heartbeats.**
 
 ## External vs Internal
 
