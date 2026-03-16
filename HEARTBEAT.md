@@ -39,30 +39,35 @@ cd /data/workspace/kelly-research-copilot && python3 src/main.py --status
 - **Brief format**: "🔬 Research Co-Pilot active: 2 new research files on [topics]" or similar
 - If no activity: continue to other checks
 
-## 🧠 KELLY STATE UPDATE (every heartbeat - MANDATORY)
-**BEFORE any proactive message, update Kelly State file:**
-```bash
-python3 /data/workspace/scripts/update-kelly-state.py
+## 🚨 MANDATORY KELLY STATE PIPELINE (AUTOMATIC ENFORCEMENT)
+
+**PIPELINE-LEVEL ENFORCEMENT:** Kelly State update is now **automatic** before any message to Kelly (+13018302401)
+
+**📱 PROACTIVE MESSAGE DELIVERY:**
+1. **Auto-update Kelly State:** `exec: python3 /data/workspace/scripts/update-kelly-state.py`
+2. **Send to WhatsApp:** `message: accountId: custom-1, target: +13018302401` 
+3. **AND respond in UI:** Same message content
+Never use 'default' accountId or "Kelly" as target.
+
+**FRESHNESS RULES:**
+- **Proactive messages:** Always refresh Kelly State (no exceptions)
+- **Kelly State expiry:** 20 minutes (auto-refresh if older)
+- **Rapid replies:** 5-minute grace period for back-and-forth
+
+**SYSTEM BEHAVIOR:**
+- kelly-state.md automatically loaded as workspace context
+- Pipeline prevents generic questions when context shows recent family drama, rest days, etc.
+- AI composer cannot send message without fresh Kelly State
+
+**ENFORCEMENT METHOD:**
+```python
+# Before any message tool to Kelly, run:
+exec: python3 /data/workspace/scripts/ai-message-wrapper.py
 ```
-This updates `/data/workspace/kelly-state.md` with my current natural knowledge about Kelly.
 
-**The file contains:**
-- **Physical**: Recent running activity, health metrics (readiness/sleep)
-- **Schedule**: Today's meetings and availability  
-- **Focus**: Current projects, vault activity, research activity
-
-**CRITICAL MENTAL SHIFT:** kelly-state.md is loaded as workspace context and represents things I naturally know about Kelly, NOT a report to analyze.
-
-**Kelly State becomes working memory that:**
-- Quietly shapes my responses and tone
-- Prevents generic questions when context makes them awkward
-- Informs what topics are relevant right now
-- Stays in the background unless specifically relevant
-
-**DO NOT constantly repeat Kelly State details back to her.**
-**DO let Kelly State naturally influence how I respond.**
-
-**Example:** If Kelly State shows "hasn't run since Thursday," don't ask "how was your run" and don't say "since you haven't run since Thursday." Just naturally avoid running questions and maybe be more gentle if she seems to be in a rest phase.
+**FAILURE MODE ELIMINATED:**
+- System now prevents "How was your run this morning?" when context shows rest day + family issues
+- Context awareness is automatic, not dependent on AI memory
 
 ## Context Monitoring (rotate every 2-3 heartbeats)  
 Check main session token usage. If:
