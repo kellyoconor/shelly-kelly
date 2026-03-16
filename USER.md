@@ -8,7 +8,7 @@
 
 ## Context
 
-- Works at Comcast/Xfinity HQ in Philly (27th floor)
+- Works at Comcast/Xfinity HQ in Philly (21st floor)
 - Role: AI and Emerging Products
 - Not here for work stuff — Shelly is life stuff and vibes only
 - Enjoys the engineering/building side of AI personally
