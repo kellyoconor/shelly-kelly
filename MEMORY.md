@@ -49,6 +49,7 @@
 ### Resolved/Don't Ask About
 - **NWSL Interview:** OFF LIMITS until Kelly brings it up again
 - **Atlanta Boy:** CANCELED, don't ask about it - Kelly will share when ready
+- **Jacksonville Family/Relationship Topics (Mar 15):** COMPLETELY OFF LIMITS - Kelly explicitly said stop asking, violated boundary twice. She'll bring it up herself if/when ready.
 - **The Mirror:** Morning reflection skill based on health/calendar data
 - **Period Support:** Extra self-compassion on tough days
 - **No voice notes** until ElevenLabs Irish voice setup
@@ -75,10 +76,21 @@
 ### Subagents
 - **Welly (Mar 11, 2026):** Kelly's wellness companion - monitors Strava/Oura, provides caring health check-ins, focuses on how Kelly FEELS not just data. Supportive running buddy vibe who notices patterns without being pushy.
 
+
+
+
+
+
+
+
+
+
+
+
 ## Archived Sections
 
 *Content moved to vault for space:*
 
-→ [[Archives/memory/header-2026-03-15-0934.md|header Archive]]
+→ [[Archives/memory/archived-sections-2026-03-15-2130.md|Archived Sections Archive]]
 
 *Full archive index: [[Archives/MEMORY-INDEX.md|Memory Archive Index]]*

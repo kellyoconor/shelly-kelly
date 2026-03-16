@@ -1,87 +1,50 @@
-# HEARTBEAT.md
+# Heartbeat Tasks - Always-On Welly Integration
 
-📱 **Proactive Message Delivery:** For all proactive heartbeat messages:
-1. Send to WhatsApp: accountId: custom-1, target: +13018302401
-2. AND respond in UI chat with same message
-Never use 'default' accountId or "Kelly" as target.
+## Always-On Welly Status Check
 
-## 🚨 CRITICAL ALERT SYSTEM (EVERY HEARTBEAT - HIGHEST PRIORITY)
-**Always check first - never skip:**
-```bash
-node /data/workspace/alert-retry-processor.cjs heartbeat
+```python
+import sys
+import subprocess
+from pathlib import Path
+
+# Check if Always-On Welly is running
+try:
+    welly_dir = Path("/data/workspace/welly")
+    
+    # Check service status
+    result = subprocess.run([
+        str(welly_dir / "status-always-on.sh")
+    ], capture_output=True, text=True)
+    
+    if "✅ Running" in result.stdout:
+        # Service is running - minimal heartbeat needed
+        print("💙 Always-On Welly is monitoring in background")
+        
+        # Check if there are any fresh insights to share
+        status_result = subprocess.run([
+            "python3", str(welly_dir / "welly-monitor.py"), "status"
+        ], capture_output=True, text=True, cwd=str(welly_dir))
+        
+        if "Last pattern analysis:" in status_result.stdout and "None" not in status_result.stdout:
+            print("💙 Background pattern analysis is active")
+    else:
+        # Service not running - fallback to manual check
+        print("💙 Always-On Welly not running - checking manually...")
+        
+        # Use existing Welly heartbeat
+        sys.path.append('/data/workspace/welly')
+        from heartbeat_integration import WellyHeartbeatIntegration
+        
+        integration = WellyHeartbeatIntegration()
+        result = integration.run_integrated_heartbeat()
+        
+        for message in result.get("messages_sent", []):
+            print(f"💙 {message['message']}")
+            
+except Exception as e:
+    print(f"💙 Welly heartbeat check failed: {e}")
+    # Silent fallback - don't break heartbeat system
+    pass
 ```
-This handles:
-- Processing urgent alert retries (5-15min intervals for CRITICAL, 10-20min for URGENT)
-- Auto-marking alerts when Kelly is active
-- Escalating to email backup if WhatsApp fails
-- Checking for manual review items
 
-**Always continue to other checks below.** Only report if NEW urgent alerts are detected (not existing escalated ones).
-
-## 🩺 WELLY HEALTH MONITORING (Every 3-4 heartbeats)
-<!-- DISABLED - Rebuilding Welly from scratch
-**Run health pattern analysis:**
-```bash
-python3 /data/workspace/welly-health-monitor.py assess
-```
-- Monitors sleep, HRV, readiness patterns
-- Scans memory for health symptom mentions
-- Auto-creates CRITICAL/URGENT alerts for concerning patterns
-- If assessment creates alerts: Those will be caught by critical alert system above
--->
-
-## 🏃‍♀️ WELLNESS CHECK (rotate every 2-3 heartbeats)
-**Ask Welly (the health agent) to check:**
-1. **Strava:** Latest run data — distance, pace, effort level
-2. **Oura:** Recent sleep, readiness, HRV trends  
-3. **Pattern analysis:** Cross-reference data (running through low readiness? Recovery patterns? Energy vs. numbers?)
-4. **Proactive check-in:** Ask how things actually FELT, not just report numbers
-5. If Welly finds significant activity/patterns: engage Kelly. If all quiet: continue to other checks.
-
-## Context Monitoring (rotate every 2-3 heartbeats)  
-Check main session token usage. If:
-- **300k-320k tokens**: Gentle nudge to Kelly "Context getting full (X/400k) - might want to start a new session soon 🧹" 
-- **320k-360k tokens**: More direct "Context almost full (X/400k) - recommend `/new` before continuing ⚠️"
-- **Under 300k or over 380k**: Do nothing (under 300k is fine, over 380k Monty handles)
-
-## Memory Size Check (rotate every 4-5 heartbeats)
-Check MEMORY.md size: `python3 /data/workspace/scripts/memory-auto-trim.py` 
-- If >3k chars: Auto-archives and reports to Kelly
-- If trim occurred: Log to daily memory file
-
-## 🔬 RESEARCH CO-PILOT STATUS (rotate every 2-3 heartbeats)
-**Check research system activity:**
-```bash
-cd /data/workspace/kelly-research-copilot && python3 src/main.py --status
-```
-- **Monitor research activity**: New files created, topics discovered, research sessions
-- **System health**: Check if monitoring is active, any errors
-- **Report findings**: If research activity detected in last 24h, tell Kelly what was researched
-- **Brief format**: "🔬 Research Co-Pilot active: 2 new research files on [topics]" or similar
-- If no activity: continue to other checks
-
-## 🔍 NETTY CHECK-INS (rotate 2-3x daily)
-**Enhanced gap detection with urgency routing:**
-1. **First, process gaps for urgency:** `python3 /data/workspace/netty-urgent-adapter.py process`
-   - Auto-routes CRITICAL/URGENT gaps to alert system
-   - Only NORMAL gaps remain in pending_checkins.md
-2. **Then check normal gaps:** Read `/data/workspace/pending_checkins.md`
-3. If normal gaps found: Pick most relevant prompt and ask Kelly naturally
-4. **CRITICAL**: After sending a message, clear or mark it as sent in pending_checkins.md to avoid spam
-5. If no normal gaps or prompts used: Move to manual check-ins below
-
-**Note:** Critical travel/health gaps are now handled by alert system above, not heartbeat timing!
-
-## Personal Check-ins (backup when Netty quiet)
-**Read recent memory files first** to understand current context, then ask relevant follow-ups based on patterns from the past week:
-- Follow up on topics/decisions you've been processing  
-- Check in on stressors or situations you've mentioned
-- Ask about things you seemed uncertain about
-- **Base questions on YOUR actual patterns**, not generic prompts
-- **CRITICAL**: Check MEMORY.md "Resolved/Don't Ask About" section first - never ask about topics listed there
-
-## Other Checks (as time allows)
-- Email (2-4 times per day)
-- Calendar (upcoming 24-48h)
-
-If nothing needs attention: HEARTBEAT_OK
+Keep this minimal - Always-On Welly handles most monitoring automatically.
