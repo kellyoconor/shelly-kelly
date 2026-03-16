@@ -79,6 +79,8 @@ def get_daily_context_summary():
     # - Calendar events today
     # - Recent Oura data  
     # - Research activity
+    # - Obsidian vault recent notes/projects/decisions
+    # - Current mood/energy from journal entries
     
     return context
 
