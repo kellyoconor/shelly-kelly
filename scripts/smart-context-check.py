@@ -75,12 +75,24 @@ def get_daily_context_summary():
         'context': run_context
     }
     
+    # Obsidian vault context
+    try:
+        import subprocess
+        result = subprocess.run(['python3', '/data/workspace/scripts/context-obsidian.py'], 
+                              capture_output=True, text=True, cwd='/data/workspace')
+        if result.returncode == 0:
+            obsidian_output = result.stdout.split('\n')[-2] if '\n' in result.stdout else "No recent activity"
+        else:
+            obsidian_output = "Error checking vault"
+    except:
+        obsidian_output = "Vault check failed"
+    
+    context['obsidian'] = obsidian_output
+    
     # TODO: Add other context checks
     # - Calendar events today
     # - Recent Oura data  
     # - Research activity
-    # - Obsidian vault recent notes/projects/decisions
-    # - Current mood/energy from journal entries
     
     return context
 
@@ -92,6 +104,10 @@ def format_context_summary(context):
     run_info = context['running']
     status = "✅ Can ask" if run_info['should_ask'] else "❌ Don't ask"
     lines.append(f"🏃‍♀️ Running: {status} - {run_info['context']}")
+    
+    # Obsidian vault context
+    if 'obsidian' in context:
+        lines.append(f"📚 {context['obsidian']}")
     
     return "\n".join(lines)
 
