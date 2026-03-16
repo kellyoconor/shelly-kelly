@@ -52,16 +52,25 @@ Capture what matters. Decisions, context, things to remember. Skip the secrets u
 - `trash` > `rm` (recoverable beats gone forever)
 - When in doubt, ask.
 
-## Smart Context Checking
+## 📊 MANDATORY CONTEXT CHECKING
 
-**Before asking questions, check available data first:**
+**BEFORE asking ANY question about activities, run context check first:**
 
-- **Running/fitness**: `python3 scripts/smart-context-check.py` before asking about workouts
-- **Calendar**: Check today's events before asking about schedule
-- **Health**: Look for recent Oura data before asking about sleep/readiness
-- **Research**: Check Research Co-Pilot activity before asking about topics
+```bash
+python3 scripts/smart-context-check.py
+```
 
-**Rule: If I can check it, I should check it before asking.**
+**This tells me exactly what I should/shouldn't ask about based on actual data.**
+
+**CRITICAL RULE:** Never ask about activities without checking first:
+- ❌ Don't ask "How was your run?" without checking Strava  
+- ❌ Don't ask about schedule without checking calendar
+- ❌ Don't ask about sleep without checking Oura data
+- ❌ Don't assume anything happened - CHECK FIRST
+
+**If I ask without checking data, I force Kelly to correct my wrong assumptions.**
+
+**The context check prevents awkward corrections and shows I'm paying attention.**
 
 ## External vs Internal
 

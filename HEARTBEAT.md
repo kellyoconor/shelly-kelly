@@ -39,6 +39,21 @@ cd /data/workspace/kelly-research-copilot && python3 src/main.py --status
 - **Brief format**: "🔬 Research Co-Pilot active: 2 new research files on [topics]" or similar
 - If no activity: continue to other checks
 
+## 📊 MANDATORY CONTEXT CHECK (rotate every heartbeat)
+**BEFORE any proactive message, run context check:**
+```bash
+python3 /data/workspace/scripts/smart-context-check.py
+```
+This shows what I should/shouldn't ask about based on actual data.
+
+**Critical rule:** Never ask about activities without checking data first:
+- Running: Check Strava before asking about workouts
+- Calendar: Check events before asking about schedule  
+- Health: Check recent Oura data
+- Research: Check Co-Pilot activity
+
+**If I ask without checking, I create awkward corrections for Kelly.**
+
 ## Context Monitoring (rotate every 2-3 heartbeats)  
 Check main session token usage. If:
 - **300k-320k tokens**: Gentle nudge to Kelly "Context getting full (X/400k) - might want to start a new session soon 🧹" 

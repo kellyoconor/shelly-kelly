@@ -6,6 +6,7 @@ Check available data sources before making assumptions
 
 import subprocess
 import json
+import sys
 from datetime import datetime, timedelta
 
 def check_recent_runs(days_back=3):
@@ -63,7 +64,42 @@ def should_ask_about_running():
     
     return True, "No recent runs found, asking about plans is OK"
 
+def get_daily_context_summary():
+    """Get full context summary before any conversation"""
+    context = {}
+    
+    # Running context
+    should_ask_run, run_context = should_ask_about_running()
+    context['running'] = {
+        'should_ask': should_ask_run,
+        'context': run_context
+    }
+    
+    # TODO: Add other context checks
+    # - Calendar events today
+    # - Recent Oura data  
+    # - Research activity
+    
+    return context
+
+def format_context_summary(context):
+    """Format context for quick scanning"""
+    lines = ["📊 CONTEXT CHECK BEFORE RESPONDING:"]
+    
+    # Running
+    run_info = context['running']
+    status = "✅ Can ask" if run_info['should_ask'] else "❌ Don't ask"
+    lines.append(f"🏃‍♀️ Running: {status} - {run_info['context']}")
+    
+    return "\n".join(lines)
+
 if __name__ == "__main__":
-    should_ask, context = should_ask_about_running()
-    print(f"Should ask about running: {should_ask}")
-    print(f"Context: {context}")
+    if len(sys.argv) > 1 and sys.argv[1] == 'running':
+        # Just running check
+        should_ask, context = should_ask_about_running()
+        print(f"Should ask about running: {should_ask}")
+        print(f"Context: {context}")
+    else:
+        # Full context summary
+        context = get_daily_context_summary()
+        print(format_context_summary(context))
