@@ -44,15 +44,23 @@ cd /data/workspace/kelly-research-copilot && python3 src/main.py --status
 ```bash
 python3 /data/workspace/scripts/smart-context-check.py
 ```
-This shows what I should/shouldn't ask about based on actual data.
+This shows what I should/shouldn't ask about based on actual data from ALL sources:
+- 🏃‍♀️ **Running**: Strava activity, recent workouts
+- 📅 **Calendar**: Today's meetings and events  
+- 💍 **Health**: Oura readiness, sleep scores
+- 📚 **Obsidian**: Recent decisions, projects, mood
+- 🔬 **Research**: Co-Pilot activity and discoveries
+- 📧 **Email**: Recent messages and activity
 
-**Critical rule:** Never ask about activities without checking data first:
-- Running: Check Strava before asking about workouts
-- Calendar: Check events before asking about schedule  
-- Health: Check recent Oura data
-- Research: Check Co-Pilot activity
+**CRITICAL RULE:** Never ask about activities without checking first:
+- ❌ Don't ask "How was your run?" without checking Strava  
+- ❌ Don't ask about schedule without checking calendar
+- ❌ Don't ask about sleep without checking Oura data
+- ❌ Don't assume anything happened - CHECK FIRST
 
-**If I ask without checking, I create awkward corrections for Kelly.**
+**The context check is mandatory, not optional. If I skip it, I create awkward corrections for Kelly.**
+
+**Use the data to inform every conversation, not just heartbeats.**
 
 ## Context Monitoring (rotate every 2-3 heartbeats)  
 Check main session token usage. If:

@@ -66,48 +66,90 @@ def should_ask_about_running():
 
 def get_daily_context_summary():
     """Get full context summary before any conversation"""
-    context = {}
-    
-    # Running context
-    should_ask_run, run_context = should_ask_about_running()
-    context['running'] = {
-        'should_ask': should_ask_run,
-        'context': run_context
-    }
-    
-    # Obsidian vault context
     try:
-        import subprocess
-        result = subprocess.run(['python3', '/data/workspace/scripts/context-obsidian.py'], 
+        # Use the comprehensive context checker
+        result = subprocess.run(['python3', '/data/workspace/scripts/full-context-check.py'], 
                               capture_output=True, text=True, cwd='/data/workspace')
+        
         if result.returncode == 0:
-            obsidian_output = result.stdout.split('\n')[-2] if '\n' in result.stdout else "No recent activity"
+            # Parse the full context output
+            lines = result.stdout.split('\n')
+            context_lines = [l for l in lines if l.startswith(('🏃‍♀️', '📅', '💍', '📚', '🔬', '📧'))]
+            
+            context = {}
+            for line in context_lines:
+                if '🏃‍♀️' in line:
+                    # Determine if should ask about running
+                    should_ask = not ('❌' in line or 'No recent' in line)
+                    context['running'] = {
+                        'should_ask': should_ask,
+                        'context': line.replace('🏃‍♀️ Running: ', '')
+                    }
+                elif '📅' in line:
+                    context['calendar'] = line.replace('📅 Calendar: ', '')
+                elif '💍' in line:
+                    context['health'] = line.replace('💍 Health: ', '')
+                elif '📚' in line:
+                    context['obsidian'] = line.replace('📚 Obsidian: ', '')
+                elif '🔬' in line:
+                    context['research'] = line.replace('🔬 Research: ', '')
+                elif '📧' in line:
+                    context['email'] = line.replace('📧 Email: ', '')
+            
+            return context
         else:
-            obsidian_output = "Error checking vault"
-    except:
-        obsidian_output = "Vault check failed"
-    
-    context['obsidian'] = obsidian_output
-    
-    # TODO: Add other context checks
-    # - Calendar events today
-    # - Recent Oura data  
-    # - Research activity
-    
-    return context
+            # Fallback to basic running check
+            should_ask_run, run_context = should_ask_about_running()
+            return {
+                'running': {
+                    'should_ask': should_ask_run,
+                    'context': run_context
+                }
+            }
+    except Exception as e:
+        # Fallback to basic running check
+        should_ask_run, run_context = should_ask_about_running()
+        return {
+            'running': {
+                'should_ask': should_ask_run,
+                'context': run_context
+            },
+            'error': f"Context check failed: {str(e)[:40]}"
+        }
 
 def format_context_summary(context):
     """Format context for quick scanning"""
     lines = ["📊 CONTEXT CHECK BEFORE RESPONDING:"]
     
     # Running
-    run_info = context['running']
-    status = "✅ Can ask" if run_info['should_ask'] else "❌ Don't ask"
-    lines.append(f"🏃‍♀️ Running: {status} - {run_info['context']}")
+    if 'running' in context:
+        run_info = context['running']
+        status = "✅ Can ask" if run_info['should_ask'] else "❌ Don't ask"
+        lines.append(f"🏃‍♀️ Running: {status} - {run_info['context']}")
     
-    # Obsidian vault context
+    # Calendar
+    if 'calendar' in context:
+        lines.append(f"📅 Calendar: {context['calendar']}")
+    
+    # Health
+    if 'health' in context:
+        lines.append(f"💍 Health: {context['health']}")
+    
+    # Obsidian
     if 'obsidian' in context:
-        lines.append(f"📚 {context['obsidian']}")
+        lines.append(f"📚 Obsidian: {context['obsidian']}")
+    
+    # Research
+    if 'research' in context:
+        lines.append(f"🔬 Research: {context['research']}")
+    
+    # Email  
+    if 'email' in context:
+        lines.append(f"📧 Email: {context['email']}")
+    
+    # Error info
+    if 'error' in context:
+        lines.append(f"⚠️ {context['error']}")
     
     return "\n".join(lines)
 
