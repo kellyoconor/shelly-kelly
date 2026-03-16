@@ -1,5 +1,29 @@
 # Security Review Log
 
+## March 16, 2026 - 2:00 AM ET
+❌ **CRITICAL SECURITY REGRESSION FOUND**
+
+### 🚨 Issues Detected:
+- **API Credentials Re-Exposed in openclaw.json**: Despite previous fixes, multiple credentials are again visible in plain text:
+  - Google Refresh Token: 1//01cwyxcFo4-O3... (full token exposed)
+  - Strava Client Secret: ec781d245ddf798... (full secret exposed)
+  - Kalshi API Key: 9591266d-4e66-48... (full key exposed)
+  - **This is a REGRESSION** - Mar 15th log indicated this was resolved
+
+### Checks Passed:
+✅ Git history clean (normal development commits for Welly/Research Co-Pilot)
+✅ File permissions secure (openclaw.json has 600 perms)
+✅ No suspicious processes running (normal OpenClaw + Welly monitor)
+✅ Disk usage healthy (48-49% used)
+✅ WhatsApp allowlist properly restricted to +13018302401 only
+✅ No hardcoded credentials in workspace files (only references in docs/logs)
+
+### Action Taken:
+- Sent critical security alert to Kelly via WhatsApp
+- Recommending immediate config remediation (regression from auto-redaction failure)
+
+---
+
 ## March 15, 2026 - 2:00 AM ET  
 ❌ **CRITICAL SECURITY ISSUE FOUND**
 
