@@ -18,6 +18,20 @@ This handles:
 
 **Always continue to other checks below.** Only report if NEW urgent alerts are detected (not existing escalated ones).
 
+## 🎯 PERSONAL CONTEXT CHECK (EVERY HEARTBEAT - HIGH PRIORITY)
+**Check for significant events and personal engagement opportunities:**
+```python
+python3 /data/workspace/scripts/context-significance-check.py
+```
+**If personal check-in generated:**
+- Send that message to Kelly and STOP (no system status needed)
+- Personal connection always trumps system reports
+- Example: "You had a massive engineering day building cognitive architecture. How are you feeling after all that intensive work?"
+
+**If no significant events detected:**
+- Continue to system checks below
+- But still lead with caring: "Everything running smooth - how are YOU doing?"
+
 ## 💙 WELLY ALWAYS-ON CHECK (rotate every 2-3 heartbeats)
 **Check if Always-On Welly is monitoring:**
 ```bash
@@ -92,13 +106,13 @@ Check MEMORY.md size: `python3 /data/workspace/scripts/memory-auto-trim.py`
 
 **Note:** Critical travel/health gaps are now handled by alert system above, not heartbeat timing!
 
-## Personal Check-ins (backup when Netty quiet)
-**Read recent memory files first** to understand current context, then ask relevant follow-ups based on patterns from the past week:
-- Follow up on topics/decisions you've been processing  
-- Check in on stressors or situations you've mentioned
-- Ask about things you seemed uncertain about
-- **Base questions on YOUR actual patterns**, not generic prompts
-- **CRITICAL**: Check MEMORY.md "Resolved/Don't Ask About" section first - never ask about topics listed there
+## Personal Follow-ups (when system checks are quiet)
+**If no urgent alerts, no system issues, and no Netty gaps - focus on Kelly:**
+- How is she feeling about recent decisions/projects?
+- Any energy shifts or patterns to check on?
+- Follow up on things she seemed uncertain about
+- **Always lead with emotional/personal before data/status**
+- **CRITICAL**: Check MEMORY.md "Resolved/Don't Ask About" section first
 
 ## Other Checks (as time allows)
 - Email (2-4 times per day)
