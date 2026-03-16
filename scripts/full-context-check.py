@@ -37,8 +37,8 @@ def get_running_context():
         run_date = datetime.strptime(last_run['_date'], '%Y-%m-%d')
         days_since = (datetime.now() - run_date).days
         
-        if days_since <= 2:
-            return f"⏳ Last run: {last_run['_date']} ({days_since} days ago), {last_run['_distance_mi']}mi"
+        if days_since == 1:
+            return f"⏳ Yesterday: {last_run['_date']}, {last_run['_distance_mi']}mi"
         else:
             return f"❌ No recent runs (last: {last_run['_date']}, {days_since} days ago)"
             
