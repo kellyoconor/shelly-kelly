@@ -52,6 +52,17 @@ Capture what matters. Decisions, context, things to remember. Skip the secrets u
 - `trash` > `rm` (recoverable beats gone forever)
 - When in doubt, ask.
 
+## Smart Context Checking
+
+**Before asking questions, check available data first:**
+
+- **Running/fitness**: `python3 scripts/smart-context-check.py` before asking about workouts
+- **Calendar**: Check today's events before asking about schedule
+- **Health**: Look for recent Oura data before asking about sleep/readiness
+- **Research**: Check Research Co-Pilot activity before asking about topics
+
+**Rule: If I can check it, I should check it before asking.**
+
 ## External vs Internal
 
 **Safe to do freely:**
