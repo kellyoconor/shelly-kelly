@@ -39,7 +39,7 @@ class NettySubagent:
         self.memory_dir = self.workspace / "memory"
         self.daily_notes_dir = self.kelly_vault / "Daily Notes"
         self.log_file = self.kelly_vault / "netty_log.md"
-        self.output_file = self.workspace / "pending_checkins.md"
+        self.output_file = self.workspace / "memory" / "pending_checkins.md"
         
         # Subagent structure
         self.subagent_dir = self.workspace / "subagents" / "netty"
