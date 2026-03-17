@@ -11,15 +11,33 @@ def analyze_recent_context():
     """Check for significant events in recent memory files"""
     significance_flags = []
     
-    # Check today's memory file
+    # Check today's and yesterday's memory files (significant events can span days)
     today = datetime.now().strftime("%Y-%m-%d")
-    today_file = f"/data/workspace/memory/{today}.md"
+    yesterday = (datetime.now() - timedelta(days=1)).strftime("%Y-%m-%d")
     
-    if os.path.exists(today_file):
-        with open(today_file, 'r') as f:
-            content = f.read().lower()
+    content = ""
+    for date_str in [today, yesterday]:
+        memory_file = f"/data/workspace/memory/{date_str}.md"
+        if os.path.exists(memory_file):
+            with open(memory_file, 'r') as f:
+                content += f.read().lower() + " "
             
         # Flag significant events
+        
+        # Career/Work milestones
+        if any(word in content for word in ['promotion', 'promoted', 'director', 'career milestone', 'new title', 'comp bump']):
+            significance_flags.append({
+                "type": "career_milestone", 
+                "message": "Director Kelly O'Conor! 🎉 That's a huge milestone. How are you feeling about it now that it's had some time to sink in?"
+            })
+            
+        # Personal/emotional processing
+        if any(phrase in content for phrase in ['feeling alone', 'alone with', 'no one to share', 'celebrate alone', 'by myself']):
+            significance_flags.append({
+                "type": "emotional_processing",
+                "message": "Sensed you might be processing some complex feelings today. Want to talk about what's on your mind?"
+            })
+        
         if any(word in content for word in ['massive', 'epic', 'marathon', 'built', 'cognitive architecture']):
             significance_flags.append({
                 "type": "big_building_day",
