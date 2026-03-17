@@ -304,6 +304,7 @@ class WellyHealthMonitor:
             memory_file = os.path.join(memory_dir, f"{date}.md")
             
             # CRITICAL: Skip Welly's own health log files to prevent feedback loops
+            # Note: Welly health logs now write to kelly-vault, not workspace memory
             if memory_file.endswith(f"welly-health-{date.replace('-', '')}.md"):
                 continue
                 
@@ -558,7 +559,7 @@ class WellyHealthMonitor:
     
     def log_assessment(self, assessment: Dict):
         """Log health assessment to file"""
-        log_file = os.path.join(self.workspace, "memory", f"welly-health-{datetime.now().strftime('%Y%m%d')}.md")
+        log_file = f"/data/kelly-vault/Memory/Welly/{datetime.now().strftime('%Y-%m-%d')}.md"
         
         with open(log_file, 'a') as f:
             f.write(f"\n## Health Assessment - {assessment['timestamp']}\n")
