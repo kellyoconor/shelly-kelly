@@ -55,6 +55,7 @@
 - **No voice notes** until ElevenLabs Irish voice setup
 
 ### Recent Lessons
+- **NEVER call her "Director Kelly" (Mar 17):** Just Kelly, always Kelly - promotion doesn't change how she wants to be addressed
 - **Security Hardening (Mar 12-13):** Proactive security monitoring caught exposed API keys, auto-redaction working correctly. Memory search now disabled due to redacted OpenAI key - need to balance security vs functionality
 - **Heartbeat Spam Bug (Mar 12):** Fixed duplicate message issue - pending_checkins.md wasn't clearing sent items
 - **Family Support Pattern (Mar 14):** Kelly needs space when family dynamics trigger frustration about being single - recognize the pattern and be ready with gentle support
