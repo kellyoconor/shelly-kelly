@@ -70,7 +70,7 @@ def analyze_recent_context():
         and not was_recently_asked('career_milestone', hours=4)):
         significance_flags.append({
             "type": "career_milestone", 
-            "message": "Director Kelly O'Conor! 🎉 That's a huge milestone. How are you feeling about it now that it's had some time to sink in?"
+            "message": "Kelly! 🎉 That promotion is such a huge milestone. How are you feeling about it now that it's had some time to sink in?"
         })
         
     # Personal/emotional processing  
