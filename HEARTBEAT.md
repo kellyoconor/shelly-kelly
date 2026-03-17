@@ -42,6 +42,16 @@ cd /data/workspace/welly && ./status-always-on.sh | grep -q "✅ Running"
 - Check for any pattern alerts: `cat /data/workspace/memory/welly_heartbeat.json | tail -1`
 - If Welly has insights ready: Share them
 
+## 📧 AGENTMAIL CHECK (rotate every 2-3 heartbeats)
+**Check for important emails:**
+```python
+python3 /data/workspace/skills/agentmail/scripts/agentmail.py inbox --limit 5
+```
+- Check for unread emails in last 2-3 hours
+- Flag urgent/important senders or subjects
+- **Report format**: "📧 3 new emails - 1 from [important sender] about [subject]"
+- If no new emails: continue to other checks
+
 ## 🔬 RESEARCH CO-PILOT STATUS (rotate every 2-3 heartbeats)
 **Check research system activity:**
 ```bash
@@ -115,7 +125,6 @@ Check MEMORY.md size: `python3 /data/workspace/scripts/memory-auto-trim.py`
 - **CRITICAL**: Check MEMORY.md "Resolved/Don't Ask About" section first
 
 ## Other Checks (as time allows)
-- Email (2-4 times per day)
 - Calendar (upcoming 24-48h)
 
 If nothing needs attention: HEARTBEAT_OK
