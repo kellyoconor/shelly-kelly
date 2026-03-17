@@ -24,7 +24,7 @@ def get_obsidian_context(days_back=3):
     recent_cutoff = datetime.now() - timedelta(days=days_back)
     
     # Daily Notes pattern
-    daily_notes_path = f"{vault_path}/Daily Notes"
+    daily_notes_path = f"{vault_path}/01-Daily/2026"
     if os.path.exists(daily_notes_path):
         for note_file in glob.glob(f"{daily_notes_path}/*.md"):
             try:

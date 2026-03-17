@@ -19,7 +19,7 @@ class KellyIntelligence:
     def __init__(self):
         self.vault_path = "/data/kelly-vault"
         self.workspace_memory = "/data/workspace/memory"
-        self.daily_notes_path = f"{self.vault_path}/Daily Notes"
+        self.daily_notes_path = f"{self.vault_path}/01-Daily/2026"
         
     def analyze_health_decision_correlation(self, days_back=14):
         """Correlate Oura readiness scores with decision quality"""

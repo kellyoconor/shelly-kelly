@@ -32,7 +32,7 @@ class NettyScanner:
         self.workspace = Path("/data/workspace")
         self.kelly_vault = Path("/data/kelly-vault")
         self.memory_dir = self.workspace / "memory"
-        self.daily_notes_dir = self.kelly_vault / "Daily Notes"
+        self.daily_notes_dir = self.kelly_vault / "01-Daily" / "2026"
         self.log_file = self.kelly_vault / "netty_log.md"
         self.output_file = self.workspace / "pending_checkins.md"
         

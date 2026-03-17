@@ -18,9 +18,10 @@ def append_to_daily_note(content, section="Notes"):
     date_str = today.strftime("%Y-%m-%d")
     
     # Daily note path
-    daily_note_path = f"/data/kelly-vault/Daily Notes/{date_str}.md"
+    daily_note_path = f"/data/kelly-vault/01-Daily/2026/{date_str}.md"
     
-    # Ensure the file exists
+    # Ensure the directory and file exist
+    os.makedirs(os.path.dirname(daily_note_path), exist_ok=True)
     if not os.path.exists(daily_note_path):
         # Create basic template
         template = f"""# {today.strftime("%B %d, %Y")}
