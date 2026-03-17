@@ -44,7 +44,7 @@ class NettySubagent:
         # Subagent structure
         self.subagent_dir = self.workspace / "subagents" / "netty"
         self.subagent_memory = self.subagent_dir / "MEMORY.md"
-        self.subagent_logs = self.subagent_dir / "memory"
+        self.subagent_logs = self.kelly_vault / "Memory" / "Netty"
         self.subagent_logs.mkdir(parents=True, exist_ok=True)
         
         self.today = datetime.date.today()
