@@ -1,0 +1,3 @@
+INFO:__main__:🩺 Welly Health Monitor starting...
+WARNING:__main__:🚨 Welly monitor stuck: Monitor process not running
+ERROR:__main__:❌ Cannot restart: too many recent attempts or in cooldown

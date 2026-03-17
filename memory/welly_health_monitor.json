@@ -1,0 +1,8 @@
+{
+  "started_at": "2026-03-16T21:24:41.527795",
+  "last_health_check": "2026-03-16T23:03:55.236406",
+  "restart_attempts_today": 3,
+  "last_restart_attempt": "2026-03-16T22:26:30.329908",
+  "consecutive_failures": 8,
+  "health_checks_completed": 17
+}
