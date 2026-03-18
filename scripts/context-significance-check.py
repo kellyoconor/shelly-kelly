@@ -3,6 +3,7 @@
 Context Significance Checker
 Analyzes recent memory to identify significant events that warrant personal check-ins
 Tracks what it's asked about recently to avoid repetition
+FIXED: Now includes logic to stay quiet when appropriate
 """
 
 import os
@@ -42,10 +43,52 @@ def was_recently_asked(topic_type, hours=6):
     
     return last_asked > cutoff
 
+def should_stay_quiet():
+    """Determine if we should stay quiet instead of sending a check-in"""
+    current_time = datetime.now()
+    hour = current_time.hour
+    
+    # Quiet hours: Late night (23:00-06:00)
+    if hour >= 23 or hour <= 6:
+        return True
+    
+    # Check if we've sent ANY message recently (not just topic-specific)
+    history = load_tracking_history()
+    
+    if 'last_general_checkin' in history:
+        last_checkin = datetime.fromisoformat(history['last_general_checkin'])
+        # Minimum 2 hours between ANY proactive check-ins
+        if datetime.now() - last_checkin < timedelta(hours=2):
+            return True
+    
+    # Stay quiet if we've asked about multiple topics recently (avoid chattiness)
+    recent_topics = 0
+    cutoff = datetime.now() - timedelta(hours=6)
+    
+    for topic, timestamp_str in history.items():
+        if topic == 'last_general_checkin':
+            continue
+        try:
+            if datetime.fromisoformat(timestamp_str) > cutoff:
+                recent_topics += 1
+        except:
+            continue
+    
+    # If we've covered 2+ topics in last 6 hours, stay quiet
+    if recent_topics >= 2:
+        return True
+        
+    return False
+
 def mark_as_asked(topic_type):
     """Mark that we've asked about this topic"""
     history = load_tracking_history()
-    history[topic_type] = datetime.now().isoformat()
+    now = datetime.now().isoformat()
+    history[topic_type] = now
+    
+    # Also track that we sent a general check-in
+    history['last_general_checkin'] = now
+    
     save_tracking_history(history)
 
 def analyze_recent_context():
@@ -122,6 +165,10 @@ def analyze_recent_context():
 
 def get_personal_checkin():
     """Get a personal check-in question based on recent context"""
+    # NEW: Check if we should stay quiet first
+    if should_stay_quiet():
+        return ""  # Return empty string to stay quiet
+    
     significance_flags = analyze_recent_context()
     
     if significance_flags:
@@ -130,7 +177,16 @@ def get_personal_checkin():
         mark_as_asked(topic["type"])
         return topic["message"]
     else:
-        # Default caring check-ins (rotate these)
+        # NEW: Only send default check-ins occasionally, not every heartbeat
+        # Check if it's been at least 4 hours since any check-in
+        history = load_tracking_history()
+        if 'last_general_checkin' in history:
+            last_checkin = datetime.fromisoformat(history['last_general_checkin'])
+            # Require 4+ hours between generic check-ins
+            if datetime.now() - last_checkin < timedelta(hours=4):
+                return ""  # Stay quiet
+        
+        # Send a default caring check-in (but mark it so we don't spam)
         defaults = [
             "How's your energy today? Feeling aligned or scattered?",
             "What's on your mind lately? Anything you're processing?", 
@@ -140,8 +196,15 @@ def get_personal_checkin():
         
         # Simple rotation based on hour
         hour = datetime.now().hour
-        return defaults[hour % len(defaults)]
+        message = defaults[hour % len(defaults)]
+        
+        # Mark that we sent a general check-in
+        mark_as_asked('general_checkin')
+        
+        return message
 
 if __name__ == "__main__":
     result = get_personal_checkin()
-    print(result)
+    if result:
+        print(result)
+    # If empty, print nothing (script will return nothing to heartbeat)
