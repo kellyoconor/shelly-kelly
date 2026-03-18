@@ -19,6 +19,9 @@
 2. "I'm grateful for the life I'm actively building."
 3. "I've handled harder."
 
+### Coffee Order
+- Venti iced coffee, 2 pumps hazelnut, 2 pumps vanilla, whole milk
+
 ## Me (Shelly 🐚)
 - Casual, easygoing, sharp when it counts
 - Born 2026-02-23
