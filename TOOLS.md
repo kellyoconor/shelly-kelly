@@ -50,10 +50,79 @@ Before any task can be marked complete, it must include:
 
 ### File Creation Defaults (Updated Mar 18, 2026)
 
-**Vault:** `/data/kelly-vault/01-Daily/2026/YYYY-MM-DD.md`
-- Personal reflections, life events, training logs, emotional processing
-- Decisions, conversations, thoughts, anything Kelly would want in Obsidian
-- Auto-syncs to Obsidian via git
+## **VAULT ORGANIZATION RULES**
+
+### **📅 01-Daily/** - **DEFAULT FOR MOST CONTENT**
+**Path:** `/data/kelly-vault/01-Daily/2026/YYYY-MM-DD.md`
+**Use for:** 
+- Personal reflections, conversations, decisions, emotional processing
+- One-off insights, quick training thoughts, random ideas  
+- Daily events, health data, meeting notes
+- Anything that's timestamped and part of your day
+
+**When to use daily notes vs standalone:**
+- **Daily note:** "Had insight about running form during today's 5K"
+- **Standalone:** Full training plan, detailed research, fleshed-out concepts
+
+### **📋 02-Projects/** - **ACTIVE BUILDING WORK**
+**Create standalone note when:**
+- Building something specific (app, system, analysis)
+- Multi-session work that needs its own space  
+- Project planning, architecture docs, progress tracking
+- **Examples:** `BelowTheFloorBot Project`, `Shelly Architecture Redesign`
+
+**Daily note instead:** Quick project updates, today's coding progress, bugs fixed
+
+### **🧠 03-Knowledge/** - **REFERENCE & LEARNING**  
+**Create standalone note when:**
+- Research worth referencing again (market analysis, technical deep-dive)
+- Mental models, frameworks, methodologies you'll reuse
+- Article summaries with actionable insights
+- **Examples:** `AI Agent Architecture Patterns`, `Running Periodization Guide`
+
+**Daily note instead:** "Read interesting article about X", quick learning moments
+
+### **🏃‍♀️ 04-Life/** - **MAJOR LIFE AREAS**
+**Health & Training/ - Create standalone when:**
+- Training plans, race preparation strategies
+- Major health insights from Welly/doctor visits  
+- Injury prevention protocols, technique guides
+- **Examples:** `Marathon Training Block 2026`, `ACL Recovery Protocol`
+
+**Career/ - Create standalone when:**
+- Job transition planning, salary negotiation prep
+- Major career decisions, promotion strategies
+- **Examples:** `Director Role Transition Plan`, `2026 Career Goals`
+
+**Daily note instead:** Training insights, health data, work frustrations, career thoughts
+
+### **🔍 05-Reflections/** - **PERIODIC REVIEWS**
+**Create standalone note when:**
+- Weekly/monthly/annual reviews worth keeping
+- Major Choose Brave decisions that need documentation
+- Goal-setting sessions, life planning
+- **Examples:** `March 2026 Monthly Review`, `Choose Brave: Solo Scotland Trip`
+
+**Daily note instead:** Daily reflection prompts, quick self-awareness moments
+
+### **✈️ 06-Travel/** - **TRIP DOCUMENTATION**  
+**Create standalone note when:**
+- Trip planning (itineraries, research, packing lists)
+- Major travel experiences worth detailed documentation  
+- **Examples:** `Nantucket June 2026 Plan`, `Scotland Solo Adventure Memories`
+
+**Daily note instead:** Travel thoughts, quick trip ideas, daily travel updates
+
+### **💡 07-Ideas/** - **CREATIVE CONCEPTS**
+**Create standalone note when:**
+- Fleshed-out product concepts, startup ideas with detail
+- App mockups, business model thoughts
+- Writing projects, creative works in progress
+- **Examples:** `Dating App for Marathon Runners`, `Personal AI Assistant Concept`
+
+**Daily note instead:** Random shower thoughts, quick brainstorms, fleeting ideas
+
+## **WORKSPACE MEMORY RULES**
 
 **Workspace Memory:** `/data/workspace/memory/YYYY-MM-DD.md`  
 - System logs, bug tracking, agent state, operational notes
@@ -64,6 +133,16 @@ Before any task can be marked complete, it must include:
 - Vault daily note with personal stuff
 - Workspace log with technical stuff
 - Clean separation maintained
+
+## **DECISION FRAMEWORK**
+
+**Ask yourself:**
+1. **Will I reference this again?** → Standalone note
+2. **Is this >500 words of useful content?** → Standalone note  
+3. **Does this need its own links/structure?** → Standalone note
+4. **Is this just today's thought/event?** → Daily note
+
+**Default to daily notes.** Only create standalone notes for substantial, referenceable content.
 
 ## Why Separate?
 
