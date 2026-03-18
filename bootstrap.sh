@@ -30,6 +30,16 @@ cd /data/workspace/welly
 python3 welly-daemon.py start > /dev/null 2>&1 || echo "[bootstrap] Welly start failed (may already be running)"
 echo "[bootstrap] Welly pattern detection active"
 
+# ── Proactive heartbeat system ──────────────────────────
+echo "[bootstrap] Setting up proactive heartbeat..."
+# Check if heartbeat cron already exists
+if ! openclaw cron list | grep -q "Proactive Heartbeat"; then
+    openclaw cron add --name "Proactive Heartbeat" --every 30m --session main --system-event "Read HEARTBEAT.md if it exists (workspace context). Follow it strictly. Do not infer or repeat old tasks from prior chats. If nothing needs attention, reply HEARTBEAT_OK." > /dev/null 2>&1
+    echo "[bootstrap] Heartbeat scheduled (every 30 minutes)"
+else
+    echo "[bootstrap] Heartbeat already configured"
+fi
+
 # ── Config checks ────────────────────────────────────────────
 CONFIG="${OPENCLAW_STATE_DIR:-/data/.clawdbot}/openclaw.json"
 
