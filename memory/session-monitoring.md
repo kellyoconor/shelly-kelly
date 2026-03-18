@@ -13,12 +13,12 @@
 
 **Healthy sessions:**
 - Main session (e4353cbb-9248-4167-a26f-3be8117a4b74): 18,096/200,000 tokens (9.0%)
-- Market Edge Scanner (2d855427-3201-46f7-af5b-b008a94192a3): 93,550/200,000 tokens (46.8%)
-- Ultra Minimal Heartbeat (0e76287d-d8c8-4914-90db-36d6771856d2): 17,436/200,000 tokens (8.7%)
+- Market Edge Scanner (2d[REDACTED_CLIENT_ID]-3201-46f7-af5b-b008a[REDACTED_CLIENT_ID]a3): 93,550/200,000 tokens (46.8%)
+- Ultra Minimal Heartbeat (0e[REDACTED_CLIENT_ID]d-d8c8-4914-90db-36d[REDACTED_CLIENT_ID]d2): 17,436/200,000 tokens (8.7%)
 - Enhanced Session Monitor (current): 0/200,000 tokens (0%)
 
 ### Actions Taken
-1. ✅ Sent urgent WhatsApp alert to Kelly (+13018302401)
+1. ✅ Sent urgent WhatsApp alert to Kelly (+[REDACTED_CLIENT_ID]401)
 2. ✅ Sent detailed analysis with recommendations 
 3. ✅ Confirmed these are orphaned sessions (no active cron jobs match)
 4. ✅ Enhanced monitoring job now running every 15 minutes to prevent recurrence

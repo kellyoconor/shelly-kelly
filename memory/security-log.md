@@ -16,7 +16,7 @@
 
 **Disk Usage:** ✅ Healthy - 48-49% usage on main filesystems
 
-**WhatsApp Security:** ✅ Allowlist properly restricted to +13018302401 only
+**WhatsApp Security:** ✅ Allowlist properly restricted to +[REDACTED_CLIENT_ID]401 only
 
 **Overall Status:** 🔒 SECURE - No action required
 
@@ -46,7 +46,7 @@
 
 **Exposed Items:**
 - OpenAI API key: sk-proj-d6rzZ7N... → [REDACTED-OPENAI-API-KEY]
-- Strava Client Secret: 0123456789abcdef... → [REDACTED-STRAVA-CLIENT-SECRET]
+- Strava Client Secret: [REDACTED_CLIENT_ID]89abcdef... → [REDACTED-STRAVA-CLIENT-SECRET]
 
 **Root Cause:** Railway deployment overwrote redacted openclaw.json with full config
 
@@ -69,4 +69,4 @@
 
 ## Previous Security Reviews
 
-*[Previous entries would continue below...]*
+*[Previous entries would continue below...]*\n2026-03-18T17:45:18.953120: Auto-redacted 712 exposed credentials from files\n

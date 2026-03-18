@@ -10,7 +10,7 @@ from datetime import datetime, timedelta
 import subprocess
 import sys
 
-KELLY_NUMBER = "+13018302401"
+KELLY_NUMBER = "+[REDACTED_CLIENT_ID]401"
 KELLY_STATE_FILE = "/data/workspace/kelly-state.md"
 KELLY_STATE_UPDATE_SCRIPT = "/data/workspace/scripts/update-kelly-state.py"
 

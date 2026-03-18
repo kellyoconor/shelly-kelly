@@ -10,7 +10,7 @@
 - Kelly cannot continue chatting until session restart/compaction
 - Heartbeat checks automatically disabled due to context overflow
 
-**Alert sent:** ✅ WhatsApp message to +13018302401 with restart instructions
+**Alert sent:** ✅ WhatsApp message to +[REDACTED_CLIENT_ID]401 with restart instructions
 
 **System Resources:** All normal
 - Disk: 51% usage (1.5T used / 2.9T total)

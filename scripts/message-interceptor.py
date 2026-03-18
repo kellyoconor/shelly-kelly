@@ -11,7 +11,7 @@ import json
 import time
 from datetime import datetime
 
-KELLY_NUMBER = "+13018302401"
+KELLY_NUMBER = "+[REDACTED_CLIENT_ID]401"
 KELLY_STATE_UPDATE_SCRIPT = "/data/workspace/scripts/update-kelly-state.py"
 
 def is_message_to_kelly(args):

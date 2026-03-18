@@ -8,7 +8,7 @@ import subprocess
 import sys
 import json
 
-def send_kelly_aware_message(message, target="+13018302401", channel="whatsapp", accountId="custom-1"):
+def send_kelly_aware_message(message, target="+[REDACTED_CLIENT_ID]401", channel="whatsapp", accountId="custom-1"):
     """Send message to Kelly with automatic state update first"""
     
     print("🔄 Updating Kelly State before message...")
@@ -50,7 +50,7 @@ def main():
         return 1
     
     message = sys.argv[1]
-    target = sys.argv[2] if len(sys.argv) > 2 else "+13018302401"
+    target = sys.argv[2] if len(sys.argv) > 2 else "+[REDACTED_CLIENT_ID]401"
     channel = sys.argv[3] if len(sys.argv) > 3 else "whatsapp" 
     accountId = sys.argv[4] if len(sys.argv) > 4 else "custom-1"
     

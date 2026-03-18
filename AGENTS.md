@@ -191,8 +191,8 @@ You are free to edit `HEARTBEAT.md` with a short checklist or reminders. Keep it
 ```json
 {
   "lastChecks": {
-    "email": 1703275200,
-    "calendar": 1703260800,
+    "email": [REDACTED_CLIENT_ID]00,
+    "calendar": [REDACTED_CLIENT_ID]00,
     "weather": null
   }
 }

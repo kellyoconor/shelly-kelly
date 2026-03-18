@@ -2,7 +2,7 @@
 
 ## 🚨 PROACTIVE MESSAGING TO KELLY - MANDATORY PIPELINE
 
-**BEFORE any proactive message to Kelly (+13018302401), I MUST:**
+**BEFORE any proactive message to Kelly (+[REDACTED_CLIENT_ID]401), I MUST:**
 
 ### 1. UPDATE KELLY STATE (NO EXCEPTIONS)
 ```python

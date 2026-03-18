@@ -9,7 +9,7 @@ import sys
 import os
 from datetime import datetime
 
-KELLY_NUMBER = "+13018302401"
+KELLY_NUMBER = "+[REDACTED_CLIENT_ID]401"
 KELLY_STATE_FILE = "/data/workspace/kelly-state.md"
 KELLY_STATE_ENFORCER = "/data/workspace/scripts/kelly-state-enforcer.py"
 

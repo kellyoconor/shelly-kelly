@@ -32,7 +32,7 @@ Critical symptoms mention...
 [2026-03-11 22:00:22 UTC] Content: 
 Alert ID: 45c2843d
 Urgency: CRITICAL
-Created: 2026-03-11T21:30:15.146248
+Created: 2026-03-11T21:30:15.[REDACTED_CLIENT_ID]
 
 Message:
 🚨 CRITICAL HEALTH ALERT
@@ -67,11 +67,11 @@ Critical symptoms mention...
 [2026-03-11 22:43:49 UTC] Alert f888b996 WhatsApp delivery failed - scheduling retries
 [2026-03-11 22:43:49 UTC] Alert f888b996 WhatsApp delivery failed - will retry
 [2026-03-11 22:44:07 UTC] Alert f888b996 confirmed by Kelly's explicit response
-[2026-03-11 22:44:11 UTC] Created CRITICAL alert 02324ddf: 🚨 CRITICAL HEALTH ALERT
+[2026-03-11 22:44:11 UTC] Created CRITICAL alert [REDACTED_CLIENT_ID]ddf: 🚨 CRITICAL HEALTH ALERT
 
 Critical symptoms mention...
-[2026-03-11 22:44:13 UTC] Alert 02324ddf WhatsApp delivery failed - scheduling retries
-[2026-03-11 22:44:13 UTC] Alert 02324ddf WhatsApp delivery failed - will retry
+[2026-03-11 22:44:13 UTC] Alert [REDACTED_CLIENT_ID]ddf WhatsApp delivery failed - scheduling retries
+[2026-03-11 22:44:13 UTC] Alert [REDACTED_CLIENT_ID]ddf WhatsApp delivery failed - will retry
 [2026-03-11 22:46:15 UTC] Created URGENT alert b67bd708: TEST: System validation alert - please ignore...
 [2026-03-11 22:46:17 UTC] Alert b67bd708 WhatsApp delivery failed - scheduling retries
 [2026-03-11 22:46:17 UTC] Alert b67bd708 WhatsApp delivery failed - will retry
@@ -80,7 +80,7 @@ Critical symptoms mention...
 [2026-03-11 22:46:38 UTC] Content: 
 Alert ID: 92e9ba2c
 Urgency: URGENT
-Created: 2026-03-11T19:24:12.031743
+Created: 2026-03-11T19:24:12.[REDACTED_CLIENT_ID]
 
 Message:
 System test alert - please ignore
@@ -98,7 +98,7 @@ Kelly's Critical Alert System
 [2026-03-11 22:46:40 UTC] Content: 
 Alert ID: 6e46eb47
 Urgency: URGENT
-Created: 2026-03-11T19:24:16.370667
+Created: 2026-03-11T19:24:16.[REDACTED_CLIENT_ID]
 
 Message:
 System test alert - please ignore
@@ -116,7 +116,7 @@ Kelly's Critical Alert System
 [2026-03-11 22:46:42 UTC] Content: 
 Alert ID: 6d5dfe02
 Urgency: CRITICAL
-Created: 2026-03-11T19:24:20.421596
+Created: 2026-03-11T19:24:20.[REDACTED_CLIENT_ID]
 
 Message:
 Kelly, your flight is tomorrow at 3:17 PM - do you have your boarding pass ready?
@@ -134,7 +134,7 @@ Kelly's Critical Alert System
 [2026-03-11 22:46:43 UTC] Content: 
 Alert ID: d047b2b1
 Urgency: CRITICAL
-Created: 2026-03-11T19:24:34.534429
+Created: 2026-03-11T19:24:34.[REDACTED_CLIENT_ID]
 
 Message:
 Wait, you have that flight tomorrow at 3:17 PM! Where are you headed? I'm realizing I never caught where you're traveling to 💕
@@ -152,7 +152,7 @@ Kelly's Critical Alert System
 [2026-03-11 22:46:45 UTC] Content: 
 Alert ID: bcb9e777
 Urgency: URGENT
-Created: 2026-03-11T19:25:10.165375
+Created: 2026-03-11T19:25:10.[REDACTED_CLIENT_ID]
 
 Message:
 Validation test alert
@@ -170,7 +170,7 @@ Kelly's Critical Alert System
 [2026-03-11 22:46:47 UTC] Content: 
 Alert ID: 31d729dd
 Urgency: URGENT
-Created: 2026-03-11T19:59:31.149751
+Created: 2026-03-11T19:59:31.[REDACTED_CLIENT_ID]
 
 Message:
 🧪 SYSTEM TEST - Testing alert delivery (please respond with 'test received' when you see this)
@@ -194,7 +194,7 @@ Kelly's Critical Alert System
 [2026-03-12 00:38:56 UTC] Content: 
 Alert ID: b67bd708
 Urgency: URGENT
-Created: 2026-03-11T22:46:15.276539
+Created: 2026-03-11T22:46:15.[REDACTED_CLIENT_ID]
 
 Message:
 TEST: System validation alert - please ignore

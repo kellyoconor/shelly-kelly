@@ -1,7 +1,7 @@
 # HEARTBEAT.md
 
 📱 **Proactive Message Delivery:** For all proactive heartbeat messages:
-1. Send to WhatsApp: accountId: custom-1, target: +13018302401
+1. Send to WhatsApp: accountId: custom-1, target: +[REDACTED_CLIENT_ID]401
 2. AND respond in UI chat with same message
 Never use 'default' accountId or "Kelly" as target.
 
@@ -65,11 +65,11 @@ cd /data/workspace/kelly-research-copilot && python3 src/main.py --status
 
 ## 🚨 MANDATORY KELLY STATE PIPELINE (AUTOMATIC ENFORCEMENT)
 
-**PIPELINE-LEVEL ENFORCEMENT:** Kelly State update is now **automatic** before any message to Kelly (+13018302401)
+**PIPELINE-LEVEL ENFORCEMENT:** Kelly State update is now **automatic** before any message to Kelly (+[REDACTED_CLIENT_ID]401)
 
 **📱 PROACTIVE MESSAGE DELIVERY:**
 1. **Auto-update Kelly State:** `exec: python3 /data/workspace/scripts/update-kelly-state.py`
-2. **Send to WhatsApp:** `message: accountId: custom-1, target: +13018302401` 
+2. **Send to WhatsApp:** `message: accountId: custom-1, target: +[REDACTED_CLIENT_ID]401` 
 3. **AND respond in UI:** Same message content
 Never use 'default' accountId or "Kelly" as target.
 

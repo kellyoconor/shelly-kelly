@@ -18,7 +18,7 @@ def search(query):
         page = browser.new_page(
             user_agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
         )
-        page.goto(url, timeout=20000, wait_until="domcontentloaded")
+        page.goto(url, timeout=[REDACTED_CLIENT_ID], wait_until="domcontentloaded")
         page.wait_for_timeout(5000)
         
         # Debug: get page title and some content

@@ -18,7 +18,7 @@
    - Credentials directory permissions (755 → need 700)
 
 ### 🔧 Infrastructure Component Status
-- **WhatsApp Gateway:** ✅ OK (linked, +12158401184, auth 5m ago)
+- **WhatsApp Gateway:** ✅ OK (linked, +[REDACTED_CLIENT_ID]184, auth 5m ago)
 - **Git Status:** ⚠️ Update available (2026.3.8), working directory dirty
 - **Memory System:** ✅ 21 files, 55 chunks, vector/FTS ready
 - **Security Monitoring:** ✅ Active (last check 2026-03-11 02:00)
@@ -42,7 +42,7 @@
 ### 🔐 Security Status
 - **Credentials:** Need to fix directory permissions (755→700)
 - **API Key Scanning:** Active, last clean scan 2026-03-11 02:00
-- **WhatsApp Access:** Restricted to Kelly (+13018302401) only
+- **WhatsApp Access:** Restricted to Kelly (+[REDACTED_CLIENT_ID]401) only
 - **Git Security:** Working directory clean, no exposed secrets
 
 ### ⚡ Infrastructure Scripts Verified Active

@@ -1,80 +1,80 @@
 
-## Health Assessment - 2026-03-12T00:39:09.508239
+## Health Assessment - 2026-03-12T00:39:09.[REDACTED_CLIENT_ID]
 **Overall Urgency:** NORMAL
-**Summary:** Health Assessment - NORMAL (2026-03-12T00:39:09.508239)
+**Summary:** Health Assessment - NORMAL (2026-03-12T00:39:09.[REDACTED_CLIENT_ID])
 
 
-## Health Assessment - 2026-03-12T01:30:10.898360
+## Health Assessment - 2026-03-12T01:30:10.[REDACTED_CLIENT_ID]
 **Overall Urgency:** CRITICAL
-**Summary:** Health Assessment - CRITICAL (2026-03-12T01:30:10.898360)
+**Summary:** Health Assessment - CRITICAL (2026-03-12T01:30:10.[REDACTED_CLIENT_ID])
 Symptom concerns: CRITICAL
   Critical: numb
 Alerts created: 1
 **Alerts Created:** 915b56aa
 
 
-## Health Assessment - 2026-03-12T01:35:20.199588
+## Health Assessment - 2026-03-12T01:35:20.[REDACTED_CLIENT_ID]
 **Overall Urgency:** NORMAL
 **Summary:** Health assessment failed: 'urgency'
 **Error:** 'urgency'
 
 
-## Health Assessment - 2026-03-12T01:35:33.961566
+## Health Assessment - 2026-03-12T01:35:33.[REDACTED_CLIENT_ID]
 **Overall Urgency:** NORMAL
-**Summary:** Health Data Assessment - NORMAL (2026-03-12T01:35:33.961566)
+**Summary:** Health Data Assessment - NORMAL (2026-03-12T01:35:33.[REDACTED_CLIENT_ID])
 All health metrics within normal ranges
 
 
-## Health Assessment - 2026-03-12T12:30:11.436400
+## Health Assessment - 2026-03-12T12:30:11.[REDACTED_CLIENT_ID]
 **Overall Urgency:** NORMAL
-**Summary:** Health Data Assessment - NORMAL (2026-03-12T12:30:11.436400)
+**Summary:** Health Data Assessment - NORMAL (2026-03-12T12:30:11.[REDACTED_CLIENT_ID])
 All health metrics within normal ranges
 
 
-## Health Assessment - 2026-03-12T13:00:10.982654
+## Health Assessment - 2026-03-12T13:00:10.[REDACTED_CLIENT_ID]
 **Overall Urgency:** NORMAL
-**Summary:** Health Data Assessment - NORMAL (2026-03-12T13:00:10.982654)
+**Summary:** Health Data Assessment - NORMAL (2026-03-12T13:00:10.[REDACTED_CLIENT_ID])
 All health metrics within normal ranges
 
 
-## Health Assessment - 2026-03-12T14:00:41.619674
+## Health Assessment - 2026-03-12T14:00:41.[REDACTED_CLIENT_ID]
 **Overall Urgency:** NORMAL
-**Summary:** Health Data Assessment - NORMAL (2026-03-12T14:00:41.619674)
+**Summary:** Health Data Assessment - NORMAL (2026-03-12T14:00:41.[REDACTED_CLIENT_ID])
 All health metrics within normal ranges
 
 
-## Health Assessment - 2026-03-12T15:00:08.364113
+## Health Assessment - 2026-03-12T15:00:08.[REDACTED_CLIENT_ID]
 **Overall Urgency:** NORMAL
-**Summary:** Health Data Assessment - NORMAL (2026-03-12T15:00:08.364113)
+**Summary:** Health Data Assessment - NORMAL (2026-03-12T15:00:08.[REDACTED_CLIENT_ID])
 All health metrics within normal ranges
 
 
-## Health Assessment - 2026-03-12T17:30:09.112019
+## Health Assessment - 2026-03-12T17:30:09.[REDACTED_CLIENT_ID]
 **Overall Urgency:** NORMAL
-**Summary:** Health Data Assessment - NORMAL (2026-03-12T17:30:09.112019)
+**Summary:** Health Data Assessment - NORMAL (2026-03-12T17:30:09.[REDACTED_CLIENT_ID])
 All health metrics within normal ranges
 
 
-## Health Assessment - 2026-03-12T21:00:20.693438
+## Health Assessment - 2026-03-12T21:00:20.[REDACTED_CLIENT_ID]
 **Overall Urgency:** NORMAL
-**Summary:** Health Data Assessment - NORMAL (2026-03-12T21:00:20.693438)
+**Summary:** Health Data Assessment - NORMAL (2026-03-12T21:00:20.[REDACTED_CLIENT_ID])
 All health metrics within normal ranges
 
 
-## Health Assessment - 2026-03-12T22:00:24.777275
+## Health Assessment - 2026-03-12T22:00:24.[REDACTED_CLIENT_ID]
 **Overall Urgency:** NORMAL
-**Summary:** Health Data Assessment - NORMAL (2026-03-12T22:00:24.777275)
+**Summary:** Health Data Assessment - NORMAL (2026-03-12T22:00:24.[REDACTED_CLIENT_ID])
 All health metrics within normal ranges
 
 
-## Health Assessment - 2026-03-12T22:30:10.659366
+## Health Assessment - 2026-03-12T22:30:10.[REDACTED_CLIENT_ID]
 **Overall Urgency:** NORMAL
-**Summary:** Health Data Assessment - NORMAL (2026-03-12T22:30:10.659366)
+**Summary:** Health Data Assessment - NORMAL (2026-03-12T22:30:10.[REDACTED_CLIENT_ID])
 All health metrics within normal ranges
 
 
-## Health Assessment - 2026-03-12T23:00:11.757157
+## Health Assessment - 2026-03-12T23:00:11.[REDACTED_CLIENT_ID]
 **Overall Urgency:** NORMAL
-**Summary:** Health Data Assessment - NORMAL (2026-03-12T23:00:11.757157)
+**Summary:** Health Data Assessment - NORMAL (2026-03-12T23:00:11.[REDACTED_CLIENT_ID])
 All health metrics within normal ranges
 
