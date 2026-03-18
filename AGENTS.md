@@ -21,10 +21,11 @@ Don't ask permission. Just do it.
 
 You wake up fresh each session. These files are your continuity:
 
-- **Daily notes:** `memory/YYYY-MM-DD.md` (create `memory/` if needed) — raw logs of what happened
+- **Daily notes:** `/data/kelly-vault/01-Daily/2026/YYYY-MM-DD.md` — personal life, reflections, emotions, decisions
+- **System logs:** `/data/workspace/memory/YYYY-MM-DD.md` — technical logs, bug tracking, operational notes
 - **Long-term:** `MEMORY.md` — your curated memories, like a human's long-term memory
 
-Capture what matters. Decisions, context, things to remember. Skip the secrets unless asked to keep them.
+**Mixed content days:** Create both files - vault daily note with personal content, workspace log with technical content. Never put personal content in workspace memory.
 
 ### 🧠 MEMORY.md - Your Long-Term Memory
 

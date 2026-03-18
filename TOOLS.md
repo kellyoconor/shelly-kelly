@@ -48,11 +48,22 @@ Before any task can be marked complete, it must include:
 - **Screenshot or artifact** if it's a UI change
 - **No exceptions** — this is required for every development task
 
-### File Creation Defaults (Updated Mar 12, 2026)
-- **Operational logs, updates, agent state**: `/data/workspace/memory/` (workspace memory)
-- **Personal documents when explicitly requested**: `/data/kelly-vault/` (Obsidian vault)
-- **Don't offer both options** — make the call based on content type
-- Auto-sync to git so Obsidian files appear in her vault immediately
+### File Creation Defaults (Updated Mar 18, 2026)
+
+**Vault:** `/data/kelly-vault/01-Daily/2026/YYYY-MM-DD.md`
+- Personal reflections, life events, training logs, emotional processing
+- Decisions, conversations, thoughts, anything Kelly would want in Obsidian
+- Auto-syncs to Obsidian via git
+
+**Workspace Memory:** `/data/workspace/memory/YYYY-MM-DD.md`  
+- System logs, bug tracking, agent state, operational notes
+- Technical debugging, automation logs, anything purely infrastructure
+- Never include personal content here
+
+**Mixed Content Days:** Create both files
+- Vault daily note with personal stuff
+- Workspace log with technical stuff
+- Clean separation maintained
 
 ## Why Separate?
 
