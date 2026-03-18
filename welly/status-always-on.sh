@@ -2,8 +2,8 @@
 # Check Welly Always-On Service Status (File-based for Docker/container environment)
 
 WELLY_DIR="/data/workspace/welly"
-PID_FILE="$WELLY_DIR/welly-monitor.pid"
-LOG_FILE="/data/workspace/memory/welly-monitor.log"
+PID_FILE="$WELLY_DIR/welly-daemon.pid"
+LOG_FILE="/data/workspace/memory/welly-daemon.log"
 
 cd "$WELLY_DIR"
 

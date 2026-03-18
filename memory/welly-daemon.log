@@ -92,3 +92,7 @@ Welly daemon started (PID: 5062)
 💙 Welly Monitor stopped gracefully
 2026-03-18 17:39:36,938 - INFO - Welly daemon started (PID: 5459)
 2026-03-18 17:39:36,955 - INFO - Welly Monitor starting - always-on pattern detection
+2026-03-18 23:24:56,884 - INFO - Welly daemon started (PID: 4495)
+2026-03-18 23:24:56,904 - INFO - Welly Monitor starting - always-on pattern detection
+2026-03-18 23:24:56,905 - INFO - Polling Oura for new data...
+2026-03-18 23:24:57,682 - INFO - Polling Strava for new activities...

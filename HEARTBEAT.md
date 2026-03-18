@@ -45,7 +45,7 @@ cd /data/workspace/welly && ./status-always-on.sh | grep -q "✅ Running"
 ## 📧 AGENTMAIL CHECK (rotate every 2-3 heartbeats)
 **Check for important emails:**
 ```python
-python3 /data/workspace/skills/agentmail/scripts/agentmail.py threads --limit 5
+python3 /data/workspace/skills/agentmail/scripts/agentmail_cli.py threads --limit 5
 ```
 - Check for unread emails in last 2-3 hours
 - Flag urgent/important senders or subjects

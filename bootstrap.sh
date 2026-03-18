@@ -24,6 +24,12 @@ chmod +x netty.py setup-netty-cron.sh
 ./setup-netty-cron.sh > /dev/null 2>&1
 echo "[bootstrap] Netty scheduled (8:30 AM full, 12:30/4:30/8:30 PM light scans)"
 
+# ── Welly always-on monitoring ───────────────────────────
+echo "[bootstrap] Starting Welly always-on monitoring..."
+cd /data/workspace/welly
+python3 welly-daemon.py start > /dev/null 2>&1 || echo "[bootstrap] Welly start failed (may already be running)"
+echo "[bootstrap] Welly pattern detection active"
+
 # ── Config checks ────────────────────────────────────────────
 CONFIG="${OPENCLAW_STATE_DIR:-/data/.clawdbot}/openclaw.json"
 
