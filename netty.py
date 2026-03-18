@@ -112,13 +112,14 @@ class NettySubagent:
                 print(f"Warning: Could not load preferences: {e}")
 
     def scan_memory_files(self, days_back=7) -> List[Gap]:
-        """Enhanced memory file scanning with emotional context"""
+        """Enhanced memory file scanning with emotional context - scans both vault and workspace"""
         gaps = []
         
-        # Get recent memory files
+        # Get recent memory files from both locations
         cutoff_date = self.today - datetime.timedelta(days=days_back)
         memory_files = []
         
+        # Scan workspace memory (technical logs)
         for file in self.memory_dir.glob("2026-*.md"):
             try:
                 date_str = file.stem
@@ -127,6 +128,18 @@ class NettySubagent:
                     memory_files.append((file, file_date))
             except ValueError:
                 continue
+                
+        # Scan kelly-vault daily notes (personal content)
+        vault_daily_dir = self.kelly_vault / "01-Daily" / "2026"
+        if vault_daily_dir.exists():
+            for file in vault_daily_dir.glob("2026-*.md"):
+                try:
+                    date_str = file.stem
+                    file_date = datetime.datetime.strptime(date_str, "%Y-%m-%d").date()
+                    if file_date >= cutoff_date:
+                        memory_files.append((file, file_date))
+                except ValueError:
+                    continue
         
         # Sort by date (newest first)
         memory_files.sort(key=lambda x: x[1], reverse=True)
