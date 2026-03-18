@@ -40,6 +40,54 @@ else
     echo "[bootstrap] Heartbeat already configured"
 fi
 
+# ── Critical cron jobs (survive redeploys) ──────────────────
+echo "[bootstrap] Ensuring critical cron jobs exist..."
+
+# Morning briefings
+if ! openclaw cron list | grep -q "Kelly's morning briefing"; then
+    openclaw cron add --name "Kelly's morning briefing" --cron "30 6 * * *" --session isolated --message "Generate Kelly's morning briefing with weather, health, calendar, and mirror question. Send via WhatsApp." --timeout-seconds 120 > /dev/null 2>&1
+    echo "[bootstrap] Morning briefing restored"
+fi
+
+if ! openclaw cron list | grep -q "Emergency Morning Briefing"; then
+    openclaw cron add --name "Emergency Morning Briefing" --cron "0 7 * * *" --session isolated --message "Emergency backup briefing if main 6:30 AM briefing failed. Check and send via WhatsApp." --timeout-seconds 60 > /dev/null 2>&1
+    echo "[bootstrap] Emergency briefing restored"
+fi
+
+# Daily automation
+if ! openclaw cron list | grep -q "End-of-Day Summary"; then
+    openclaw cron add --name "End-of-Day Summary" --cron "0 23 * * *" --session isolated --message "Create end-of-day summary and write to vault daily note." --timeout-seconds 60 > /dev/null 2>&1
+    echo "[bootstrap] End-of-day summary restored"
+fi
+
+if ! openclaw cron list | grep -q "Daily Note Creation"; then
+    openclaw cron add --name "Daily Note Creation" --cron "0 0 * * *" --session isolated --message "Create tomorrow's daily note template in vault." --timeout-seconds 30 > /dev/null 2>&1
+    echo "[bootstrap] Daily note creation restored"
+fi
+
+# Security & cleanup
+if ! openclaw cron list | grep -q "Nightly Security Review"; then
+    openclaw cron add --name "Nightly Security Review" --cron "0 2 * * *" --session isolated --message "Run nightly security review and log results." --timeout-seconds 60 > /dev/null 2>&1
+    echo "[bootstrap] Security review restored"
+fi
+
+if ! openclaw cron list | grep -q "Proper Session Cleanup"; then
+    openclaw cron add --name "Proper Session Cleanup" --cron "0 3 * * *" --session isolated --message "Clean up orphaned session files and maintain system health." --timeout-seconds 60 > /dev/null 2>&1
+    echo "[bootstrap] Session cleanup restored"
+fi
+
+if ! openclaw cron list | grep -q "Auto Git Push"; then
+    openclaw cron add --name "Auto Git Push" --cron "30 3 * * *" --session isolated --message "Auto-commit and push workspace changes." --timeout-seconds 30 > /dev/null 2>&1
+    echo "[bootstrap] Auto git push restored"
+fi
+
+if ! openclaw cron list | grep -q "WhatsApp Health Check"; then
+    openclaw cron add --name "WhatsApp Health Check" --cron "25 6 * * *" --session isolated --message "Check WhatsApp connectivity before morning briefing." --timeout-seconds 30 > /dev/null 2>&1
+    echo "[bootstrap] WhatsApp health check restored"
+fi
+
+echo "[bootstrap] Critical automation protected"
+
 # ── Config checks ────────────────────────────────────────────
 CONFIG="${OPENCLAW_STATE_DIR:-/data/.clawdbot}/openclaw.json"
 
