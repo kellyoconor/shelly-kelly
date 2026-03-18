@@ -17,6 +17,13 @@ pip3 install --break-system-packages -q \
   requests python-dotenv faster-whisper websocket-client Pillow agentmail==0.2.22 2>/dev/null
 echo "[bootstrap] Python packages installed"
 
+# ── Netty gap detector automation ────────────────────────────
+echo "[bootstrap] Setting up Netty gap detector..."
+cd /data/workspace
+chmod +x netty.py setup-netty-cron.sh
+./setup-netty-cron.sh > /dev/null 2>&1
+echo "[bootstrap] Netty scheduled (8:30 AM full, 12:30/4:30/8:30 PM light scans)"
+
 # ── Config checks ────────────────────────────────────────────
 CONFIG="${OPENCLAW_STATE_DIR:-/data/.clawdbot}/openclaw.json"
 
