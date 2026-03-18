@@ -123,29 +123,28 @@ def auto_trim_memory():
     archived_refs = []
     kept_sections = {}
     
-    # Always keep core sections
+    # Core sections (protect when file isn't critical, but can be archived if file is too large)
     core_sections = ['Kelly', 'Me (Shelly 🐚)', 'Core Principles', 'Morning Mantras']
     
     for section_name, section_content in sections.items():
         section_size = len(section_content)
+        is_core = any(core in section_name for core in core_sections)
         
-        # Keep core sections always
-        if any(core in section_name for core in core_sections):
-            kept_sections[section_name] = section_content
-            print(f"✅ Keeping core section: {section_name} ({section_size} chars)")
-            continue
-        
-        # Archive large sections or old lessons
+        # Determine if section should be archived
         should_archive = False
         reason = ""
         
-        if section_size > 1000:
+        # Archive very large sections (even core ones if critical)
+        if section_size > 2000 and original_size > 4000:
+            should_archive = True
+            reason = f"critical size + large section ({section_size} chars)"
+        elif section_size > 1000 and not is_core:
             should_archive = True
             reason = f"large section ({section_size} chars)"
         elif "lesson" in section_name.lower() and original_size > 4000:
             should_archive = True  
             reason = "critical size + lessons"
-        elif original_size > 4000 and section_name not in ['Current Context', 'Critical Automation']:
+        elif original_size > 4000 and not is_core and section_name not in ['Current Context', 'Critical Automation']:
             should_archive = True
             reason = "critical size"
         
@@ -155,7 +154,8 @@ def auto_trim_memory():
             print(f"🗄️  Archived: {section_name} → {reason}")
         else:
             kept_sections[section_name] = section_content
-            print(f"✅ Keeping: {section_name} ({section_size} chars)")
+            core_label = " (core)" if is_core else ""
+            print(f"✅ Keeping: {section_name}{core_label} ({section_size} chars)")
     
     # Rebuild trimmed MEMORY.md
     new_content_parts = []
