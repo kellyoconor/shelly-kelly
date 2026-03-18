@@ -14,7 +14,7 @@ echo "[bootstrap] ffmpeg installed"
 # ── Python packages (wiped on redeploy) ──────────────────────
 echo "[bootstrap] Installing Python packages..."
 pip3 install --break-system-packages -q \
-  requests python-dotenv faster-whisper websocket-client Pillow 2>/dev/null
+  requests python-dotenv faster-whisper websocket-client Pillow agentmail==0.2.22 2>/dev/null
 echo "[bootstrap] Python packages installed"
 
 # ── Config checks ────────────────────────────────────────────

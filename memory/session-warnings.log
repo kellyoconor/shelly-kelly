@@ -1,4 +1,5 @@
-Warning: Total session files count is 25. Date: 2026-03-17 2:02 AM (America/New_York)
-2026-03-17T14:00:37+00:00 - Session count: 25 (warning threshold exceeded, 25 orphaned files detected)
-2026-03-18 02:00:27 - WARNING: 24 session files detected (24 orphaned, 0 active). Threshold >20 exceeded but <30 alert limit.
-2026-03-18 18:00:28 - ALERT: 45 session files detected (>30 threshold), all orphaned
+2026-03-18 18:00:00 - CRITICAL: 63 orphaned session files detected (well above 30 threshold)
+2026-03-18 18:00:00 - WARNING: Session count above 20 threshold (63 files)
+2026-03-18 18:00:00 - All sessions are orphaned files with no registry entries
+2026-03-18 18:00:00 - WhatsApp alert delivery failed - target format issue
+2026-03-18 18:00:00 - Potential space saved from cleanup: 1557 KB
