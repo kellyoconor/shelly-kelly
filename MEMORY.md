@@ -22,6 +22,12 @@
 ### Coffee Order
 - Venti iced coffee, 2 pumps hazelnut, 2 pumps vanilla, whole milk
 
+### File Organization Fix (Mar 18, 2026)
+- Caught putting IDEAS.md in workspace instead of vault
+- Kelly: "I can't catch you every time. What do we have to do to make it stick?"
+- Updated TOOLS.md with explicit "workspace is the exception" rule
+- Need to default to vault, not workspace
+
 
 ## Archived Sections
 

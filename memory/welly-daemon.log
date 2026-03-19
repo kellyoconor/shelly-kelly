@@ -96,3 +96,16 @@ Welly daemon started (PID: 5062)
 2026-03-18 23:24:56,904 - INFO - Welly Monitor starting - always-on pattern detection
 2026-03-18 23:24:56,905 - INFO - Polling Oura for new data...
 2026-03-18 23:24:57,682 - INFO - Polling Strava for new activities...
+2026-03-18 23:30:14,546 - INFO - Welly daemon started (PID: 4394)
+2026-03-18 23:30:14,555 - INFO - Welly Monitor starting - always-on pattern detection
+2026-03-18 23:41:46,309 - INFO - Welly daemon started (PID: 4393)
+2026-03-18 23:41:46,327 - INFO - Welly Monitor starting - always-on pattern detection
+2026-03-18 23:44:15,995 - INFO - Welly daemon started (PID: 4391)
+2026-03-18 23:44:16,004 - INFO - Welly Monitor starting - always-on pattern detection
+2026-03-19 00:01:24,511 - INFO - Welly daemon started (PID: 4371)
+2026-03-19 00:01:24,528 - INFO - Welly Monitor starting - always-on pattern detection
+2026-03-19 02:31:32,748 - INFO - Polling Strava for new activities...
+2026-03-19 05:31:42,666 - INFO - Polling Oura for new data...
+2026-03-19 05:31:44,342 - INFO - Ingested Oura readiness data for 2026-03-18
+2026-03-19 05:31:44,342 - INFO - Polling Strava for new activities...
+2026-03-19 05:31:44,377 - INFO - New data found: ['oura']

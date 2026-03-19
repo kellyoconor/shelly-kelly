@@ -50,6 +50,11 @@ Before any task can be marked complete, it must include:
 
 ### File Creation Defaults (Updated Mar 18, 2026)
 
+⚠️ **CRITICAL RULE: WORKSPACE IS THE EXCEPTION** ⚠️
+- Default to VAULT for almost everything
+- Only use workspace for: system logs, technical infrastructure, temporary files
+- When in doubt → vault daily note
+
 ## **VAULT ORGANIZATION RULES**
 
 ### **📅 01-Daily/** - **DEFAULT FOR MOST CONTENT**
