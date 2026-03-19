@@ -88,6 +88,40 @@ fi
 
 echo "[bootstrap] Critical automation protected"
 
+# ── Daily Note Health Check ─────────────────────────────────
+echo "[bootstrap] Verifying daily note system integration..."
+
+# Check if daily-note-append.py exists
+if [ ! -f "/data/workspace/scripts/daily-note-append.py" ]; then
+    echo "[bootstrap] ERROR: daily-note-append.py missing!"
+    exit 1
+fi
+
+# Verify morning briefing includes daily note append
+MORNING_BRIEFING_CHECK=$(openclaw cron list | jq -r '.jobs[] | select(.name == "Kelly'\''s morning briefing") | .payload.message // ""')
+if [[ ! "$MORNING_BRIEFING_CHECK" =~ "daily-note-append.py" ]]; then
+    echo "[bootstrap] FIXING: Morning briefing missing daily note integration"
+    openclaw cron update --name "Kelly's morning briefing" --patch '{"payload": {"message": "📱 Generate Kelly'\''s morning briefing and send via WhatsApp (accountId: custom-1):\n\n1. Check day, weather, calendar events\n2. Pull Oura data (sleep, readiness, HRV from last night)\n3. Generate Mirror question\n4. Personal check-in: Based on recent context\n5. Check packages/alerts\n6. Send concise 4-line WhatsApp update to +13018302401\n\n**THEN append to daily note:**\n7. python3 /data/workspace/scripts/daily-note-append.py \"Weather: [today'\''s weather]\" \"Weather\"\n8. python3 /data/workspace/scripts/daily-note-append.py \"Health: Sleep [score], Readiness [score], [key insight]\" \"Health\"\n\n**RETRY LOGIC:** If WhatsApp send fails, wait 5 minutes and retry up to 3 times."}}' > /dev/null 2>&1
+    echo "[bootstrap] Morning briefing daily note integration restored"
+fi
+
+# Verify end-of-day includes synthesis not overwrite
+EOD_CHECK=$(openclaw cron list | jq -r '.jobs[] | select(.name == "End-of-Day Summary") | .payload.message // ""')
+if [[ ! "$EOD_CHECK" =~ "synthesize" ]] || [[ "$EOD_CHECK" =~ "overwrite" ]]; then
+    echo "[bootstrap] FIXING: End-of-day missing synthesis mode"
+    openclaw cron update --name "End-of-Day Summary" --patch '{"payload": {"message": "📝 End-of-day daily note synthesis:\n\n1. **Read current daily note**: /data/kelly-vault/01-Daily/2026/YYYY-MM-DD.md\n2. **Check for existing content**: Weather, Health, Events, Thoughts sections\n3. **Gather missing data**: Pull any missing weather, Oura, Strava, calendar data\n4. **Scan conversations**: Review today'\''s session transcripts for key decisions, topics, mood\n5. **SYNTHESIZE, don'\''t overwrite**: Enhance existing appended content with narrative flow\n6. **Add to Thoughts section**: Emotional insights, energy patterns, decision themes\n7. **Add to Events section**: Any major events not already captured\n\n**Goal**: Transform real-time appends into a cohesive story Kelly would want to read later. Preserve all existing content, just make it flow better and fill gaps."}}' > /dev/null 2>&1
+    echo "[bootstrap] End-of-day synthesis mode restored"
+fi
+
+# Verify HEARTBEAT.md includes daily note real-time updates
+if [ ! -f "/data/workspace/HEARTBEAT.md" ] || ! grep -q "daily-note-append.py" /data/workspace/HEARTBEAT.md; then
+    echo "[bootstrap] FIXING: HEARTBEAT.md missing daily note integration"
+    # This would be fixed by the HEARTBEAT.md updates we already made
+    echo "[bootstrap] HEARTBEAT.md daily note integration should be updated via git"
+fi
+
+echo "[bootstrap] Daily note health check complete"
+
 # ── Config checks ────────────────────────────────────────────
 CONFIG="${OPENCLAW_STATE_DIR:-/data/.clawdbot}/openclaw.json"
 
