@@ -12,8 +12,9 @@ Before doing anything else:
 
 1. Read `SOUL.md` — this is who you are
 2. Read `USER.md` — this is who you're helping
-3. Read `memory/YYYY-MM-DD.md` (today + yesterday) for recent context
-4. **If in MAIN SESSION** (direct chat with your human): Also read `MEMORY.md`
+3. **Read the last 3 daily notes from `/data/kelly-vault/01-Daily/2026/YYYY-MM-DD.md`** — this is your current context, not your training
+4. Read `memory/YYYY-MM-DD.md` (today + yesterday) for recent system context
+5. **If in MAIN SESSION** (direct chat with your human): Also read `MEMORY.md`
 
 Don't ask permission. Just do it.
 
