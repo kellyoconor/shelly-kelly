@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """
 AgentMail client for Shelly's inbox (shelly@agentmail.to)
+Updated for AgentMail's current message-based API (no more threads)
 """
 
 import json
@@ -8,6 +9,7 @@ import os
 import sys
 from typing import Dict, List, Optional
 from agentmail import AgentMail
+from collections import defaultdict
 
 def load_credentials() -> Dict:
     """Load AgentMail credentials from OpenClaw config."""
@@ -23,81 +25,117 @@ def get_client():
     creds = load_credentials()
     return AgentMail(api_key=creds["api_key"])
 
-def list_threads(limit: int = 20) -> Dict:
-    """List recent email threads in Shelly's inbox."""
+def list_messages(limit: int = 20) -> Dict:
+    """List recent messages in Shelly's inbox, grouped by subject for thread-like view."""
     client = get_client()
     creds = load_credentials()
     
     try:
-        response = client.inboxes.threads.list(
+        response = client.inboxes.messages.list(
             inbox_id=creds["inbox"],
             limit=limit
         )
         
-        # Convert thread objects to dictionaries for JSON serialization
+        # Group messages by subject to simulate thread behavior
+        threads_map = defaultdict(list)
+        for message in response.messages:
+            subject = message.subject or "No Subject"
+            threads_map[subject].append(message)
+        
+        # Convert to thread-like structure
         threads_data = []
-        for thread in response.threads:
+        for subject, messages in threads_map.items():
+            # Use the most recent message as the representative
+            latest_msg = max(messages, key=lambda m: m.created_at)
+            
             threads_data.append({
-                "thread_id": thread.thread_id,
-                "subject": thread.subject,
-                "senders": thread.senders,
-                "recipients": thread.recipients,
-                "preview": thread.preview[:200] + "..." if len(thread.preview) > 200 else thread.preview,
-                "message_count": thread.message_count,
-                "labels": thread.labels,
-                "timestamp": thread.timestamp.isoformat(),
-                "updated_at": thread.updated_at.isoformat()
+                "thread_id": f"subject-{hash(subject)}", # Fake thread ID for compatibility
+                "subject": subject,
+                "senders": list(set([msg.from_ for msg in messages])),
+                "recipients": list(set([creds.get("email", "shelly@agentmail.to")])), 
+                "preview": (getattr(latest_msg, 'preview', '') or "")[:200],
+                "message_count": len(messages),
+                "labels": latest_msg.labels if hasattr(latest_msg, 'labels') else [],
+                "timestamp": latest_msg.timestamp.isoformat(),
+                "updated_at": latest_msg.updated_at.isoformat()
             })
             
+        # Sort by timestamp, most recent first
+        threads_data.sort(key=lambda x: x['timestamp'], reverse=True)
+        
         return {
-            "count": response.count,
-            "limit": response.limit,
+            "count": len(threads_data),
+            "limit": limit,
             "threads": threads_data
         }
     except Exception as e:
         return {"error": str(e)}
 
-def get_thread(thread_id: str) -> Dict:
-    """Get details for a specific thread."""
+def get_message(message_id: str) -> Dict:
+    """Get a specific message by ID."""
     client = get_client()
     creds = load_credentials()
     
     try:
-        thread = client.inboxes.threads.retrieve(
-            inbox_id=creds["inbox"],
-            thread_id=thread_id
-        )
-        return {"thread": thread}
+        # Since there's no direct get by ID, we'll list and find it
+        response = client.inboxes.messages.list(inbox_id=creds["inbox"], limit=50)
+        
+        for message in response.messages:
+            if message.message_id == message_id:
+                return {
+                    "message_id": message.message_id,
+                    "subject": message.subject,
+                    "sender": message.from_,
+                    "created_at": message.timestamp.isoformat(),
+                    "preview": getattr(message, 'preview', ''),
+                    "labels": getattr(message, 'labels', [])
+                }
+        
+        return {"error": f"Message {message_id} not found"}
     except Exception as e:
         return {"error": str(e)}
 
-def get_messages(thread_id: str) -> Dict:
-    """Get messages in a thread."""
+def get_messages_by_subject(subject: str) -> Dict:
+    """Get all messages with a specific subject (thread simulation)."""
     client = get_client()
     creds = load_credentials()
     
     try:
-        messages = client.inboxes.messages.list(
-            inbox_id=creds["inbox"],
-            thread_id=thread_id
-        )
-        return {"messages": messages}
+        response = client.inboxes.messages.list(inbox_id=creds["inbox"], limit=50)
+        
+        matching_messages = []
+        for message in response.messages:
+            if message.subject == subject:
+                matching_messages.append({
+                    "message_id": message.message_id,
+                    "subject": message.subject,
+                    "sender": message.from_,
+                    "created_at": message.timestamp.isoformat(),
+                    "preview": getattr(message, 'preview', ''),
+                    "labels": getattr(message, 'labels', [])
+                })
+        
+        return {"messages": matching_messages}
     except Exception as e:
         return {"error": str(e)}
 
-def send_message(to: str, subject: str, text: str) -> Dict:
+def send_message(to: str, subject: str, text: str, html: str = None) -> Dict:
     """Send an email from Shelly's inbox."""
     client = get_client()
     creds = load_credentials()
     
     try:
-        message = client.inboxes.messages.send(
-            inbox_id=creds["inbox"],
-            to=to,
-            subject=subject,
-            text=text
-        )
-        return {"message": message}
+        kwargs = {
+            "inbox_id": creds["inbox"],
+            "to": to,
+            "subject": subject,
+            "text": text
+        }
+        if html:
+            kwargs["html"] = html
+            
+        message = client.inboxes.messages.send(**kwargs)
+        return {"success": True, "message_id": getattr(message, 'message_id', None)}
     except Exception as e:
         return {"error": str(e)}
 
@@ -107,29 +145,19 @@ def inbox_status() -> Dict:
     creds = load_credentials()
     
     try:
-        # Get recent threads
-        threads_response = client.inboxes.threads.list(
-            inbox_id=creds["inbox"],
-            limit=5
-        )
+        # Get recent messages
+        response = client.inboxes.messages.list(inbox_id=creds["inbox"], limit=10)
         
-        # Count unread threads
-        unread_count = 0
-        recent_subjects = []
-        for thread in threads_response.threads:
-            if 'unread' in thread.labels:
-                unread_count += 1
-            recent_subjects.append(thread.subject)
+        subjects = [msg.subject for msg in response.messages]
         
         return {
             "inbox": creds["inbox"],
             "status": "connected",
-            "total_recent_threads": threads_response.count,
-            "unread_count": unread_count,
-            "recent_subjects": recent_subjects
+            "total_recent_messages": len(response.messages),
+            "recent_subjects": subjects[:5]
         }
     except Exception as e:
-        return {"error": str(e), "inbox": creds["inbox"], "status": "error"}
+        return {"error": str(e), "inbox": creds.get("inbox", "unknown"), "status": "error"}
 
 def main():
     """CLI interface for AgentMail operations."""
@@ -137,12 +165,13 @@ def main():
     
     parser = argparse.ArgumentParser(description="AgentMail CLI for Shelly's inbox")
     parser.add_argument("command", choices=[
-        "status", "threads", "thread", "messages", "send"
+        "status", "threads", "messages", "message", "send"
     ])
-    parser.add_argument("--thread-id", help="Thread ID for thread/messages commands")
+    parser.add_argument("--message-id", help="Message ID for message command")
+    parser.add_argument("--subject", help="Subject for messages command or send command")
     parser.add_argument("--to", help="Recipient email for send command")
-    parser.add_argument("--subject", help="Subject for send command")
     parser.add_argument("--text", help="Message text for send command")
+    parser.add_argument("--html", help="HTML content for send command")
     parser.add_argument("--limit", type=int, default=20, help="Limit for threads command")
     
     args = parser.parse_args()
@@ -151,22 +180,22 @@ def main():
         if args.command == "status":
             result = inbox_status()
         elif args.command == "threads":
-            result = list_threads(limit=args.limit)
-        elif args.command == "thread":
-            if not args.thread_id:
-                print("Error: --thread-id required for thread command")
-                return
-            result = get_thread(args.thread_id)
+            result = list_messages(limit=args.limit)
         elif args.command == "messages":
-            if not args.thread_id:
-                print("Error: --thread-id required for messages command")
+            if not args.subject:
+                print("Error: --subject required for messages command")
                 return
-            result = get_messages(args.thread_id)
+            result = get_messages_by_subject(args.subject)
+        elif args.command == "message":
+            if not args.message_id:
+                print("Error: --message-id required for message command")
+                return
+            result = get_message(args.message_id)
         elif args.command == "send":
             if not all([args.to, args.subject, args.text]):
                 print("Error: --to, --subject, and --text required for send command")
                 return
-            result = send_message(args.to, args.subject, args.text)
+            result = send_message(args.to, args.subject, args.text, args.html)
         
         print(json.dumps(result, indent=2))
         
