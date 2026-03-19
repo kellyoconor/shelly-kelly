@@ -1,0 +1,12 @@
+2026-03-19 17:51:48,630 - root - INFO - Database initialized at /data/workspace/kelly-research-copilot/data/research.db
+2026-03-19 17:51:48,639 - root - INFO - Database initialized at /data/workspace/kelly-research-copilot/data/research.db
+2026-03-19 17:51:48,639 - root - INFO - Research Co-Pilot initialized
+2026-03-19 17:51:48,640 - root - INFO - Starting Kelly's Research Co-Pilot...
+2026-03-19 17:51:48,640 - root - INFO - Monitoring vault: /data/kelly-vault
+2026-03-19 17:51:48,640 - root - INFO - First run detected, performing initial vault scan...
+2026-03-19 17:51:48,640 - file_watcher - INFO - Performing initial vault scan...
+2026-03-19 17:51:48,644 - file_watcher - INFO - Found 145 markdown files
+2026-03-19 17:51:56,999 - file_watcher - INFO - Vault scan completed
+2026-03-19 17:51:56,999 - root - INFO - Initial scan completed
+2026-03-19 17:51:56,999 - root - INFO - Scheduler started
+2026-03-19 17:51:56,999 - file_watcher - INFO - Starting file watcher for /data/kelly-vault

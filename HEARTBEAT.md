@@ -53,10 +53,15 @@ python3 /data/workspace/skills/agentmail/scripts/agentmail_cli.py threads --limi
 - If no new emails: continue to other checks
 
 ## 🔬 RESEARCH CO-PILOT STATUS (rotate every 2-3 heartbeats)
-**Check research system activity:**
+**Check and restart research system if needed:**
+```bash
+/data/workspace/kelly-research-copilot/keep-alive.sh
+```
+**Then check research activity:**
 ```bash
 cd /data/workspace/kelly-research-copilot && python3 src/main.py --status
 ```
+- **Auto-restart**: Keep-alive script ensures service stays running
 - **Monitor research activity**: New files created, topics discovered, research sessions
 - **System health**: Check if monitoring is active, any errors
 - **Report findings**: If research activity detected in last 24h, tell Kelly what was researched
