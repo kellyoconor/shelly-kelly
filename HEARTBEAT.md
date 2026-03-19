@@ -32,6 +32,26 @@ python3 /data/workspace/scripts/context-significance-check.py
 - Continue to system checks below
 - But still lead with caring: "Everything running smooth - how are YOU doing?"
 
+## 📝 DAILY NOTE REAL-TIME UPDATES (HIGH PRIORITY)
+**Check for significant events and append to daily note:**
+```python
+python3 /data/workspace/scripts/context-significance-check.py --daily-note-mode
+```
+**If significant events detected, append to daily note:**
+- **Workouts**: `daily-note-append.py "7-mile run completed, feeling accomplished" "Health"`
+- **Major decisions**: `daily-note-append.py "Fixed research system - was triggering 15k sessions/day" "Events"`
+- **Emotional moments**: `daily-note-append.py "Feeling satisfied with debugging day - infrastructure finally aligned" "Thoughts"`
+- **Milestones**: `daily-note-append.py "Promotion to Director officially started this week" "Events"`
+
+**Detection criteria:**
+- New Strava activities in last 2 hours
+- Major system fixes or deployments 
+- Significant conversation topics (promotion, relationships, decisions)
+- Health insights from Welly/Oura data changes
+- Travel plans or logistics updates
+
+**Format**: Real-time timestamped entries that end-of-day can synthesize into narrative
+
 ## 💙 WELLY ALWAYS-ON CHECK (rotate every 2-3 heartbeats)
 **Check if Always-On Welly is monitoring:**
 ```bash
@@ -52,21 +72,11 @@ python3 /data/workspace/skills/agentmail/scripts/agentmail_cli.py threads --limi
 - **Report format**: "📧 3 new emails - 1 from [important sender] about [subject]"
 - If no new emails: continue to other checks
 
-## 🔬 RESEARCH CO-PILOT STATUS (rotate every 2-3 heartbeats)
-**Check and restart research system if needed:**
-```bash
-/data/workspace/kelly-research-copilot/keep-alive.sh
-```
-**Then check research activity:**
-```bash
-cd /data/workspace/kelly-research-copilot && python3 src/main.py --status
-```
-- **Auto-restart**: Keep-alive script ensures service stays running
-- **Monitor research activity**: New files created, topics discovered, research sessions
-- **System health**: Check if monitoring is active, any errors
-- **Report findings**: If research activity detected in last 24h, tell Kelly what was researched
-- **Brief format**: "🔬 Research Co-Pilot active: 2 new research files on [topics]" or similar
-- If no activity: continue to other checks
+## 🔬 RESEARCH CO-PILOT STATUS (DISABLED - was over-triggering)
+**CURRENTLY DISABLED** - Research system was triggering 15k+ sessions/day, way too aggressive
+- System stopped per Kelly's request 
+- Keep-alive disabled to prevent auto-restart
+- Will need trigger logic tuning before re-enabling
 
 ## 🚨 MANDATORY KELLY STATE PIPELINE (AUTOMATIC ENFORCEMENT)
 
