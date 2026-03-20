@@ -1,6 +1,8 @@
-2026-03-18 18:00:00 - CRITICAL: 63 orphaned session files detected (well above 30 threshold)
-2026-03-18 18:00:00 - WARNING: Session count above 20 threshold (63 files)
-2026-03-18 18:00:00 - All sessions are orphaned files with no registry entries
-2026-03-18 18:00:00 - WhatsApp alert delivery failed - target format issue
-2026-03-18 18:00:00 - Potential space saved from cleanup: 1557 KBThu Mar 19 00:02:00 UTC 2026: 74 session files detected (threshold: 30) - 74 orphaned files requiring cleanup
-Thu Mar 19 06:01:57 UTC 2026: 84 orphaned sessions detected (threshold >30 exceeded) - immediate cleanup needed
+2026-03-19 16:00:00 - SESSION WARNING: 21 total sessions detected (>20 threshold)
+Details: 21 orphaned files, 0 registry entries, 0 active cron sessions
+Potential cleanup: 1299KB space can be recovered
+Status: Warning logged, no immediate alert needed2026-03-19 22:00:36 - Session warning: 23 total sessions detected (>20 threshold), 0 cron sessions, 23 orphaned files
+2026-03-20T00:00:24+00:00: WARNING - 26 sessions detected (threshold: >20). All orphaned files, no active cron sessions.
+2026-03-20 02:00:31 - WARNING: 28 session files found (all orphaned, 0 active cron/regular sessions)
+Fri Mar 20 04:00:41 UTC 2026: SESSION ALERT: 31 sessions detected (>30 threshold). WhatsApp alert failed - target format issue. All orphaned files with no registry entries.
+Fri Mar 20 06:02:03 UTC 2026: 36 orphaned session files detected - above warning threshold of 20
