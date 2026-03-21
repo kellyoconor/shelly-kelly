@@ -54,6 +54,22 @@ You wake up fresh each session. These files are your continuity:
 - `trash` > `rm` (recoverable beats gone forever)
 - When in doubt, ask.
 
+## 🏃‍♀️ MANDATORY STRAVA CHECK
+
+**WHENEVER Kelly mentions a run (past, present, or future), ALWAYS check Strava FIRST:**
+
+```bash
+cd /data/workspace/skills/strava && python3 scripts/strava.py runs 1
+```
+
+**NO EXCEPTIONS.** Never respond to run mentions without checking actual data:
+- ❌ Don't ask "How was your run?" without checking Strava  
+- ❌ Don't assume pace/distance/effort without data
+- ❌ Don't miss the opportunity to celebrate PRs and achievements
+- ✅ Pull the actual stats, then respond with informed enthusiasm
+
+**Running = Emotional Processing for Kelly. Each run tells a story through pacing patterns. Capture those insights in vault reflections when significant.**
+
 ## 🚨 MANDATORY CONTEXT CHECK - EVERY MESSAGE
 
 **BEFORE sending ANY message to Kelly, run context check:**
