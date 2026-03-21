@@ -84,6 +84,13 @@ def append_to_daily_note(content, section="Notes"):
         f.writelines(lines)
     
     print(f"Added to {section}: {content}")
+    
+    # Auto-push to ensure Kelly sees the changes in her vault
+    try:
+        import subprocess
+        subprocess.run(["/data/workspace/scripts/auto-push-vault.sh"], check=True, capture_output=True)
+    except subprocess.CalledProcessError:
+        print("Warning: Auto-push to vault failed, but content was saved locally")
 
 if __name__ == "__main__":
     if len(sys.argv) < 2:
