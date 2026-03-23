@@ -127,7 +127,7 @@ class WellyInterpreter:
         
         # Get objective data
         readiness = daily_data.get("readiness")
-        workout_load = daily_data.get("workout_load", 0)
+        workout_load = daily_data.get("workout_load", 0) or 0
         
         # Check for mismatches
         mismatches = []
@@ -141,7 +141,7 @@ class WellyInterpreter:
             mismatches.append("Numbers look good but energy feels low")
         
         # High workout load with low subjective scores
-        if workout_load > 7 and energy and energy <= 2:
+        if workout_load and workout_load > 7 and energy and energy <= 2:
             mismatches.append("High training load but energy tanking")
         
         # Feel like self misalignment  
@@ -424,7 +424,7 @@ class WellyInterpreter:
         try:
             # Get daily states
             cursor.execute('''
-                SELECT date, energy, legs, stress, mood, feel_like_self, workout_load, readiness
+                SELECT date, energy, soreness, stress, mood, feel_like_self, workout_load, readiness
                 FROM daily_state 
                 WHERE date >= ? AND date <= ?
                 ORDER BY date
@@ -435,7 +435,7 @@ class WellyInterpreter:
                 daily_states.append({
                     "date": row[0],
                     "energy": row[1],
-                    "legs": row[2],
+                    "soreness": row[2],
                     "stress": row[3], 
                     "mood": row[4],
                     "feel_like_self": row[5],

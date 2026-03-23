@@ -113,11 +113,11 @@ class Welly:
         """Run daily check-in cycle"""
         return self.heartbeat.run_daily_cycle()
     
-    def manual_check_in(self, energy: int, legs: int, stress: int, mood: int, 
+    def manual_check_in(self, energy: int, soreness: int, stress: int, mood: int, 
                        feel_like_self: str, notes: str = "") -> Dict:
         """Process manual check-in from Kelly"""
         return self.heartbeat.process_manual_checkin(
-            energy, legs, stress, mood, feel_like_self, notes
+            energy, soreness, stress, mood, feel_like_self, notes
         )
     
     def get_current_state(self) -> Dict:
@@ -164,7 +164,7 @@ class Welly:
         
         elif "check in" in message_lower or "checkin" in message_lower:
             prompt = self.voice.generate_manual_checkin_prompt()
-            return f"{prompt}\n\nReady when you are - just let me know your energy, legs, stress, mood (all 1-5) and whether you feel like yourself today."
+            return f"{prompt}\n\nReady when you are - just let me know your energy, soreness, stress, mood (all 1-5) and whether you feel like yourself today."
         
         else:
             # Default supportive response
@@ -300,13 +300,13 @@ def main():
         print("Manual Check-in with Welly")
         try:
             energy = int(input("Energy (1-5): "))
-            legs = int(input("Legs (1-5): "))
+            soreness = int(input("Soreness (1-5): "))
             stress = int(input("Stress (1-5): "))
             mood = int(input("Mood (1-5): "))
             feel_like_self = input("Feel like yourself today? (yes/somewhat/no): ")
             notes = input("Any notes: ")
             
-            result = welly.manual_check_in(energy, legs, stress, mood, feel_like_self, notes)
+            result = welly.manual_check_in(energy, soreness, stress, mood, feel_like_self, notes)
             
             print("\n✅ Check-in recorded")
             if result.get("immediate_response"):

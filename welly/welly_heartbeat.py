@@ -146,13 +146,13 @@ class WellyHeartbeat:
         
         return None
     
-    def process_manual_checkin(self, energy: int, legs: int, stress: int, 
+    def process_manual_checkin(self, energy: int, soreness: int, stress: int, 
                               mood: int, feel_like_self: str, notes: str = "") -> Dict:
         """Process manual check-in and potentially generate response"""
         
         # Store the check-in
         checkin_result = self.ingest.ingest_manual_checkin(
-            energy, legs, stress, mood, feel_like_self, notes
+            energy, soreness, stress, mood, feel_like_self, notes
         )
         
         if checkin_result.get("error"):
@@ -413,13 +413,13 @@ def main():
         print("Manual Check-in")
         try:
             energy = int(input("Energy (1-5): "))
-            legs = int(input("Legs (1-5): "))
+            soreness = int(input("Soreness (1-5): "))
             stress = int(input("Stress (1-5): "))
             mood = int(input("Mood (1-5): "))
             feel_like_self = input("Feel like yourself? (yes/somewhat/no): ")
             notes = input("Any notes: ")
             
-            result = heartbeat.process_manual_checkin(energy, legs, stress, mood, feel_like_self, notes)
+            result = heartbeat.process_manual_checkin(energy, soreness, stress, mood, feel_like_self, notes)
             
             print("✅ Check-in processed")
             if result.get("immediate_response"):

@@ -140,7 +140,7 @@ class WellyIngest:
         except Exception as e:
             return {"error": f"Failed to fetch Strava data: {str(e)}"}
     
-    def ingest_manual_checkin(self, energy: int, legs: int, stress: int, 
+    def ingest_manual_checkin(self, energy: int, soreness: int, stress: int, 
                              mood: int, feel_like_self: str, notes: str = "") -> Dict:
         """Store manual check-in data"""
         date_str = datetime.now().strftime('%Y-%m-%d')
@@ -151,9 +151,9 @@ class WellyIngest:
         try:
             cursor.execute('''
                 INSERT OR REPLACE INTO daily_state 
-                (date, energy, legs, stress, mood, feel_like_self, notes, created_at)
+                (date, energy, soreness, stress, mood, feel_like_self, notes, created_at)
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-            ''', (date_str, energy, legs, stress, mood, feel_like_self, notes,
+            ''', (date_str, energy, soreness, stress, mood, feel_like_self, notes,
                   datetime.now().isoformat()))
             
             conn.commit()
@@ -175,7 +175,7 @@ class WellyIngest:
         try:
             # Get daily state trends
             cursor.execute('''
-                SELECT date, sleep_quality, readiness, energy, legs, stress, mood, feel_like_self
+                SELECT date, sleep_quality, readiness, energy, soreness, stress, mood, feel_like_self
                 FROM daily_state 
                 WHERE date >= ? AND date <= ?
                 ORDER BY date
@@ -188,7 +188,7 @@ class WellyIngest:
                     "sleep_quality": row[1],
                     "readiness": row[2],
                     "energy": row[3],
-                    "legs": row[4],
+                    "soreness": row[4],
                     "stress": row[5],
                     "mood": row[6],
                     "feel_like_self": row[7]
@@ -357,13 +357,13 @@ def main():
         # Interactive manual check-in
         print("Manual Check-in")
         energy = int(input("Energy (1-5): "))
-        legs = int(input("Legs (1-5): "))
+        soreness = int(input("Soreness (1-5): "))
         stress = int(input("Stress (1-5): "))
         mood = int(input("Mood (1-5): "))
         feel_like_self = input("Do you feel like yourself today? (yes/somewhat/no): ")
         notes = input("Any notes: ")
         
-        result = ingest.ingest_manual_checkin(energy, legs, stress, mood, feel_like_self, notes)
+        result = ingest.ingest_manual_checkin(energy, soreness, stress, mood, feel_like_self, notes)
         print(json.dumps(result, indent=2))
     
     elif command == "trends":
