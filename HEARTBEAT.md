@@ -52,15 +52,15 @@ python3 /data/workspace/scripts/context-significance-check.py --daily-note-mode
 
 **Format**: Real-time timestamped entries that end-of-day can synthesize into narrative
 
-## 💙 WELLY ALWAYS-ON CHECK (rotate every 2-3 heartbeats)
-**Check if Always-On Welly is monitoring:**
-```bash
-cd /data/workspace/welly && ./status-always-on.sh | grep -q "✅ Running"
+## 💙 WELLY FILTER CHECK (rotate every 2-3 heartbeats)
+**Shelly checks Welly and filters for Kelly's attention:**
+```python
+python3 /data/workspace/welly/shelly-filter.py
 ```
-- If running: "💙 Always-On Welly is monitoring your patterns in background"
-- If not running: Restart service and report to Kelly
-- Check for any pattern alerts: `cat /data/workspace/memory/welly_heartbeat.json | tail -1`
-- If Welly has insights ready: Share them
+**If kelly_should_know = true:** Send the kelly_message to Kelly immediately
+**If kelly_should_know = false:** Just note background_info if present
+**Auto-logs to vault:** Welly insights automatically append to daily note
+**Filter criteria:** Only interrupt Kelly for mind-body misalignment, push patterns, emotional load, or concerning multi-day trends
 
 ## 📧 AGENTMAIL CHECK (rotate every 2-3 heartbeats)
 **Check for important emails:**
