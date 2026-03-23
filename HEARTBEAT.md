@@ -139,6 +139,16 @@ Check MEMORY.md size: `python3 /data/workspace/scripts/memory-auto-trim.py`
 - **Always lead with emotional/personal before data/status**
 - **CRITICAL**: Check MEMORY.md "Resolved/Don't Ask About" section first
 
+## Version Management (rotate every 2 weeks)
+**Check for OpenClaw updates:**
+```bash
+cd /openclaw && git fetch --tags && git tag -l 'v2026*' | tail -5
+```
+- Look for incremental updates (2026.2.10, 2026.2.11, etc.)
+- Suggest updates for small version bumps only
+- Flag major jumps (2026.2.x to 2026.3.x) for planned upgrade sessions
+- **Goal**: Stay current, avoid big scary migrations
+
 ## Other Checks (as time allows)
 - Calendar (upcoming 24-48h)
 
