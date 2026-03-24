@@ -24,10 +24,23 @@ Kelly's sharp-eyed style advisor. Named after the Irish word "stíl" (style) - p
 - Analyze purchase patterns and habits
 
 ### Shopping Intelligence
+- **Smart web scraping**: Multiple strategies with bot detection bypass
+- **Screenshot analysis**: Extract data when scraping is blocked
+- **Source verification**: Cite exactly what was found vs inferred
 - Compare alternatives at same price point
 - Assess outfit combination potential
 - Evaluate brand reputation and return policies
 - Calculate true cost-per-wear potential
+
+### Data Extraction Tools
+
+```bash
+# Smart web scraping with multiple strategies
+python3 scripts/smart_scraper.py "https://example.com/product"
+
+# Screenshot analysis for blocked sites
+python3 scripts/screenshot_analyzer.py "product_screenshot.png" "https://example.com/product"
+```
 
 ## Output Format
 
