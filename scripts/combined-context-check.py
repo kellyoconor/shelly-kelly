@@ -8,7 +8,7 @@ Merges results intelligently to prioritize the most relevant check-in
 import subprocess
 import sys
 import json
-from datetime import datetime
+from datetime import datetime, timedelta
 
 def run_full_context_check():
     """Get external data context (Strava, Oura, calendar)"""
@@ -57,14 +57,70 @@ def run_significance_check():
     except Exception as e:
         return {"error": f"Significance check error: {str(e)[:50]}"}
 
+def check_recent_conversation():
+    """Check if we've recently discussed activities to avoid repetition"""
+    try:
+        # Simple approach: check if we've talked about running in the last few exchanges
+        # by reading the session transcript directly from OpenClaw
+        
+        # For now, use a simpler heuristic - track when we last sent a run check-in
+        # and avoid repeating within a few hours
+        state_file = "/data/workspace/memory/context-check-history.json"
+        
+        try:
+            with open(state_file, 'r') as f:
+                state = json.load(f)
+        except (FileNotFoundError, json.JSONDecodeError):
+            state = {}
+        
+        # Check when we last asked about running
+        if 'last_run_checkin' in state:
+            last_checkin = datetime.fromisoformat(state['last_run_checkin'])
+            cutoff = datetime.now() - timedelta(hours=2)
+            
+            if last_checkin > cutoff:
+                return {'running': True}  # We recently asked about running
+        
+        # If we get here, we haven't asked about running recently
+        return {'running': False}
+        
+    except Exception as e:
+        return {"conversation_unavailable": True}
+
+def record_run_checkin():
+    """Record that we just asked about running to avoid repetition"""
+    try:
+        state_file = "/data/workspace/memory/context-check-history.json"
+        
+        try:
+            with open(state_file, 'r') as f:
+                state = json.load(f)
+        except (FileNotFoundError, json.JSONDecodeError):
+            state = {}
+        
+        state['last_run_checkin'] = datetime.now().isoformat()
+        
+        with open(state_file, 'w') as f:
+            json.dump(state, f, indent=2)
+            
+    except Exception as e:
+        pass  # Silently fail - this is just optimization, not critical
+
 def merge_contexts(external_events, significance_result):
     """Merge external and significance contexts intelligently"""
     messages = []
     
+    # Check conversation history to avoid repetition
+    conversation_check = check_recent_conversation()
+    
     # Priority 1: Recent runs (Kelly specifically called this out)
-    if 'run_today' in external_events:
+    # BUT skip if we recently discussed running
+    if 'run_today' in external_events and not conversation_check.get('running', False):
         run_info = external_events['run_today']
         messages.append(f"Nice work on your run! {run_info} - how did it feel? 🏃‍♀️")
+        
+        # Record that we asked about running
+        record_run_checkin()
         
     # Priority 2: Significant emotional/personal processing 
     elif 'significance_message' in significance_result:
@@ -107,8 +163,11 @@ def get_combined_context():
             return "How are you feeling today?"
             
     if "error" in significance_result:
-        if 'run_today' in external_events:
+        # Check conversation history even in fallback cases
+        conversation_check = check_recent_conversation()
+        if 'run_today' in external_events and not conversation_check.get('running', False):
             run_info = external_events['run_today']
+            record_run_checkin()
             return f"Saw your run! {run_info} - how did it feel? 🏃‍♀️"
         else:
             return "Everything running smooth - how are YOU doing?"
