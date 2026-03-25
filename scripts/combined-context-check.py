@@ -3,6 +3,8 @@
 Combined Context Checker
 Runs both full context check (Strava, Oura, calendar) AND significance check (memory analysis)
 Merges results intelligently to prioritize the most relevant check-in
+
+Supports --daily-note-mode to auto-append significant events to vault daily notes
 """
 
 import subprocess
@@ -175,8 +177,79 @@ def get_combined_context():
     # Both successful - merge intelligently
     return merge_contexts(external_events, significance_result)
 
+def detect_and_log_events():
+    """Detect significant events and log them to daily vault note"""
+    try:
+        # Get both external and significance data
+        external_events = run_full_context_check()
+        significance_result = run_significance_check()
+        
+        events_logged = []
+        
+        # Check for external events to log
+        if 'run_today' in external_events:
+            # Extract run details
+            run_info = external_events['run_today']
+            # Parse run info: "✅ Ran today: 7.03mi at 8:42/mi"
+            if "✅ Ran today:" in run_info:
+                run_details = run_info.replace("✅ Ran today: ", "")
+                log_content = f"Morning run completed: {run_details}, feeling strong"
+                
+                # Call daily-note-append.py
+                result = subprocess.run([
+                    'python3', '/data/workspace/scripts/daily-note-append.py', 
+                    log_content, 'Health'
+                ], capture_output=True, text=True, cwd='/data/workspace')
+                
+                if result.returncode == 0:
+                    events_logged.append(f"Logged run: {run_details}")
+        
+        # Check for health insights
+        if 'health' in external_events:
+            health_info = external_events['health']
+            # Only log significant health changes, not routine data
+            if any(indicator in health_info for indicator in ['😴', '🥱', '💪', 'trending']):
+                log_content = f"Health insight: {health_info}"
+                
+                result = subprocess.run([
+                    'python3', '/data/workspace/scripts/daily-note-append.py', 
+                    log_content, 'Health'
+                ], capture_output=True, text=True, cwd='/data/workspace')
+                
+                if result.returncode == 0:
+                    events_logged.append(f"Logged health: {health_info}")
+        
+        # Check for significant memory events
+        if 'significance_message' in significance_result and 'big_building_day' in significance_result['significance_message']:
+            # Only log actual technical work, not false positives
+            log_content = "Technical work session - system improvements and fixes"
+            
+            result = subprocess.run([
+                'python3', '/data/workspace/scripts/daily-note-append.py', 
+                log_content, 'Events'
+            ], capture_output=True, text=True, cwd='/data/workspace')
+            
+            if result.returncode == 0:
+                events_logged.append("Logged technical session")
+        
+        # Return summary of what was logged
+        if events_logged:
+            return f"Daily note updated: {', '.join(events_logged)}"
+        else:
+            return ""  # Nothing significant to log
+            
+    except Exception as e:
+        return f"Daily note logging error: {str(e)[:50]}"
+
 if __name__ == "__main__":
-    result = get_combined_context()
-    if result:
-        print(result)
+    # Check for daily-note-mode flag
+    if len(sys.argv) > 1 and '--daily-note-mode' in sys.argv:
+        result = detect_and_log_events()
+        if result:
+            print(result)
+    else:
+        # Normal context check mode
+        result = get_combined_context()
+        if result:
+            print(result)
     # If empty, print nothing (heartbeat will continue to other checks)

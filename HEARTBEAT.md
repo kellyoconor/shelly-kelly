@@ -41,7 +41,7 @@ python3 /data/workspace/scripts/combined-context-check.py
 ## 📝 DAILY NOTE REAL-TIME UPDATES (HIGH PRIORITY)
 **Check for significant events and append to daily note:**
 ```python
-python3 /data/workspace/scripts/context-significance-check.py --daily-note-mode
+python3 /data/workspace/scripts/combined-context-check.py --daily-note-mode
 ```
 **If significant events detected, append to daily note:**
 - **Workouts**: `daily-note-append.py "7-mile run completed, feeling accomplished" "Health"`
