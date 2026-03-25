@@ -22,7 +22,7 @@ def save_creds(data):
 def auth_url():
     params = urllib.parse.urlencode({
         "client_id": CLIENT_ID, "response_type": "code",
-        "redirect_uri": REDIRECT_URI, "scope": "daily readiness sleep personal heartrate workout session tag"
+        "redirect_uri": REDIRECT_URI, "scope": "daily readiness sleep personal heartrate workout session tag reproductive_cycle"
     })
     print(f"{AUTH_URL}?{params}")
 
