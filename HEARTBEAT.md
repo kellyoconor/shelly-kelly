@@ -18,19 +18,25 @@ This handles:
 
 **Always continue to other checks below.** Only report if NEW urgent alerts are detected (not existing escalated ones).
 
-## 🎯 PERSONAL CONTEXT CHECK (EVERY HEARTBEAT - HIGH PRIORITY)
-**Check for significant events and personal engagement opportunities:**
+## 🎯 COMBINED CONTEXT CHECK (EVERY HEARTBEAT - HIGH PRIORITY)
+**Check both external activities AND significant memory events:**
 ```python
-python3 /data/workspace/scripts/context-significance-check.py
+python3 /data/workspace/scripts/combined-context-check.py
 ```
+**This intelligently combines:**
+- **External data**: Strava runs, Oura health, calendar events (full-context-check.py)
+- **Memory analysis**: Emotional processing, work milestones, personal moments (context-significance-check.py)
+
 **If personal check-in generated:**
 - Send that message to Kelly and STOP (no system status needed)
 - Personal connection always trumps system reports
-- Example: "You had a massive engineering day building cognitive architecture. How are you feeling after all that intensive work?"
+- **Examples**: 
+  - "Nice work on your run! ✅ Ran today: 7.03mi at 8:42/mi - how did it feel? 🏃‍♀️"
+  - "You had a massive engineering day building cognitive architecture. How are you feeling after all that intensive work?"
 
 **If no significant events detected:**
 - Continue to system checks below
-- But still lead with caring: "Everything running smooth - how are YOU doing?"
+- Default: "Everything running smooth - how are YOU doing?"
 
 ## 📝 DAILY NOTE REAL-TIME UPDATES (HIGH PRIORITY)
 **Check for significant events and append to daily note:**
@@ -43,11 +49,11 @@ python3 /data/workspace/scripts/context-significance-check.py --daily-note-mode
 - **Emotional moments**: `daily-note-append.py "Feeling satisfied with debugging day - infrastructure finally aligned" "Thoughts"`
 - **Milestones**: `daily-note-append.py "Promotion to Director officially started this week" "Events"`
 
-**Detection criteria:**
-- New Strava activities in last 2 hours
+**Detection criteria (NOW INCLUDES EXTERNAL ACTIVITIES):**
+- ✅ **NEW**: Strava activities detected via full context check
+- ✅ **NEW**: Oura health insights and score changes
 - Major system fixes or deployments 
 - Significant conversation topics (promotion, relationships, decisions)
-- Health insights from Welly/Oura data changes
 - Travel plans or logistics updates
 
 **Format**: Real-time timestamped entries that end-of-day can synthesize into narrative
