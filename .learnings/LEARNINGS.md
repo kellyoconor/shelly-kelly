@@ -1,25 +1,32 @@
-## [LRN-20260312-001] correction
+# Self-Improvement Learnings
 
-**Logged**: 2026-03-12T15:47:00-05:00
-**Priority**: medium
+## [LRN-20260325-001] correction
+
+**Logged**: 2026-03-25T09:23:00-05:00
+**Priority**: high
 **Status**: pending
 **Area**: conversation
 
 ### Summary
-Made basic time calculation error when responding quickly about flight boarding times
+Check MEMORY.md and context before asking questions I can already answer
 
 ### Details
-Kelly asked me to watch her flight AA5573. When she said boarding was at 2:47 PM and it was currently 11:47 AM, I incorrectly said "boarding in about an hour" instead of correctly calculating 3 hours. Kelly immediately corrected me: "in about an hour? It's 11:47..."
+Asked Kelly "What's your usual order?" at Starbucks when I had just read "Venti iced coffee, 2 pumps hazelnut, 2 pumps vanilla, whole milk" from MEMORY.md. This created confusion and made me look like I don't pay attention to what I know about her.
 
-This was a simple arithmetic error: 2:47 PM - 11:47 AM = 3 hours, not 1 hour.
+Kelly called me out: "see you do know that.. how come you asked?" and "you gotta make sure you check our context and vault girl! you know alot about me!"
+
+This is the same pattern as the heartbeat issue we just fixed - I have the data, but I'm not using it properly.
 
 ### Suggested Action
-Slow down when doing time calculations, especially when providing information about schedules. Double-check arithmetic before responding, particularly when the information is time-sensitive (like flight details).
+Always run memory_search or check MEMORY.md BEFORE asking questions about Kelly's preferences, habits, or personal information. Use what I already know instead of playing dumb or asking redundant questions.
 
 ### Metadata
-- Source: user_feedback
-- Related Files: memory/2026-03-12.md
-- Tags: math_error, time_calculation, flight_tracking
-- Pattern-Key: harden.time_calculations
+- Source: user_correction
+- Related Files: MEMORY.md, HEARTBEAT.md (similar pattern)
+- Tags: context_checking, memory_usage, user_experience
+- Pattern-Key: check_context_first
+- Recurrence-Count: 1
+- First-Seen: 2026-03-25
+- Last-Seen: 2026-03-25
 
 ---
