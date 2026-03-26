@@ -62,11 +62,49 @@ def run_significance_check():
 def check_recent_conversation():
     """Check if we've recently discussed activities to avoid repetition"""
     try:
-        # Simple approach: check if we've talked about running in the last few exchanges
-        # by reading the session transcript directly from OpenClaw
+        # Read session state to track what we've discussed
+        session_state_file = "/data/workspace/memory/session-discussion-state.json"
         
-        # For now, use a simpler heuristic - track when we last sent a run check-in
-        # and avoid repeating within a few hours
+        try:
+            with open(session_state_file, 'r') as f:
+                session_state = json.load(f)
+        except (FileNotFoundError, json.JSONDecodeError):
+            session_state = {}
+        
+        # Get current hour to reset discussion tracking periodically
+        current_hour = datetime.now().strftime("%Y-%m-%d-%H")
+        
+        # Reset if it's a new hour (prevents endless blocking)
+        if session_state.get('last_hour') != current_hour:
+            session_state = {
+                'last_hour': current_hour,
+                'discussed_topics': {
+                    'running': False,
+                    'health_data': False,
+                    'calendar': False
+                }
+            }
+        
+        discussed_topics = session_state.get('discussed_topics', {
+            'running': False,
+            'health_data': False,
+            'calendar': False
+        })
+        
+        # Fallback to timestamp check for running if session state is empty
+        if not discussed_topics.get('running'):
+            fallback = check_timestamp_fallback()
+            discussed_topics['running'] = fallback.get('running', False)
+            
+        return discussed_topics
+        
+    except Exception as e:
+        # Fallback to simpler check if session state access fails
+        return check_timestamp_fallback()
+
+def check_timestamp_fallback():
+    """Fallback timestamp-based check when session history isn't available"""
+    try:
         state_file = "/data/workspace/memory/context-check-history.json"
         
         try:
@@ -75,19 +113,29 @@ def check_recent_conversation():
         except (FileNotFoundError, json.JSONDecodeError):
             state = {}
         
+        discussed_topics = {
+            'running': False,
+            'health_data': False,
+            'calendar': False
+        }
+        
         # Check when we last asked about running
         if 'last_run_checkin' in state:
             last_checkin = datetime.fromisoformat(state['last_run_checkin'])
             cutoff = datetime.now() - timedelta(hours=2)
             
             if last_checkin > cutoff:
-                return {'running': True}  # We recently asked about running
-        
-        # If we get here, we haven't asked about running recently
-        return {'running': False}
+                discussed_topics['running'] = True
+                
+        return discussed_topics
         
     except Exception as e:
-        return {"conversation_unavailable": True}
+        return {
+            'running': False,
+            'health_data': False, 
+            'calendar': False,
+            'conversation_unavailable': True
+        }
 
 def record_run_checkin():
     """Record that we just asked about running to avoid repetition"""
@@ -104,6 +152,33 @@ def record_run_checkin():
         
         with open(state_file, 'w') as f:
             json.dump(state, f, indent=2)
+        
+        # Also record in session state
+        record_discussion_topic('running')
+            
+    except Exception as e:
+        pass  # Silently fail - this is just optimization, not critical
+
+def record_discussion_topic(topic):
+    """Record that we discussed a specific topic in this session"""
+    try:
+        session_state_file = "/data/workspace/memory/session-discussion-state.json"
+        
+        try:
+            with open(session_state_file, 'r') as f:
+                session_state = json.load(f)
+        except (FileNotFoundError, json.JSONDecodeError):
+            session_state = {}
+        
+        # Ensure structure exists
+        if 'discussed_topics' not in session_state:
+            session_state['discussed_topics'] = {}
+            
+        session_state['discussed_topics'][topic] = True
+        session_state['last_updated'] = datetime.now().isoformat()
+        
+        with open(session_state_file, 'w') as f:
+            json.dump(session_state, f, indent=2)
             
     except Exception as e:
         pass  # Silently fail - this is just optimization, not critical
@@ -129,16 +204,27 @@ def merge_contexts(external_events, significance_result):
         messages.append(significance_result['significance_message'])
         
     # Priority 3: Health insights + external context
-    elif 'health' in external_events and any(emoji in external_events['health'] for emoji in ['😴', '🥱', '💪']):
+    # BUT skip if we recently discussed health data
+    elif ('health' in external_events and 
+          any(emoji in external_events['health'] for emoji in ['😴', '🥱', '💪']) and
+          not conversation_check.get('health_data', False)):
         health_msg = external_events['health']
         if '😴' in health_msg or '🥱' in health_msg:
             messages.append(f"Your body's telling a story today: {health_msg}. How are you feeling energy-wise?")
         else:
             messages.append(f"Looking strong: {health_msg}. How's your energy matching the data?")
+        
+        # Record that we discussed health data
+        record_discussion_topic('health_data')
             
     # Priority 4: System issues (calendar auth, etc.)
-    elif 'calendar_auth' in external_events:
+    # BUT skip if we recently discussed calendar issues
+    elif ('calendar_auth' in external_events and 
+          not conversation_check.get('calendar', False)):
         messages.append("Quick heads up - your calendar authentication expired and might need a refresh 📅")
+        
+        # Record that we discussed calendar issues
+        record_discussion_topic('calendar')
         
     # Default: General caring check-in
     else:
