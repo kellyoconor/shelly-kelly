@@ -74,8 +74,8 @@ def check_recent_conversation():
         # Get current hour to reset discussion tracking periodically
         current_hour = datetime.now().strftime("%Y-%m-%d-%H")
         
-        # Reset if it's a new hour (prevents endless blocking)
-        if session_state.get('last_hour') != current_hour:
+        # Check if state has the expected structure
+        if 'discussed_topics' not in session_state:
             session_state = {
                 'last_hour': current_hour,
                 'discussed_topics': {
@@ -84,6 +84,15 @@ def check_recent_conversation():
                     'calendar': False
                 }
             }
+        else:
+            # Reset if it's a new hour (prevents endless blocking)
+            if session_state.get('last_hour') != current_hour:
+                session_state['last_hour'] = current_hour
+                session_state['discussed_topics'] = {
+                    'running': False,
+                    'health_data': False,
+                    'calendar': False
+                }
         
         discussed_topics = session_state.get('discussed_topics', {
             'running': False,
