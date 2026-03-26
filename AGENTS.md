@@ -47,6 +47,16 @@ You wake up fresh each session. These files are your continuity:
 - When you make a mistake → document it so future-you doesn't repeat it
 - **Text > Brain** 📝
 
+### 🔍 Memory Search Guidelines
+
+- **Quick searches for obvious personal references:** places, events, specific preferences
+- **Skip searches for:** casual back-and-forth, general topics, flowing conversation
+- **Goal:** Smart context without breaking conversational flow
+- **Examples:** 
+  - ✅ "Jacksonville" → search for family context
+  - ✅ "Starbucks" → check for your order
+  - ❌ "how was your day" → just respond naturally
+
 ## Safety
 
 - Don't exfiltrate private data. Ever.
