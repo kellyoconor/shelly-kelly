@@ -37,6 +37,16 @@ def run_full_context_check():
             health_lines = [l for l in output.split('\n') if l.startswith('💍 Health:')]
             if health_lines:
                 external_events['health'] = health_lines[0].replace('💍 Health: ', '')
+                
+            # Check for obsidian/project data
+            obsidian_lines = [l for l in output.split('\n') if l.startswith('📚 Obsidian:')]
+            if obsidian_lines:
+                external_events['obsidian'] = obsidian_lines[0].replace('📚 Obsidian: ', '')
+                
+            # Check for running status (including no run today)
+            running_lines = [l for l in output.split('\n') if l.startswith('🏃‍♀️ Running:')]
+            if running_lines:
+                external_events['running'] = running_lines[0].replace('🏃‍♀️ Running: ', '')
             
             return external_events
         else:
@@ -192,52 +202,134 @@ def record_discussion_topic(topic):
     except Exception as e:
         pass  # Silently fail - this is just optimization, not critical
 
+def detect_and_record_response(user_message):
+    """Detect what Kelly is responding to and mark appropriate topics as discussed"""
+    try:
+        message_lower = user_message.lower()
+        
+        # Detect responses to different question types
+        detected_topics = []
+        
+        # Running responses
+        if any(phrase in message_lower for phrase in [
+            'rest day', 'no run', 'didn\'t run', 'haven\'t run', 'not running',
+            'ran ', 'going to run', 'will run', 'planning to run'
+        ]):
+            detected_topics.append('running')
+        
+        # Health/energy responses  
+        if any(phrase in message_lower for phrase in [
+            'feeling', 'energy', 'tired', 'good', 'ok', 'fine', 'great', 
+            'exhausted', 'ready', 'sleep', 'rested'
+        ]):
+            detected_topics.append('health_data')
+            
+        # Coffee/morning routine responses
+        if any(phrase in message_lower for phrase in [
+            'coffee', 'starbucks', 'caffeine', 'morning', 'usual order',
+            'hazelnut', 'vanilla', 'iced coffee'
+        ]):
+            detected_topics.append('morning_routine')
+            
+        # Work/project responses
+        if any(phrase in message_lower for phrase in [
+            'steely', 'development', 'coding', 'working on', 'project',
+            'breakthrough', 'progress'
+        ]):
+            detected_topics.append('current_work')
+            
+        # Calendar/system responses  
+        if any(phrase in message_lower for phrase in [
+            'calendar', 'auth', 'authentication', 'fix', 'broken'
+        ]):
+            detected_topics.append('calendar')
+        
+        # Record all detected topics
+        for topic in detected_topics:
+            record_discussion_topic(topic)
+            
+        return detected_topics
+        
+    except Exception as e:
+        return []  # Fail silently
+
 def merge_contexts(external_events, significance_result):
-    """Merge external and significance contexts intelligently"""
+    """SMART Priority Logic - prioritize most INTERESTING/ACTIONABLE context"""
     messages = []
     
-    # Check conversation history to avoid repetition
     conversation_check = check_recent_conversation()
     
-    # Priority 1: Recent runs (Kelly specifically called this out)
-    # BUT skip if we recently discussed running
+    # PRIORITY 1: Actionable issues that need attention
+    if ('calendar_auth' in external_events and 
+        not conversation_check.get('calendar', False)):
+        messages.append("Quick heads up - your calendar authentication expired. Want me to help you fix it? 📅")
+        record_discussion_topic('calendar')
+        return messages[0]
+    
+    # PRIORITY 2: Recent runs (Kelly specifically called this out) 
     if 'run_today' in external_events and not conversation_check.get('running', False):
         run_info = external_events['run_today']
         messages.append(f"Nice work on your run! {run_info} - how did it feel? 🏃‍♀️")
-        
-        # Record that we asked about running
         record_run_checkin()
+        return messages[0]
         
-    # Priority 2: Significant emotional/personal processing 
-    elif 'significance_message' in significance_result:
-        messages.append(significance_result['significance_message'])
+    # PRIORITY 3: MISSING expected activities (more interesting than health data)
+    # Check if it's a weekday morning and no run yet
+    from datetime import datetime
+    now = datetime.now()
+    if (now.weekday() < 5 and  # Weekday
+        9 <= now.hour <= 12 and  # Morning window
+        'run_today' not in external_events and 
+        not conversation_check.get('running', False)):
         
-    # Priority 3: Health insights + external context
-    # BUT skip if we recently discussed health data
-    elif ('health' in external_events and 
-          any(emoji in external_events['health'] for emoji in ['😴', '🥱', '💪']) and
-          not conversation_check.get('health_data', False)):
-        health_msg = external_events['health']
-        if '😴' in health_msg or '🥱' in health_msg:
-            messages.append(f"Your body's telling a story today: {health_msg}. How are you feeling energy-wise?")
+        # Check if they ran yesterday to understand pattern
+        running_context = external_events.get('running', '')
+        if 'Yesterday:' in running_context:
+            messages.append("No run today - taking a rest day or just haven't gotten out there yet? 🏃‍♀️")
         else:
-            messages.append(f"Looking strong: {health_msg}. How's your energy matching the data?")
+            messages.append("No run today - how's your energy for getting out there later? 🏃‍♀️")
+        record_discussion_topic('running')
+        return messages[0]
+    
+    # PRIORITY 4: Significant emotional/personal processing
+    if 'significance_message' in significance_result:
+        messages.append(significance_result['significance_message'])
+        return messages[0]
         
-        # Record that we discussed health data
-        record_discussion_topic('health_data')
+    # PRIORITY 5: Morning routine check (coffee, etc.) - but only in morning hours
+    if (9 <= now.hour <= 11 and 
+        not conversation_check.get('morning_routine', False)):
+        messages.append("Did you get your usual Starbucks order this morning? ☕")
+        record_discussion_topic('morning_routine')
+        return messages[0]
+    
+    # PRIORITY 6: Current projects/work
+    obsidian_context = external_events.get('obsidian', '')
+    if ('Steely' in obsidian_context and
+        not conversation_check.get('current_work', False)):
+        messages.append("How's the Steely development going? Any breakthroughs today? 🤖")
+        record_discussion_topic('current_work')
+        return messages[0]
+        
+    # PRIORITY 7: Health data only if particularly notable (extreme scores)
+    if ('health' in external_events and 
+        not conversation_check.get('health_data', False)):
+        health_msg = external_events['health']
+        
+        # Only mention health if scores are notably high/low or have clear emojis
+        if (any(emoji in health_msg for emoji in ['💪', '🔥', '⚡', '😴', '🥱', '💤']) or
+            any(num in health_msg for num in ['90', '91', '92', '93', '94', '95', '96', '97', '98', '99', '100']) or
+            any(num in health_msg for num in ['40', '41', '42', '43', '44', '45', '46', '47', '48', '49', '50'])):
             
-    # Priority 4: System issues (calendar auth, etc.)
-    # BUT skip if we recently discussed calendar issues
-    elif ('calendar_auth' in external_events and 
-          not conversation_check.get('calendar', False)):
-        messages.append("Quick heads up - your calendar authentication expired and might need a refresh 📅")
+            if '😴' in health_msg or '🥱' in health_msg:
+                messages.append(f"Your body's telling a story today: {health_msg}. How are you feeling energy-wise?")
+            else:
+                messages.append(f"Looking strong: {health_msg}. How's your energy matching the data?")
+            record_discussion_topic('health_data')
+            return messages[0]
         
-        # Record that we discussed calendar issues
-        record_discussion_topic('calendar')
-        
-    # Default: General caring check-in
-    else:
-        messages.append("Everything running smooth - how are YOU doing?")
+    # PRIORITY 8: Default caring check-in (only if nothing else is interesting)
+    messages.append("Everything running smooth - how are YOU doing?")
     
     return messages[0] if messages else ""
 
