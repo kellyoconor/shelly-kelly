@@ -95,16 +95,25 @@ def analyze_recent_context():
     """Check for significant events in recent memory files"""
     significance_flags = []
     
-    # Check today's and yesterday's memory files (significant events can span days)
+    # Only check TODAY'S memory for current events (yesterday's events are not current)
     today = datetime.now().strftime("%Y-%m-%d")
-    yesterday = (datetime.now() - timedelta(days=1)).strftime("%Y-%m-%d")
     
     content = ""
-    for date_str in [today, yesterday]:
-        memory_file = f"/data/workspace/memory/{date_str}.md"
-        if os.path.exists(memory_file):
-            with open(memory_file, 'r') as f:
-                content += f.read().lower() + " "
+    memory_file = f"/data/workspace/memory/{today}.md"
+    if os.path.exists(memory_file):
+        with open(memory_file, 'r') as f:
+            raw_content = f.read()
+            
+        # Filter out issue descriptions and past problems to avoid false positives
+        lines = raw_content.split('\n')
+        filtered_lines = []
+        for line in lines:
+            # Skip lines that are clearly about past issues, not current events
+            if any(marker in line.lower() for marker in ['**issue**:', '- **issue**:', 'timeframe confusion', 'bug report', 'past problem']):
+                continue
+            filtered_lines.append(line)
+        
+        content = ' '.join(filtered_lines).lower()
             
     # Flag significant events (but check if we've asked recently)
     
