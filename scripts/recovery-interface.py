@@ -195,6 +195,49 @@ def get_recent_activities(days: int = 7):
     conn.close()
     return activities
 
+def sync_to_vault(activity_result):
+    """Sync recovery activity to Kelly's daily note in vault"""
+    try:
+        today = datetime.now().strftime('%Y-%m-%d')
+        vault_daily_note = Path(f"/data/kelly-vault/01-Daily/2026/{today}.md")
+        
+        if not vault_daily_note.exists():
+            return  # Don't create notes, just add to existing ones
+        
+        # Read current note
+        content = vault_daily_note.read_text()
+        
+        # Prepare the Welly entry
+        activity_name = activity_result['activity'].replace('_', ' ').title()
+        duration_str = f" ({activity_result['duration']}min)" if activity_result['duration'] else ""
+        timestamp = datetime.now().strftime('%H:%M')
+        welly_entry = f"- **{timestamp}**: {activity_name}{duration_str}"
+        
+        # Find or create Welly section
+        if "## Welly" in content:
+            # Add to existing Welly section
+            welly_section_start = content.find("## Welly")
+            next_section = content.find("\n## ", welly_section_start + 1)
+            
+            if next_section == -1:  # Welly section is last
+                # Add to end of Welly section
+                content = content.rstrip() + "\n" + welly_entry + "\n"
+            else:
+                # Insert before next section
+                before_next = content[:next_section]
+                after_next = content[next_section:]
+                content = before_next.rstrip() + "\n" + welly_entry + "\n\n" + after_next
+        else:
+            # Create new Welly section at end
+            content = content.rstrip() + "\n\n## Welly\n" + welly_entry + "\n"
+        
+        # Write back to file
+        vault_daily_note.write_text(content)
+        
+    except Exception as e:
+        # Fail silently - vault sync is nice-to-have, not critical
+        pass
+
 def parse_recovery_message(message: str):
     """Parse WhatsApp messages for recovery activity logging"""
     message = message.lower().strip()
@@ -296,6 +339,9 @@ def process_recovery_message(message: str) -> str:
         result = log_recovery_activity(parsed['activity'], parsed['duration'])
         
         if result['success']:
+            # Also log to vault daily note
+            sync_to_vault(result)
+            
             duration_str = f" for {result['duration']} minutes" if result['duration'] else ""
             return f"✅ Logged {result['activity'].replace('_', ' ')}{duration_str}! Nice work 🙌"
         else:
