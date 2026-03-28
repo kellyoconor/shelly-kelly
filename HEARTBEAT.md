@@ -38,17 +38,22 @@ python3 /data/workspace/scripts/combined-context-check.py
 - Continue to system checks below
 - Default: "Everything running smooth - how are YOU doing?"
 
-## 📝 SESSION SUMMARY (SIMPLE APPROACH)
-**After each heartbeat, if we had conversation:**
-- Quick mental check: "What did we talk about in the last 30 minutes?"
-- If anything noteworthy, write 1-3 sentence summary  
-- Add to daily note with timestamp in "Activity Log" section
+## 📝 SESSION SUMMARY (AUTOMATIC - EVERY HEARTBEAT)
+**Always run after context checks - auto-log conversation:**
+```python
+python3 /data/workspace/scripts/check-and-log-conversation.py "SUMMARY_TEXT_HERE"
+```
+**What it does:**
+- Checks if meaningful conversation happened in last 30 minutes
+- If yes: writes simple 1-3 sentence summary to vault daily note
+- Auto-creates "Activity Log" section with timestamp
+- Only logs once per conversation (prevents spam)
 
-**Examples:**
+**Examples it will capture:**
 - **14:30**: Fixed duplicate heartbeat jobs, system working much better now
 - **15:15**: Built recovery tracking for Welly, Kelly excited about logging stretching  
 - **21:00**: Talked about feeling lonely, family not reaching out this week
-- **22:00**: Simplified event detection system, much cleaner approach
+- **22:25**: Kelly requested automatic session summary integration
 
 **Key principle**: Just capture what actually happened, no categories or complexity needed
 
