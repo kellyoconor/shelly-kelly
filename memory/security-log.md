@@ -17,4 +17,4 @@ Auto-redaction system working correctly, handling credential exposure automatica
 ---
 
 ## Previous Reviews
-*[Previous entries would be above this line]*\n2026-03-27T06:00:11.715000: Auto-redacted 22 exposed credentials from files\n
+*[Previous entries would be above this line]*\n2026-03-27T06:00:11.[REDACTED_CLIENT_ID]: Auto-redacted 22 exposed credentials from files\n\n2026-03-28T06:00:15.700708: Auto-redacted 41 exposed credentials from files\n
