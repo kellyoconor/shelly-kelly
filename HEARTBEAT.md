@@ -38,24 +38,19 @@ python3 /data/workspace/scripts/combined-context-check.py
 - Continue to system checks below
 - Default: "Everything running smooth - how are YOU doing?"
 
-## 📝 DAILY NOTE REAL-TIME UPDATES (HIGH PRIORITY)
-**Check for significant events and append to daily note:**
-```python
-python3 /data/workspace/scripts/simple-event-detector.py
-```
-**Auto-detects and logs:**
-- **Technical work**: Major debugging sessions, system building, fixes
-- **Self-care**: Spa appointments, massage, wellness activities  
-- **Emotional processing**: Family dynamics, relationship feelings, major reflections
-- **External activities**: Strava runs, Oura insights, calendar events
+## 📝 SESSION SUMMARY (SIMPLE APPROACH)
+**After each heartbeat, if we had conversation:**
+- Quick mental check: "What did we talk about in the last 30 minutes?"
+- If anything noteworthy, write 1-3 sentence summary  
+- Add to daily note with timestamp in "Activity Log" section
 
-**How it works:**
-- Scans for predefined significant event patterns
-- Prevents duplicate logging with daily state tracking
-- Auto-appends to appropriate vault daily note sections
-- Runs every heartbeat to capture events throughout the day
+**Examples:**
+- **14:30**: Fixed duplicate heartbeat jobs, system working much better now
+- **15:15**: Built recovery tracking for Welly, Kelly excited about logging stretching  
+- **21:00**: Talked about feeling lonely, family not reaching out this week
+- **22:00**: Simplified event detection system, much cleaner approach
 
-**Format**: Real-time timestamped entries that end-of-day synthesis can polish into narrative
+**Key principle**: Just capture what actually happened, no categories or complexity needed
 
 ## 💙 WELLY FILTER CHECK (rotate every 2-3 heartbeats)
 **Shelly checks Welly and filters for Kelly's attention:**
