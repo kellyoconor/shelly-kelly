@@ -41,22 +41,21 @@ python3 /data/workspace/scripts/combined-context-check.py
 ## 📝 DAILY NOTE REAL-TIME UPDATES (HIGH PRIORITY)
 **Check for significant events and append to daily note:**
 ```python
-python3 /data/workspace/scripts/combined-context-check.py --daily-note-mode
+python3 /data/workspace/scripts/simple-event-detector.py
 ```
-**If significant events detected, append to daily note:**
-- **Workouts**: `daily-note-append.py "7-mile run completed, feeling accomplished" "Health"`
-- **Major decisions**: `daily-note-append.py "Fixed research system - was triggering 15k sessions/day" "Events"`
-- **Emotional moments**: `daily-note-append.py "Feeling satisfied with debugging day - infrastructure finally aligned" "Thoughts"`
-- **Milestones**: `daily-note-append.py "Promotion to Director officially started this week" "Events"`
+**Auto-detects and logs:**
+- **Technical work**: Major debugging sessions, system building, fixes
+- **Self-care**: Spa appointments, massage, wellness activities  
+- **Emotional processing**: Family dynamics, relationship feelings, major reflections
+- **External activities**: Strava runs, Oura insights, calendar events
 
-**Detection criteria (NOW INCLUDES EXTERNAL ACTIVITIES):**
-- ✅ **NEW**: Strava activities detected via full context check
-- ✅ **NEW**: Oura health insights and score changes
-- Major system fixes or deployments 
-- Significant conversation topics (promotion, relationships, decisions)
-- Travel plans or logistics updates
+**How it works:**
+- Scans for predefined significant event patterns
+- Prevents duplicate logging with daily state tracking
+- Auto-appends to appropriate vault daily note sections
+- Runs every heartbeat to capture events throughout the day
 
-**Format**: Real-time timestamped entries that end-of-day can synthesize into narrative
+**Format**: Real-time timestamped entries that end-of-day synthesis can polish into narrative
 
 ## 💙 WELLY FILTER CHECK (rotate every 2-3 heartbeats)
 **Shelly checks Welly and filters for Kelly's attention:**
