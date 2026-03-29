@@ -83,6 +83,15 @@ def append_to_activity_log(summary: str) -> bool:
         
         # Write back to file
         vault_daily_note.write_text(content)
+        
+        # Auto-commit vault changes
+        import subprocess
+        try:
+            subprocess.run(["python3", "/data/workspace/scripts/vault-auto-commit.py", "--quiet"], 
+                          capture_output=True)
+        except:
+            pass  # Don't fail if auto-commit fails
+        
         return True
         
     except Exception as e:

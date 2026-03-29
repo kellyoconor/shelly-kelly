@@ -87,6 +87,15 @@ def append_to_activity_log(summary: str) -> bool:
             content = content.rstrip() + "\n\n## Activity Log\n" + entry + "\n"
         
         vault_daily_note.write_text(content)
+        
+        # Auto-commit vault changes
+        import subprocess
+        try:
+            subprocess.run(["/bin/bash", "/data/workspace/scripts/auto-push-vault.sh"], 
+                          capture_output=True, cwd="/data/kelly-vault")
+        except:
+            pass  # Don't fail if auto-commit fails
+        
         return True
         
     except:
