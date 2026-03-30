@@ -13,7 +13,7 @@ class WellyVaultWriter:
         self.vault_path = Path("/data/kelly-vault")
         self.daily_path = self.vault_path / "01-Daily" / "2026"
         
-    def append_to_daily_note(self, content: str, section: str = "Health") -> bool:
+    def append_to_daily_note(self, content: str, section: str = "Welly Insights") -> bool:
         """Append Welly insights to today's daily note"""
         today = datetime.now().strftime('%Y-%m-%d')
         note_path = self.daily_path / f"{today}.md"

@@ -57,9 +57,9 @@ def try_auto_rpe_log(response_text):
         # Log to daily note that we captured RPE
         try:
             subprocess.run([
-                'python3', '/data/workspace/scripts/daily-note-append.py',
-                f"Auto-logged RPE from natural response: {result['summary']}",
-                'Health'
+                'python3', '/data/workspace/welly/welly-daily-writer.py',
+                f"Auto-logged from natural response: {result['summary']}",
+                'rpe'
             ], cwd='/data/workspace')
         except:
             pass  # Don't break if logging fails

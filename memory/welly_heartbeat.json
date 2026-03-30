@@ -154,5 +154,31 @@
       "push_risk": "low",
       "confidence": 0.0
     }
+  },
+  {
+    "timestamp": "2026-03-30T13:01:35.469797",
+    "cycle_result": {
+      "date": "2026-03-30",
+      "timestamp": "2026-03-30T13:01:33.760899",
+      "steps": [
+        "database_ready",
+        "data_ingested_excellent",
+        "trends_analyzed",
+        "state_interpreted",
+        "patterns_updated",
+        "should_stay_quiet"
+      ],
+      "should_check_in": false,
+      "check_in_message": null,
+      "errors": [
+        "Low interpretation confidence"
+      ]
+    },
+    "interpreted_state": {
+      "recovery_status": "okay-ish",
+      "mind_body_alignment": "aligned",
+      "push_risk": "low",
+      "confidence": 0.0
+    }
   }
 ]
