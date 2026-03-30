@@ -10,9 +10,19 @@ import sys
 from datetime import datetime
 from pathlib import Path
 
-# Add welly to path
-sys.path.append('/data/workspace/welly')
-from welly import Welly
+# Add welly to path and handle import robustly
+import os
+welly_dir = '/data/workspace/welly'
+if welly_dir not in sys.path:
+    sys.path.insert(0, welly_dir)
+
+# Change to welly directory for import
+original_cwd = os.getcwd()
+try:
+    os.chdir(welly_dir)
+    from welly import Welly
+finally:
+    os.chdir(original_cwd)
 
 # Import RPE-Recovery integration
 try:
