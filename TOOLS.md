@@ -41,6 +41,12 @@ Things like:
 
 **Rule: If writing a Body section about running, MUST have concrete Strava data in front of me**
 
+**MANDATORY WEEKLY OS STORAGE:**
+- Always save completed weekly OS reports to `/data/kelly-vault/05-Reflections/`
+- Format: `Kelly OS Report - [DATES] 2026.md`
+- These are important historical records - never just send without saving
+- Commit to vault immediately after writing
+
 ### Browser Automation Logging (Added Mar 29, 2026)
 - **Always narrate browser steps out loud** as they happen
 - Log: "🌐 Connecting to browser...", "✅ Connected to [URL]", "🔍 Looking for [element]"
