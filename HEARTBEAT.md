@@ -60,7 +60,7 @@ python3 /data/workspace/scripts/check-and-log-conversation.py "SUMMARY_TEXT_HERE
 ## 💙 WELLY FILTER CHECK (rotate every 2-3 heartbeats)
 **Shelly checks Welly and filters for Kelly's attention:**
 ```python
-python3 /data/workspace/welly/shelly-filter.py
+python3 /data/workspace/welly/shelly_filter.py
 ```
 **If kelly_should_know = true:** Send the kelly_message to Kelly immediately
 **If kelly_should_know = false:** Just note background_info if present
