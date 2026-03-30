@@ -275,11 +275,14 @@ def merge_contexts(external_events, significance_result):
         return messages[0]
         
     # PRIORITY 3: MISSING expected activities (more interesting than health data)
-    # Check if it's a weekday morning and no run yet
-    from datetime import datetime
-    now = datetime.now()
+    # Check if it's a reasonable time to ask about runs (not early morning!)
+    from datetime import datetime, timezone, timedelta
+    # Convert UTC to Eastern Time (UTC-5 in standard time, UTC-4 in daylight time)
+    # For now, assuming EDT (UTC-4) - this is March so likely daylight time
+    eastern_offset = timedelta(hours=-4)
+    now = datetime.now(timezone.utc).astimezone(timezone(eastern_offset))
     if (now.weekday() < 5 and  # Weekday
-        9 <= now.hour <= 12 and  # Morning window
+        9 <= now.hour <= 17 and  # Morning to afternoon window (not early morning!)
         'run_today' not in external_events and 
         not conversation_check.get('running', False)):
         
