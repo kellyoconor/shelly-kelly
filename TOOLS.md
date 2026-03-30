@@ -31,6 +31,23 @@ Things like:
 - Default speaker: Kitchen HomePod
 ```
 
+### Weekly OS Report Verification (Added Mar 29, 2026)
+**MANDATORY DATA CHECK before writing any weekly summary:**
+1. **Always run Strava weekly command first:** `python3 /data/workspace/skills/strava/scripts/strava.py weekly`
+2. **Always run recent Strava runs:** `python3 /data/workspace/skills/strava/scripts/strava.py runs 10`
+3. **Check Oura data trends:** Review HRV, sleep, readiness patterns
+4. **Verify each pillar has actual data** before making claims
+5. **Never write "no activity" without double-checking the source**
+
+**Rule: If writing a Body section about running, MUST have concrete Strava data in front of me**
+
+### Browser Automation Logging (Added Mar 29, 2026)
+- **Always narrate browser steps out loud** as they happen
+- Log: "🌐 Connecting to browser...", "✅ Connected to [URL]", "🔍 Looking for [element]"
+- Report what you actually see on each page: "Page shows Google search box and logo" 
+- Call out any errors immediately: "❌ Element not found, trying different approach"
+- **Goal**: Kelly always knows what's happening, even if snapshots fail
+
 ### Git Push Strategy (Updated Mar 12, 2026)
 - **Commit and push immediately** after each logical unit of work (feature, fix, config change)
 - Railway auto-deploys on push to main — brief downtime is fine for immediate iteration
