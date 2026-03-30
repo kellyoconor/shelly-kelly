@@ -81,13 +81,13 @@ def check_recent_conversation():
         except (FileNotFoundError, json.JSONDecodeError):
             session_state = {}
         
-        # Get current hour to reset discussion tracking periodically
-        current_hour = datetime.now().strftime("%Y-%m-%d-%H")
+        # Get current date for daily reset (not hourly!)
+        current_date = datetime.now().strftime("%Y-%m-%d")
         
         # Check if state has the expected structure
         if 'discussed_topics' not in session_state:
             session_state = {
-                'last_hour': current_hour,
+                'last_date': current_date,
                 'discussed_topics': {
                     'running': False,
                     'health_data': False,
@@ -95,14 +95,33 @@ def check_recent_conversation():
                 }
             }
         else:
-            # Reset if it's a new hour (prevents endless blocking)
-            if session_state.get('last_hour') != current_hour:
-                session_state['last_hour'] = current_hour
-                session_state['discussed_topics'] = {
-                    'running': False,
-                    'health_data': False,
-                    'calendar': False
-                }
+            # Only reset if it's been more than 4 hours since last update
+            # Don't aggressively reset - preserve discussion state
+            try:
+                last_updated = session_state.get('last_updated')
+                if last_updated:
+                    last_update_time = datetime.fromisoformat(last_updated)
+                    hours_since_update = (datetime.now() - last_update_time).total_seconds() / 3600
+                    
+                    # Only reset if it's been more than 4 hours AND it's a new day
+                    if hours_since_update > 4:
+                        today = datetime.now().strftime("%Y-%m-%d")
+                        update_date = last_update_time.strftime("%Y-%m-%d")
+                        
+                        if today != update_date:
+                            # Only reset morning-specific topics for new day
+                            existing_topics = session_state.get('discussed_topics', {})
+                            session_state['discussed_topics'] = {
+                                'running': existing_topics.get('running', False),  # Preserve running state
+                                'health_data': existing_topics.get('health_data', False),  # Preserve health data state
+                                'calendar': existing_topics.get('calendar', False),
+                                'current_work': existing_topics.get('current_work', False),
+                                'morning_routine': False  # Only reset morning routine for new day
+                            }
+                            session_state['last_date'] = today
+            except:
+                # If timestamp parsing fails, don't reset anything
+                pass
         
         discussed_topics = session_state.get('discussed_topics', {
             'running': False,
@@ -124,6 +143,18 @@ def check_recent_conversation():
 def check_timestamp_fallback():
     """Fallback timestamp-based check when session history isn't available"""
     try:
+        # Check session discussion state first
+        session_state_file = "/data/workspace/memory/session-discussion-state.json"
+        session_topics = {}
+        
+        try:
+            with open(session_state_file, 'r') as f:
+                session_state = json.load(f)
+                session_topics = session_state.get('discussed_topics', {})
+        except (FileNotFoundError, json.JSONDecodeError):
+            pass
+        
+        # Check timestamp-based state  
         state_file = "/data/workspace/memory/context-check-history.json"
         
         try:
@@ -133,12 +164,14 @@ def check_timestamp_fallback():
             state = {}
         
         discussed_topics = {
-            'running': False,
-            'health_data': False,
-            'calendar': False
+            'running': session_topics.get('running', False),
+            'health_data': session_topics.get('health_data', False),
+            'calendar': session_topics.get('calendar', False),
+            'current_work': session_topics.get('current_work', False),
+            'morning_routine': session_topics.get('morning_routine', False)
         }
         
-        # Check when we last asked about running
+        # Override running with timestamp check if more recent
         if 'last_run_checkin' in state:
             last_checkin = datetime.fromisoformat(state['last_run_checkin'])
             cutoff = datetime.now() - timedelta(hours=2)

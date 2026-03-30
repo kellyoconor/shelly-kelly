@@ -19,9 +19,9 @@ This handles:
 **Always continue to other checks below.** Only report if NEW urgent alerts are detected (not existing escalated ones).
 
 ## 🎯 COMBINED CONTEXT CHECK (EVERY HEARTBEAT - HIGH PRIORITY)
-**Check both external activities AND significant memory events (with anti-spam protection):**
+**Check both external activities AND significant memory events:**
 ```python
-python3 /data/workspace/scripts/emergency-heartbeat-fix.py
+python3 /data/workspace/scripts/combined-context-check.py
 ```
 **This intelligently combines:**
 - **External data**: Strava runs, Oura health, calendar events (full-context-check.py)
