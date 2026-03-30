@@ -47,6 +47,13 @@ Things like:
 - These are important historical records - never just send without saving
 - Commit to vault immediately after writing
 
+**MANDATORY LINK VERIFICATION (Added Mar 29, 2026):**
+- **NEVER provide shopping links without verification**
+- Always test URLs before including them in research files
+- Use web search to find actual product pages, don't guess URLs
+- If providing product recommendations, verify they exist and are available
+- Mark all links as "VERIFIED" when tested and working
+
 ### Browser Automation Logging (Added Mar 29, 2026)
 - **Always narrate browser steps out loud** as they happen
 - Log: "🌐 Connecting to browser...", "✅ Connected to [URL]", "🔍 Looking for [element]"
