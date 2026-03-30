@@ -13,6 +13,13 @@ from pathlib import Path
 # Add welly to path
 sys.path.append('/data/workspace/welly')
 from welly import Welly
+
+# Import RPE-Recovery integration
+try:
+    from rpe_recovery_bridge import RPERecoveryBridge
+    RPE_RECOVERY_AVAILABLE = True
+except ImportError:
+    RPE_RECOVERY_AVAILABLE = False
 import importlib.util
 spec = importlib.util.spec_from_file_location("vault_integration", "/data/workspace/welly/vault-integration.py")
 vault_integration = importlib.util.module_from_spec(spec)
@@ -47,6 +54,20 @@ class ShellyWellyFilter:
             if self.welly.heartbeat.should_run_today():
                 daily_result = self.welly.daily_check_in()
                 
+                # Run integrated RPE-Recovery analysis
+                if RPE_RECOVERY_AVAILABLE:
+                    try:
+                        bridge = RPERecoveryBridge()
+                        integrated_state = bridge.check_and_update_recovery_state()
+                        
+                        # Add integrated insights to daily result
+                        if integrated_state.get('kelly_should_know', False):
+                            daily_result['integrated_recovery'] = integrated_state
+                            
+                    except Exception as e:
+                        # Don't break if RPE integration fails
+                        pass
+                
                 # Log to vault regardless
                 should_speak = daily_result.get("should_check_in", False)
                 check_in_message = daily_result.get("check_in_message")
@@ -61,6 +82,18 @@ class ShellyWellyFilter:
                     if self._kelly_should_know(current_state, check_in_message):
                         result["kelly_should_know"] = True
                         result["kelly_message"] = f"💙 Welly noticed something:\n\n{check_in_message}"
+                        
+                # Also check integrated recovery insights
+                if 'integrated_recovery' in daily_result:
+                    integrated = daily_result['integrated_recovery']
+                    if integrated.get('kelly_should_know', False):
+                        recovery_msg = integrated.get('kelly_message', '')
+                        if recovery_msg:
+                            if result["kelly_should_know"]:
+                                result["kelly_message"] += f"\n\n🔄 Recovery: {recovery_msg}"
+                            else:
+                                result["kelly_should_know"] = True
+                                result["kelly_message"] = f"🔄 {recovery_msg}"
                 
             # Manual check-in prompt
             if manual_prompt and self._should_prompt_kelly_for_checkin():
