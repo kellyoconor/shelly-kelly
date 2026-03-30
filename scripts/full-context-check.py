@@ -52,11 +52,9 @@ def get_calendar_context():
                                capture_output=True, text=True, cwd='/data/workspace/skills/google-calendar')
         
         if result.returncode != 0:
-            # Calendar auth might be broken - check for common patterns
-            if "401" in result.stderr or "Unauthorized" in result.stderr:
-                return "🔒 Calendar auth expired"
-            else:
-                return "❌ Calendar unavailable"
+            # Calendar auth might be broken - but Kelly doesn't want to deal with it
+            # Silently skip calendar instead of alerting about auth issues
+            return "📅 Calendar offline (no worries)"
         
         output = result.stdout.strip()
         if not output or "no events" in output.lower():

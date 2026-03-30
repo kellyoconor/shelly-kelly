@@ -2,10 +2,10 @@
   "last_hour": "2026-03-28-02",
   "discussed_topics": {
     "running": false,
-    "health_data": false,
+    "health_data": true,
     "calendar": true,
     "current_work": true,
     "morning_routine": false
   },
-  "last_updated": "2026-03-29T07:02:47.543713"
+  "last_updated": "2026-03-30T07:15:10.116434"
 }

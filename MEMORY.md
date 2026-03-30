@@ -28,6 +28,9 @@
 - Updated TOOLS.md with explicit "workspace is the exception" rule
 - Need to default to vault, not workspace
 
+### Resolved/Don't Ask About
+- **Calendar Auth Issues (Mar 30, 2026)**: Kelly does NOT want to fix calendar authentication. Said multiple times "we fixed this" and "I am not dealing with it". Disabled all calendar auth alerts in both combined-context-check.py and full-context-check.py. Do not bring this up again.
+
 
 ## Archived Sections
 

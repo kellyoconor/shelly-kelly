@@ -260,11 +260,12 @@ def merge_contexts(external_events, significance_result):
     conversation_check = check_recent_conversation()
     
     # PRIORITY 1: Actionable issues that need attention
-    if ('calendar_auth' in external_events and 
-        not conversation_check.get('calendar', False)):
-        messages.append("Quick heads up - your calendar authentication expired. Want me to help you fix it? 📅")
-        record_discussion_topic('calendar')
-        return messages[0]
+    # NOTE: Calendar auth disabled per Kelly's request - she doesn't want to deal with it
+    # if ('calendar_auth' in external_events and 
+    #     not conversation_check.get('calendar', False)):
+    #     messages.append("Quick heads up - your calendar authentication expired. Want me to help you fix it? 📅")
+    #     record_discussion_topic('calendar')
+    #     return messages[0]
     
     # PRIORITY 2: Recent runs (Kelly specifically called this out) 
     if 'run_today' in external_events and not conversation_check.get('running', False):

@@ -62,7 +62,7 @@ If you’re filing a bug, please include the output of:
 ### Telegram bot token
 1) Open Telegram and message **@BotFather**
 2) Run `/newbot` and follow the prompts
-3) BotFather will give you a token that looks like: `123456789:AA...`
+3) BotFather will give you a token that looks like: `[REDACTED_CLIENT_ID]9:AA...`
 4) Paste that token into `/setup`
 
 ### Discord bot token
@@ -178,15 +178,15 @@ docker run --rm -p 8080:8080 \
 ## Official template / endorsements
 
 - Officially recommended by OpenClaw: <https://docs.openclaw.ai/railway>
-- Railway announcement (official): [Railway tweet announcing 1‑click OpenClaw deploy](https://x.com/railway/status/2015534958925013438)
+- Railway announcement (official): [Railway tweet announcing 1‑click OpenClaw deploy](https://x.com/railway/status/[REDACTED_CLIENT_ID][REDACTED_CLIENT_ID]438)
 
   ![Railway official tweet screenshot](assets/railway-official-tweet.jpg)
 
-- Endorsement from Railway CEO: [Jake Cooper tweet endorsing the OpenClaw Railway template](https://x.com/justjake/status/2015536083514405182)
+- Endorsement from Railway CEO: [Jake Cooper tweet endorsing the OpenClaw Railway template](https://x.com/justjake/status/[REDACTED_CLIENT_ID][REDACTED_CLIENT_ID]182)
 
   ![Jake Cooper endorsement tweet screenshot](assets/railway-ceo-endorsement.jpg)
 
 - Created and maintained by **Vignesh N (@vignesh07)**
-- **11000+ deploys on Railway and counting** [Link to template on Railway](https://railway.com/deploy/clawdbot-railway-template)
+- **[REDACTED_CLIENT_ID]+ deploys on Railway and counting** [Link to template on Railway](https://railway.com/deploy/clawdbot-railway-template)
 
 ![Railway template deploy count](assets/railway-deploys.jpg)
