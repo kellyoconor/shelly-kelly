@@ -1,5 +1,7 @@
 # HEARTBEAT.md
 
+**ROLE:** Urgent alerts & system monitoring only. **Morning briefing (6:30 AM) handles weather/health/personal check-ins.**
+
 📱 **Proactive Message Delivery:** For all proactive heartbeat messages:
 1. Send to WhatsApp: accountId: custom-1, target: +[REDACTED_CLIENT_ID]401
 2. AND respond in UI chat with same message
@@ -36,7 +38,9 @@ python3 /data/workspace/scripts/combined-context-check.py
 
 **If no significant events detected:**
 - Continue to system checks below
-- Default: "Everything running smooth - how are YOU doing?"
+- **Morning hours (6-9 AM)**: HEARTBEAT_OK (let dedicated briefing handle check-ins)
+- **Other times**: Only reach out if urgent alerts or significant issues
+- Default: HEARTBEAT_OK unless something needs attention
 
 ## 📝 SESSION SUMMARY (AUTOMATIC - EVERY HEARTBEAT)
 **Always run after context checks - auto-log conversation:**
@@ -137,12 +141,12 @@ Check MEMORY.md size: `python3 /data/workspace/scripts/memory-auto-trim.py`
 **Note:** Critical travel/health gaps are now handled by alert system above, not heartbeat timing!
 
 ## Personal Follow-ups (when system checks are quiet)
-**If no urgent alerts, no system issues, and no Netty gaps - focus on Kelly:**
-- How is she feeling about recent decisions/projects?
-- Any energy shifts or patterns to check on?
-- Follow up on things she seemed uncertain about
-- **Always lead with emotional/personal before data/status**
+**Only during non-morning hours (9 AM - 6 AM) and only if something specific needs attention:**
+- Important decisions she seemed conflicted about
+- Follow-up on things she asked to be reminded about
 - **CRITICAL**: Check MEMORY.md "Resolved/Don't Ask About" section first
+- **Default**: HEARTBEAT_OK unless there's a specific reason to check in
+- **Morning briefing handles regular emotional check-ins**
 
 ## Version Management (rotate every 2 weeks)
 **Check for OpenClaw updates:**
@@ -154,7 +158,8 @@ cd /openclaw && git fetch --tags && git tag -l 'v2026*' | tail -5
 - Flag major jumps (2026.2.x to 2026.3.x) for planned upgrade sessions
 - **Goal**: Stay current, avoid big scary migrations
 
-## Other Checks (as time allows)
-- Calendar (upcoming 24-48h)
+## Other Checks (rotate, low priority)
+- Calendar (only if urgent events <2h away)
+- Version updates (only flag critical security updates)
 
-If nothing needs attention: HEARTBEAT_OK
+**DEFAULT**: HEARTBEAT_OK (stay quiet, let morning briefing handle regular check-ins)
