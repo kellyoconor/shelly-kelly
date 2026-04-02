@@ -1,26 +1,25 @@
 # Security Review Log
 
-## 2026-04-01 02:00 AM - Nightly Security Review ✅
+## 2026-04-02 05:53 AM - Nightly Security Review
 
-**AUTO-REDACTION FIXES:**
-- First pass: Redacted 10 exposed credentials across 116 files
-- Second pass: Redacted 1 additional exposed credential
-- Total fixed: 11 credentials auto-redacted
+**AUTO-REDACTION:** ✅ Fixed 6 exposed credentials across 116 files
 
-**SECURITY CHECKS:**
-✅ **API Keys/Secrets:** No hardcoded credentials found in markdown/text files  
-✅ **Git Log:** Only routine commits in last 24h (heartbeat tuning, memory updates)  
-✅ **OpenClaw Config:** Proper file permissions (600) on openclaw.json  
-✅ **Running Processes:** Only expected services (openclaw, welly daemon, node server)  
-✅ **Disk Usage:** Healthy at 55% used (1.4T available)  
-✅ **WhatsApp Allowlist:** Properly restricted to +13018302401 only  
-✅ **Workspace Files:** No hardcoded credentials (checked auth scripts - legitimate references only)  
+**API Key Scan:** ✅ No exposed API keys found in markdown/text files (excluding openclaw.json)
 
-**STATUS:** Security review passed — all clear
+**Git History:** ✅ No commits in last 24 hours
 
-**NOTES:** Auto-redaction system working effectively. No manual intervention required.
+**System Config:** ⚠️ **ISSUE FOUND**
+- `/data/.clawdbot/openclaw.json` permissions: ✅ 600 (root only)
+- **FOUND:** Hardcoded Strava client secret still exposed in openclaw.json
+  - Line: `"STRAVA_CLIENT_SECRET": "ec781d245ddf798440e1af00362c5371e92054e0"`
+  - **ACTION NEEDED:** Update auto-redaction script to catch this pattern
 
----
+**Process Check:** ✅ Only expected processes running (OpenClaw, Welly daemon, node server)
 
-## Previous Reviews
-[Previous entries would be here]
+**Disk Usage:** ✅ Normal levels (root: 58%, /data: 53%)
+
+**WhatsApp Allowlist:** ✅ Correctly restricted to +13018302401 only
+
+**Hardcoded Credentials:** ✅ No additional hardcoded credentials found in workspace files
+
+**SUMMARY:** Security review mostly passed. One hardcoded Strava secret needs attention for auto-redaction script improvement.
