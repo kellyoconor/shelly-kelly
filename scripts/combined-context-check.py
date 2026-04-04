@@ -370,8 +370,119 @@ def merge_contexts(external_events, significance_result):
     
     return messages[0] if messages else ""
 
+def check_recent_kelly_messages():
+    """Check Kelly's last 3 messages for timing and sentiment"""
+    try:
+        # Read from WhatsApp activity logs or session data
+        vault_daily_path = f"/data/kelly-vault/01-Daily/2026/{datetime.now().strftime('%Y-%m-%d')}.md"
+        
+        try:
+            with open(vault_daily_path, 'r') as f:
+                content = f.read()
+        except FileNotFoundError:
+            return {"recent_activity": True, "negative_sentiment": True}  # Fail quiet - stay silent if daily note missing
+        
+        # Look for recent activity log entries
+        current_time = datetime.now()
+        
+        # Check for Kelly's messages in last 30 minutes by looking at activity log
+        lines = content.split('\n')
+        recent_kelly_activity = False
+        negative_sentiment = False
+        
+        for line in lines:
+            # Look for timestamps in activity log - format: **HH:MM**
+            if '**' in line and ':' in line and 'Kelly' in line:
+                try:
+                    # Extract time from format like "**14:23**: Kelly said..."
+                    time_part = line.split('**')[1].split('**')[0]
+                    if ':' in time_part:
+                        hour, minute = time_part.split(':')
+                        message_time = current_time.replace(hour=int(hour), minute=int(minute), second=0, microsecond=0)
+                        
+                        # Check if within last 30 minutes
+                        if (current_time - message_time).total_seconds() < 1800:  # 30 minutes
+                            recent_kelly_activity = True
+                            
+                            # Check for negative sentiment in the line
+                            line_lower = line.lower()
+                            if any(word in line_lower for word in [
+                                'noooo', 'crying', 'emojis', 'upset', 'sad', 'frustrated', 
+                                'angry', 'annoyed', 'tired', 'exhausted', 'stressed',
+                                'worried', 'anxious', 'overwhelmed', 'disappointed'
+                            ]):
+                                negative_sentiment = True
+                                break
+                                
+                except (ValueError, IndexError):
+                    continue
+        
+        return {
+            "recent_activity": recent_kelly_activity,
+            "negative_sentiment": negative_sentiment
+        }
+        
+    except Exception as e:
+        # Fail quiet - stay silent if parsing crashes (prefer missing heartbeat over spam)
+        return {"recent_activity": True, "negative_sentiment": True}
+
+def check_last_heartbeat_time():
+    """Check if we sent a heartbeat message in the last 6 hours"""
+    try:
+        heartbeat_state_file = "/data/workspace/memory/heartbeat-state.json"
+        
+        try:
+            with open(heartbeat_state_file, 'r') as f:
+                state = json.load(f)
+        except (FileNotFoundError, json.JSONDecodeError):
+            return False  # No previous heartbeat logged
+        
+        last_heartbeat = state.get('last_heartbeat_message_time')
+        if not last_heartbeat:
+            return False
+            
+        last_time = datetime.fromisoformat(last_heartbeat)
+        hours_since = (datetime.now() - last_time).total_seconds() / 3600
+        
+        # Return True if we sent a message in last 6 hours (should stay quiet)
+        return hours_since < 6
+        
+    except Exception as e:
+        return False  # Fail safe - allow heartbeat if file issues
+
+def record_heartbeat_message():
+    """Record that we just sent a heartbeat message"""
+    try:
+        heartbeat_state_file = "/data/workspace/memory/heartbeat-state.json"
+        
+        state = {
+            'last_heartbeat_message_time': datetime.now().isoformat(),
+            'last_heartbeat_date': datetime.now().strftime('%Y-%m-%d')
+        }
+        
+        with open(heartbeat_state_file, 'w') as f:
+            json.dump(state, f, indent=2)
+            
+    except Exception as e:
+        pass  # Non-critical - don't block message sending
+
 def get_combined_context():
     """Run both checks and return the most appropriate message"""
+    
+    # PRE-CHECK 1: Check if we already sent a heartbeat in last 6 hours
+    if check_last_heartbeat_time():
+        return ""  # Stay quiet - already checked in recently
+    
+    # PRE-CHECK 2: Check Kelly's recent messages
+    kelly_state = check_recent_kelly_messages()
+    
+    # If Kelly sent anything in last 30 minutes, stay quiet
+    if kelly_state.get("recent_activity", False):
+        return ""
+    
+    # PRE-CHECK 3: If negative sentiment detected, skip generic check-ins
+    if kelly_state.get("negative_sentiment", False):
+        return ""
     
     # Run both checks
     external_events = run_full_context_check()
@@ -379,14 +490,20 @@ def get_combined_context():
     
     # Handle errors gracefully
     if "error" in external_events and "error" in significance_result:
-        return "How's your day going? (Context checks temporarily unavailable)"
+        result = "How's your day going? (Context checks temporarily unavailable)"
+        record_heartbeat_message()
+        return result
     
     # If one failed, use the other
     if "error" in external_events:
         if 'significance_message' in significance_result:
-            return significance_result['significance_message']
+            result = significance_result['significance_message']
+            record_heartbeat_message()
+            return result
         else:
-            return "How are you feeling today?"
+            result = "How are you feeling today?"
+            record_heartbeat_message()
+            return result
             
     if "error" in significance_result:
         # Check conversation history even in fallback cases
@@ -394,12 +511,22 @@ def get_combined_context():
         if 'run_today' in external_events and not conversation_check.get('running', False):
             run_info = external_events['run_today']
             record_run_checkin()
-            return f"Saw your run! {run_info} - how did it feel? 🏃‍♀️"
+            result = f"Saw your run! {run_info} - how did it feel? 🏃‍♀️"
+            record_heartbeat_message()
+            return result
         else:
-            return "Everything running smooth - how are YOU doing?"
+            result = "Everything running smooth - how are YOU doing?"
+            record_heartbeat_message()
+            return result
     
     # Both successful - merge intelligently
-    return merge_contexts(external_events, significance_result)
+    result = merge_contexts(external_events, significance_result)
+    
+    # Record that we're sending a heartbeat message (if not empty)
+    if result and result.strip():
+        record_heartbeat_message()
+    
+    return result
 
 def detect_and_log_events():
     """Detect significant events and log them to daily vault note"""
