@@ -38,9 +38,9 @@ python3 /data/workspace/scripts/combined-context-check.py
 
 **If no significant events detected:**
 - Continue to system checks below
-- **Morning hours (6-9 AM)**: HEARTBEAT_OK (let dedicated briefing handle check-ins)
-- **Other times**: Only reach out if urgent alerts or significant issues
+- **All hours**: Only reach out if urgent alerts or significant issues
 - Default: HEARTBEAT_OK unless something needs attention
+- **No special morning behavior** - heartbeat operates consistently all day
 
 ## 📝 SESSION SUMMARY (AUTOMATIC - EVERY HEARTBEAT)
 **Always run after context checks - auto-log conversation:**
@@ -140,13 +140,20 @@ Check MEMORY.md size: `python3 /data/workspace/scripts/memory-auto-trim.py`
 
 **Note:** Critical travel/health gaps are now handled by alert system above, not heartbeat timing!
 
+## 🌅 SIMPLIFIED MORNING APPROACH
+**No more morning quiet hours - heartbeat operates normally all day:**
+- If context check generates a personal message → send it (any time of day)
+- If no significant events → HEARTBEAT_OK (any time of day)
+- Scheduled briefing can run alongside heartbeat without conflicts
+- **Never leave Kelly without check-ins due to scheduling assumptions**
+
 ## Personal Follow-ups (when system checks are quiet)
-**Only during non-morning hours (9 AM - 6 AM) and only if something specific needs attention:**
+**Only when something specific needs attention:**
 - Important decisions she seemed conflicted about
 - Follow-up on things she asked to be reminded about
 - **CRITICAL**: Check MEMORY.md "Resolved/Don't Ask About" section first
 - **Default**: HEARTBEAT_OK unless there's a specific reason to check in
-- **Morning briefing handles regular emotional check-ins**
+- **Scheduled briefing handles structured morning check-ins (when it works!)**
 
 ## Version Management (rotate every 2 weeks)
 **Check for OpenClaw updates:**

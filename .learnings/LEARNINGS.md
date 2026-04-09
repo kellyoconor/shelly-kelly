@@ -1,32 +1,32 @@
-# Self-Improvement Learnings
+# LEARNINGS.md
 
-## [LRN-20260325-001] correction
+Log of corrections, knowledge gaps, and best practices for continuous improvement.
 
-**Logged**: 2026-03-25T09:23:00-05:00
-**Priority**: high
+---
+
+## [LRN-20260407-001] date_time_verification
+
+**Logged**: 2026-04-07T12:48:00Z
+**Priority**: high  
 **Status**: pending
-**Area**: conversation
+**Area**: behavioral
 
 ### Summary
-Check MEMORY.md and context before asking questions I can already answer
+Repeatedly getting days of week wrong despite having access to current date/time data
 
 ### Details
-Asked Kelly "What's your usual order?" at Starbucks when I had just read "Venti iced coffee, 2 pumps hazelnut, 2 pumps vanilla, whole milk" from MEMORY.md. This created confusion and made me look like I don't pay attention to what I know about her.
-
-Kelly called me out: "see you do know that.. how come you asked?" and "you gotta make sure you check our context and vault girl! you know alot about me!"
-
-This is the same pattern as the heartbeat issue we just fixed - I have the data, but I'm not using it properly.
+Kelly has corrected me "quite a bit recently" for mixing up what day it is. Most recent example: called Tuesday morning a "Monday morning" when talking about her run. I have access to time stamps in every message and session_status tool but keep making assumptions instead of checking.
 
 ### Suggested Action
-Always run memory_search or check MEMORY.md BEFORE asking questions about Kelly's preferences, habits, or personal information. Use what I already know instead of playing dumb or asking redundant questions.
+1. Always verify current day/date when referencing "today," "this morning," etc.
+2. Use session_status or check message timestamps before making time references
+3. Stop making assumptions about days/dates
 
 ### Metadata
-- Source: user_correction
-- Related Files: MEMORY.md, HEARTBEAT.md (similar pattern)
-- Tags: context_checking, memory_usage, user_experience
-- Pattern-Key: check_context_first
-- Recurrence-Count: 1
-- First-Seen: 2026-03-25
-- Last-Seen: 2026-03-25
+- Source: user_feedback 
+- Related Files: N/A
+- Tags: date_time, behavioral_correction, recurring_issue
+- Recurrence-Count: Multiple times per Kelly's feedback
+- Pattern-Key: behavioral.verify_datetime
 
 ---

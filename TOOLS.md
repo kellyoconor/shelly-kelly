@@ -183,6 +183,18 @@ Before any task can be marked complete, it must include:
 
 Skills are shared. Your setup is yours. Keeping them apart means you can update skills without losing your notes, and share skills without leaking your infrastructure.
 
+## 🚨 Emergency System Fixes (Added Apr 2, 2026)
+
+### Cascade Failure Prevention
+**Problem**: WhatsApp auth breaks → cron jobs fail → stuck sessions → system hangs
+**Emergency fix**: `python3 /data/workspace/scripts/emergency-cascade-reset.py`
+**Prevention**: Circuit breakers added to messaging cron jobs (auto-disable after 3 failures)
+
+### System Health Monitoring  
+- **Session monitor** now runs every 2 hours to detect cascade risk early
+- **Emergency thresholds**: >60 sessions = critical, >30 = warning, >3 failed messaging jobs = WhatsApp issue
+- **Auto-responses**: Disables non-critical jobs, forces cleanup, alerts Kelly
+
 ---
 
 Add whatever helps you do your job. This is your cheat sheet.
