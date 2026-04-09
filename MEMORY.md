@@ -28,6 +28,13 @@
 - Updated TOOLS.md with explicit "workspace is the exception" rule
 - Need to default to vault, not workspace
 
+### System Health (Apr 2026)
+- Cascade prevention system working well — early detection preventing WhatsApp auth → session buildup → system hangs
+- Emergency backup systems refined and functional
+
+### Behavioral Issues to Fix
+- **Date/Day Verification (CRITICAL - Apr 8, 2026)**: Kelly corrected me AGAIN for getting days wrong ("Tuesday" when it was Wednesday). She said "Seriously can you make sure of it" - this is now a major frustration. I MUST run session_status before ANY mention of days/dates. No more guessing, ever. Previous correction on Apr 7.
+
 ### Resolved/Don't Ask About
 - **Calendar Auth Issues (Mar 30, 2026)**: Kelly does NOT want to fix calendar authentication. Said multiple times "we fixed this" and "I am not dealing with it". Disabled all calendar auth alerts in both combined-context-check.py and full-context-check.py. Do not bring this up again.
 
