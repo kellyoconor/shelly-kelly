@@ -206,5 +206,83 @@
       "push_risk": "low",
       "confidence": 0.0
     }
+  },
+  {
+    "timestamp": "2026-04-02T16:23:53.070435",
+    "cycle_result": {
+      "date": "2026-04-02",
+      "timestamp": "2026-04-02T16:23:51.532725",
+      "steps": [
+        "database_ready",
+        "data_ingested_excellent",
+        "trends_analyzed",
+        "state_interpreted",
+        "patterns_updated",
+        "should_stay_quiet"
+      ],
+      "should_check_in": false,
+      "check_in_message": null,
+      "errors": [
+        "Low interpretation confidence"
+      ]
+    },
+    "interpreted_state": {
+      "recovery_status": "okay-ish",
+      "mind_body_alignment": "aligned",
+      "push_risk": "low",
+      "confidence": 0.0
+    }
+  },
+  {
+    "timestamp": "2026-04-08T20:24:09.734227",
+    "cycle_result": {
+      "date": "2026-04-08",
+      "timestamp": "2026-04-08T20:24:08.074486",
+      "steps": [
+        "database_ready",
+        "data_ingested_excellent",
+        "trends_analyzed",
+        "state_interpreted",
+        "patterns_updated",
+        "should_stay_quiet"
+      ],
+      "should_check_in": false,
+      "check_in_message": null,
+      "errors": [
+        "Low interpretation confidence"
+      ]
+    },
+    "interpreted_state": {
+      "recovery_status": "okay-ish",
+      "mind_body_alignment": "aligned",
+      "push_risk": "low",
+      "confidence": 0.0
+    }
+  },
+  {
+    "timestamp": "2026-04-09T12:54:40.729056",
+    "cycle_result": {
+      "date": "2026-04-09",
+      "timestamp": "2026-04-09T12:54:39.100712",
+      "steps": [
+        "database_ready",
+        "data_ingested_excellent",
+        "trends_analyzed",
+        "state_interpreted",
+        "patterns_updated",
+        "should_stay_quiet"
+      ],
+      "should_check_in": false,
+      "check_in_message": null,
+      "errors": [
+        "Low interpretation confidence"
+      ]
+    },
+    "interpreted_state": {
+      "recovery_status": "okay-ish",
+      "mind_body_alignment": "aligned",
+      "push_risk": "low",
+      "confidence": 0.0
+    }
   }
 ]

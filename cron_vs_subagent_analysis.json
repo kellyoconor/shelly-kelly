@@ -1,0 +1,140 @@
+{
+  "timestamp": "2026-04-03T22:57:35.595686",
+  "test_type": "cron_vs_subagent_comparison",
+  "results": {
+    "weather": {
+      "subagent": {
+        "success": true,
+        "exit_code": 0,
+        "time": 0.23727917671203613,
+        "stdout_len": 32,
+        "stderr_len": 0
+      },
+      "cron": {
+        "success": true,
+        "exit_code": 0,
+        "time": 0.23287153244018555,
+        "stdout_len": 32,
+        "stderr_len": 0
+      },
+      "difference": {
+        "success_diff": false,
+        "time_diff": 0.004407644271850586,
+        "exit_code_diff": false
+      }
+    },
+    "oura": {
+      "subagent": {
+        "success": true,
+        "exit_code": 0,
+        "time": 0.8613839149475098,
+        "stdout_len": 911,
+        "stderr_len": 0
+      },
+      "cron": {
+        "success": true,
+        "exit_code": 0,
+        "time": 0.9177801609039307,
+        "stdout_len": 911,
+        "stderr_len": 0
+      },
+      "difference": {
+        "success_diff": false,
+        "time_diff": 0.0563962459564209,
+        "exit_code_diff": false
+      }
+    },
+    "mirror": {
+      "subagent": {
+        "success": true,
+        "exit_code": 0,
+        "time": 1.5659055709838867,
+        "stdout_len": 104,
+        "stderr_len": 0
+      },
+      "cron": {
+        "success": true,
+        "exit_code": 0,
+        "time": 1.5281877517700195,
+        "stdout_len": 104,
+        "stderr_len": 0
+      },
+      "difference": {
+        "success_diff": false,
+        "time_diff": 0.03771781921386719,
+        "exit_code_diff": false
+      }
+    },
+    "python_test": {
+      "subagent": {
+        "success": true,
+        "exit_code": 0,
+        "time": 0.008481740951538086,
+        "stdout_len": 61,
+        "stderr_len": 0
+      },
+      "cron": {
+        "success": true,
+        "exit_code": 0,
+        "time": 0.008488178253173828,
+        "stdout_len": 61,
+        "stderr_len": 0
+      },
+      "difference": {
+        "success_diff": false,
+        "time_diff": 6.4373016357421875e-06,
+        "exit_code_diff": false
+      }
+    },
+    "path_test": {
+      "subagent": {
+        "success": true,
+        "exit_code": 0,
+        "time": 0.0025992393493652344,
+        "stdout_len": 17,
+        "stderr_len": 0
+      },
+      "cron": {
+        "success": true,
+        "exit_code": 0,
+        "time": 0.0012514591217041016,
+        "stdout_len": 17,
+        "stderr_len": 0
+      },
+      "difference": {
+        "success_diff": false,
+        "time_diff": 0.0013477802276611328,
+        "exit_code_diff": false
+      }
+    },
+    "pwd_test": {
+      "subagent": {
+        "success": true,
+        "exit_code": 0,
+        "time": 0.0019304752349853516,
+        "stdout_len": 217,
+        "stderr_len": 0
+      },
+      "cron": {
+        "success": true,
+        "exit_code": 0,
+        "time": 0.001737356185913086,
+        "stdout_len": 217,
+        "stderr_len": 0
+      },
+      "difference": {
+        "success_diff": false,
+        "time_diff": 0.00019311904907226562,
+        "exit_code_diff": false
+      }
+    }
+  },
+  "critical_differences": [],
+  "environment_info": {
+    "current_uid": 0,
+    "current_gid": 0,
+    "working_directory": "/data/workspace",
+    "python_executable": "/usr/bin/python3",
+    "python_version": "3.11.2 (main, Apr 28 2025, 14:11:48) [GCC 12.2.0]"
+  }
+}

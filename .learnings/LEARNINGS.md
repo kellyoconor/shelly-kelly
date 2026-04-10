@@ -29,4 +29,25 @@ Kelly has corrected me "quite a bit recently" for mixing up what day it is. Most
 - Recurrence-Count: Multiple times per Kelly's feedback
 - Pattern-Key: behavioral.verify_datetime
 
+---## [LRN-20260409-001] correction
+
+**Logged**: 2026-04-09T22:37:45Z
+**Priority**: medium
+**Status**: pending
+**Area**: infra
+
+### Summary
+When running step-by-step Git plans, do not advance to a different command than the one currently requested; if the user asks for a specific command, run only that command and paste the raw output.
+
+### Details
+During repo normalization, the user asked for step-by-step execution. I showed output from `git rev-parse --abbrev-ref HEAD` when they wanted `git stash list`, so I need to honor the exact next command rather than my preplanned sequence.
+
+### Suggested Action
+In guided terminal workflows, mirror the user's requested command exactly and avoid bundling, substituting, or advancing steps.
+
+### Metadata
+- Source: user_feedback
+- Related Files: /openclaw
+- Tags: correction, terminal-workflow, step-by-step
+
 ---

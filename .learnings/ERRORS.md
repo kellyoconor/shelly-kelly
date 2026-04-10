@@ -74,4 +74,32 @@ Install agentmail package or update skill to use different email access method
 - Related Files: /data/workspace/skills/agentmail/scripts/client.py
 - Impact: Can't read emails sent to agent inbox
 
+---## [ERR-20260409-001] openclaw-update-run
+
+**Logged**: 2026-04-09T22:23:30Z
+**Priority**: medium
+**Status**: pending
+**Area**: infra
+
+### Summary
+`gateway.update.run` failed on a git checkout because it assumes a `main` branch exists.
+
+### Error
+```text
+error: pathspec 'main' did not match any file(s) known to git
+```
+
+### Context
+- Operation attempted: OpenClaw self-update after user approval
+- Environment: `/openclaw` installed as git checkout in detached HEAD at tag `v2026.3.8`
+- Local changes were successfully stashed before retrying update
+- Update still failed during `git checkout main`
+
+### Suggested Fix
+Detect the repo's default branch dynamically (or handle detached-tag installs explicitly) instead of assuming `main` exists.
+
+### Metadata
+- Reproducible: yes
+- Related Files: /openclaw
+
 ---
