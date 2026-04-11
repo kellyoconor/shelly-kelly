@@ -29,7 +29,9 @@ Kelly has corrected me "quite a bit recently" for mixing up what day it is. Most
 - Recurrence-Count: Multiple times per Kelly's feedback
 - Pattern-Key: behavioral.verify_datetime
 
----## [LRN-20260409-001] correction
+---
+
+## [LRN-20260409-001] correction
 
 **Logged**: 2026-04-09T22:37:45Z
 **Priority**: medium
@@ -49,5 +51,31 @@ In guided terminal workflows, mirror the user's requested command exactly and av
 - Source: user_feedback
 - Related Files: /openclaw
 - Tags: correction, terminal-workflow, step-by-step
+
+---
+
+## [LRN-20260411-001] correction
+
+**Logged**: 2026-04-11T02:52:49Z
+**Priority**: high
+**Status**: pending
+**Area**: behavioral
+
+### Summary
+When the user names a product, substance, or context-specific thing I do not recognize, I must ask what it is instead of assuming from surrounding context.
+
+### Details
+Kelly said she was having another "Wims drink" and feeling sad/lonely. I incorrectly assumed Wims was alcoholic and responded with alcohol-safety guidance without first checking what it was. Kelly explicitly corrected me: "You should have checked. And like.. you’re not helping and not listening to me." The real failure was not just the wrong assumption; it made the response feel inattentive and off-target in an emotionally vulnerable moment.
+
+### Suggested Action
+1. If an unfamiliar noun/product appears, ask a clarifying question before giving substance-specific advice.
+2. In emotional conversations, reflect the user’s feeling first and avoid speculative guidance.
+3. Treat "not listening" feedback as a signal to slow down, apologize plainly, and re-anchor on exactly what the user said.
+
+### Metadata
+- Source: user_feedback
+- Related Files: /data/workspace/SOUL.md, /data/workspace/AGENTS.md
+- Tags: correction, listening, assumptions, emotional-support
+- Pattern-Key: behavioral.check_unknown_terms_before_advice
 
 ---

@@ -1,8 +1,8 @@
 # Kelly State - Working Memory
 
-*Updated: 2026-04-09 22:24:24*
+*Updated: 2026-04-10 10:33:31*
 
-Physical: Kelly ran 6.51 miles today at a 8:50/mi pace. Kelly's readiness is high at 85% and her sleep quality was decent last night (77%).
+Physical: Kelly ran 6.51 miles yesterday. Kelly's readiness is moderate at 75% and her sleep was restless last night (69%).
 Schedule: Kelly's calendar authentication has expired.
 Focus: Kelly is currently focused on improving Shelly's architecture and context awareness.
 
