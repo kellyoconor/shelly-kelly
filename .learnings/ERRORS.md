@@ -103,3 +103,31 @@ Detect the repo's default branch dynamically (or handle detached-tag installs ex
 - Related Files: /openclaw
 
 ---
+## [ERR-20260412-001] git_push_auth
+
+**Logged**: 2026-04-12T07:30:30Z
+**Priority**: high
+**Status**: pending
+**Area**: infra
+
+### Summary
+Auto git push cron failed because git push over HTTPS could not read GitHub credentials in non-interactive exec.
+
+### Error
+```
+fatal: could not read Username for https://github.com: No such device or address
+```
+
+### Context
+- Command/operation attempted: auto commit, pull --rebase, and push for /data/workspace and /data/kelly-vault
+- Input or parameters used: non-interactive shell via exec tool
+- Environment details if relevant: push attempted to https://github.com/kellyoconor/shelly-kelly from cron context
+
+### Suggested Fix
+Configure non-interactive GitHub auth for cron/exec context (credential helper, token-based remote, or SSH remote) before relying on automated pushes.
+
+### Metadata
+- Reproducible: yes
+- Related Files: /data/workspace/.learnings/ERRORS.md
+
+---
