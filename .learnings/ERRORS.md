@@ -131,3 +131,66 @@ Configure non-interactive GitHub auth for cron/exec context (credential helper, 
 - Related Files: /data/workspace/.learnings/ERRORS.md
 
 ---
+## [ERR-20260413-001] git-push-workspace-auth
+
+**Logged**: 2026-04-13T07:30:55.986514+00:00
+**Priority**: high
+**Status**: resolved
+**Area**: infra
+
+### Summary
+Workspace repo auto-push failed at `git push origin main` because GitHub credentials were unavailable in this environment.
+
+### Error
+```text
+fatal: could not read Username for 'https://github.com': No such device or address
+```
+
+### Context
+- Operation attempted: cron-driven auto git push for `/data/workspace`
+- Sequence used: commit → `git pull --rebase origin main` → `git push origin main`
+- Commit created successfully: `374e676` (`Auto git push`)
+- Remote: `https://github.com/kellyoconor/shelly-kelly.git`
+
+### Suggested Fix
+Configure non-interactive GitHub auth for the workspace repo remote (token, credential helper, or authenticated remote URL) before the next auto-push run.
+
+### Metadata
+- Reproducible: yes
+- Related Files: /data/workspace/.git/config
+
+### Resolution
+- **Resolved**: 2026-04-13T12:36:00Z
+- **Commit/PR**: n/a (config change)
+- **Notes**: Configured `/data/workspace` local git `credential.helper` to supply `x-access-token` plus `$KELLY_VAULT_TOKEN` for non-interactive HTTPS pushes; verified by successful push of commit `b046807` to `origin/main`.
+
+---
+
+## [ERR-20260413-002] whatsapp-message-target-resolution
+
+**Logged**: 2026-04-13T07:30:55.986514+00:00
+**Priority**: medium
+**Status**: pending
+**Area**: infra
+
+### Summary
+Failure notification could not be sent because the WhatsApp target name `Kelly` was not resolvable by the messaging tool.
+
+### Error
+```text
+Unknown target "Kelly" for WhatsApp. Hint: <E.164|group JID>
+```
+
+### Context
+- Operation attempted: `message.send` on channel `whatsapp`
+- Parameters included: `accountId=custom-1`, `target=Kelly`
+- Cron instructions required a WhatsApp notification on push failure, but no E.164 number or group JID was provided.
+
+### Suggested Fix
+Store Kelly's WhatsApp target as an E.164 number or group JID in a stable note/config and use that exact value for automated notifications.
+
+### Metadata
+- Reproducible: yes
+- Related Files: /data/workspace/TOOLS.md
+
+---
