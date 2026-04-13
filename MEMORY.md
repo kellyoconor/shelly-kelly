@@ -34,6 +34,7 @@
 
 ### Behavioral Issues to Fix
 - **Date/Day Verification (CRITICAL - Apr 8, 2026)**: Kelly corrected me AGAIN for getting days wrong ("Tuesday" when it was Wednesday). She said "Seriously can you make sure of it" - this is now a major frustration. I MUST run session_status before ANY mention of days/dates. No more guessing, ever. Previous correction on Apr 7.
+- **Alert Noise (Apr 13, 2026)**: Kelly said repeated WhatsApp gateway connected alerts are "so so noisy." If the gateway is connected for two checks in a row, stay quiet unless there was a disconnect/reconnect change or another meaningful issue.
 
 ### Resolved/Don't Ask About
 - **Calendar Auth Issues (Mar 30, 2026)**: Kelly does NOT want to fix calendar authentication. Said multiple times "we fixed this" and "I am not dealing with it". Disabled all calendar auth alerts in both combined-context-check.py and full-context-check.py. Do not bring this up again.

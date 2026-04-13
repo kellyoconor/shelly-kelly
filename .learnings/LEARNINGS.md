@@ -79,3 +79,26 @@ Kelly said she was having another "Wims drink" and feeling sad/lonely. I incorre
 - Pattern-Key: behavioral.check_unknown_terms_before_advice
 
 ---
+
+## [LRN-20260413-001] correction
+
+**Logged**: 2026-04-13T12:23:00Z
+**Priority**: high
+**Status**: pending
+**Area**: config
+
+### Summary
+Suppress repeated WhatsApp gateway "connected" heartbeat messages after consecutive healthy checks
+
+### Details
+Kelly said the gateway reminders are too noisy and specifically asked that if the WhatsApp gateway is connected for two checks in a row, we should stop telling her. Only meaningful state changes or issues should surface.
+
+### Suggested Action
+Update HEARTBEAT.md so repeated healthy "gateway connected" reminders return HEARTBEAT_OK instead of messaging Kelly.
+
+### Metadata
+- Source: user_feedback
+- Related Files: /data/workspace/HEARTBEAT.md, /data/workspace/MEMORY.md
+- Tags: whatsapp, heartbeat, noise, correction
+
+---

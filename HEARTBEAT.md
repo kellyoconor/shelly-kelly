@@ -7,6 +7,8 @@
 2. AND respond in UI chat with same message
 Never use 'default' accountId or "Kelly" as target.
 
+🔇 **Noise suppression:** If the WhatsApp gateway is connected for two heartbeat checks in a row, do **not** send another "gateway connected" update. Stay quiet unless there was a disconnect/reconnect transition, a new issue, or something meaningfully changed.
+
 ## 🚨 CRITICAL ALERT SYSTEM (EVERY HEARTBEAT - HIGHEST PRIORITY)
 **Always check first - never skip:**
 ```bash
