@@ -194,3 +194,30 @@ Store Kelly's WhatsApp target as an E.164 number or group JID in a stable note/c
 - Related Files: /data/workspace/TOOLS.md
 
 ---
+## [ERR-20260414-001] exec_shell_pipefail
+
+**Logged**: 2026-04-14T06:00:49Z
+**Priority**: low
+**Status**: pending
+**Area**: infra
+
+### Summary
+Initial security review command failed because `/bin/sh` in exec does not support `set -o pipefail`
+
+### Error
+```
+sh: 1: set: Illegal option -o pipefail
+```
+
+### Context
+- Command/operation attempted: multi-step `exec` shell script for nightly security review
+- Environment details: OpenClaw `exec` default shell invoked as `sh`
+
+### Suggested Fix
+Use POSIX-compatible shell syntax by default in `exec`, or explicitly invoke `bash -lc` only when bash-specific options are needed.
+
+### Metadata
+- Reproducible: yes
+- Related Files: /data/workspace/.learnings/ERRORS.md
+
+---
