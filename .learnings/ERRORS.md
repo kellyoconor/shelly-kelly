@@ -194,6 +194,34 @@ Store Kelly's WhatsApp target as an E.164 number or group JID in a stable note/c
 - Related Files: /data/workspace/TOOLS.md
 
 ---
+## [ERR-20260415-001] exec_bash_quoting
+
+**Logged**: 2026-04-15T00:04:00Z
+**Priority**: low
+**Status**: pending
+**Area**: infra
+
+### Summary
+Initial vault auto-push exec failed because nested shell quoting broke the bash command substitution string.
+
+### Error
+```
+%H:%M:%S: -c: line 2: unexpected EOF while looking for matching `)'
+```
+
+### Context
+- Command/operation attempted: cron-driven vault git auto-push in `/data/kelly-vault`
+- Input or parameters used: `bash -lc '... $(date '+%Y-%m-%d %H:%M:%S %Z') ...'`
+- Environment details: OpenClaw `exec` with bash wrapper, but single-quote nesting terminated the command early
+
+### Suggested Fix
+Avoid nesting single quotes inside a single-quoted `bash -lc` string; use double quotes around the outer script or compute the timestamp separately.
+
+### Metadata
+- Reproducible: yes
+- Related Files: /data/workspace/.learnings/ERRORS.md
+
+---
 ## [ERR-20260414-001] exec_shell_pipefail
 
 **Logged**: 2026-04-14T06:00:49Z
@@ -215,6 +243,62 @@ sh: 1: set: Illegal option -o pipefail
 
 ### Suggested Fix
 Use POSIX-compatible shell syntax by default in `exec`, or explicitly invoke `bash -lc` only when bash-specific options are needed.
+
+### Metadata
+- Reproducible: yes
+- Related Files: /data/workspace/.learnings/ERRORS.md
+
+---
+## [ERR-20260415-001] exec-shell
+
+**Logged**: 2026-04-15T06:00:00Z
+**Priority**: medium
+**Status**: pending
+**Area**: infra
+
+### Summary
+Initial exec command failed because /bin/sh did not support `set -o pipefail`.
+
+### Error
+```
+sh: 1: set: Illegal option -o pipefail
+```
+
+### Context
+- Command/operation attempted: multiline shell audit via exec tool
+- Input/parameters used: relied on default shell instead of explicit bash
+- Environment details: OpenClaw exec defaulted to sh
+
+### Suggested Fix
+Wrap complex shell scripts with `bash -lc` when using bash-specific options like `pipefail`.
+
+### Metadata
+- Reproducible: yes
+- Related Files: /data/workspace/.learnings/ERRORS.md
+
+---
+## [ERR-20260415-001] exec-shell-option
+
+**Logged**: 2026-04-15T07:31:00Z
+**Priority**: medium
+**Status**: pending
+**Area**: infra
+
+### Summary
+Git automation command failed because exec used /bin/sh, which does not support `set -o pipefail`.
+
+### Error
+```
+sh: 1: set: Illegal option -o pipefail
+```
+
+### Context
+- Command/operation attempted: parallel repo git automation via exec
+- Input or parameters used: shell script starting with `set -euo pipefail`
+- Environment details if relevant: exec default shell is `/bin/sh`
+
+### Suggested Fix
+Use POSIX-safe `set -eu` or explicitly run `bash -lc` when pipefail is needed.
 
 ### Metadata
 - Reproducible: yes
