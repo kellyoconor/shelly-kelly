@@ -94,7 +94,7 @@
 - Broad keyword scan only surfaced code references, setup docs, test fixtures, and redacted historical notes
 
 **SUMMARY:** Security review passed — all clear.
-\n2026-04-15T06:00:47.[REDACTED_CLIENT_ID]: Auto-redacted 8 exposed credentials from files\n\n2026-04-15T06:01:00.491788: Auto-redacted 1 exposed credentials from files\n
+\n2026-04-15T06:00:47.[REDACTED_CLIENT_ID]: Auto-redacted 8 exposed credentials from files\n\n2026-04-15T06:01:00.[REDACTED_CLIENT_ID]: Auto-redacted 1 exposed credentials from files\n
 ## 2026-04-15 02:00 AM - Nightly Security Review
 
 **AUTO-REDACTION / HYGIENE:** ✅ Fixed during review
@@ -107,7 +107,7 @@
 
 **Config / Permissions:** ✅ OK
 - `/data/.clawdbot/openclaw.json` permissions: `600 root:root`
-- WhatsApp allowlist remains restricted to `+13018302401` only on both `custom-1` and `default`
+- WhatsApp allowlist remains restricted to `+[REDACTED_CLIENT_ID]401` only on both `custom-1` and `default`
 
 **Logs / Redaction:** ✅ OK after fixes
 - No live secret patterns remained in reviewed logs after redaction
@@ -123,5 +123,34 @@
 - `openclaw security audit --deep`: `0 critical · 0 warn · 1 info`
 - Informational note only: WhatsApp group allowlist is empty, so unapproved group messages are dropped
 - `openclaw update status`: update available (`2026.4.14`), but this is maintenance, not an active incident
+
+**SUMMARY:** Security review passed — all clear.
+\n2026-04-16T06:01:01.638235: Auto-redacted 7 exposed credentials from files\n
+
+## 2026-04-16 02:00 AM - Nightly Security Review
+
+**AUTO-REDACTION:** ✅ Fixed exposed credentials immediately before review
+- Auto-redact pass redacted 7 exposed credentials total
+- Files touched: `/data/workspace/memory/security-log.md` and `/data/workspace/.git/logs/HEAD`
+- Per policy, credential exposure was auto-fixed and did not trigger an alert
+
+**API Key / Secret Scan:** ✅ Clean after redaction
+- `grep 'sk-'` in workspace markdown/text/json only surfaced prior security-log notes and redacted placeholders
+- Broad hardcoded-credential scan only surfaced code patterns, variable names, placeholders, and docs examples
+- No live hardcoded credentials remained in `/data/workspace` text/config files reviewed here
+
+**Git History (last 24h):** ✅ No unexpected commits noted
+- Recent visible commit: `3b8a1e0` (`Auto git push 2026-04-15T07:30:29Z`)
+
+**System Config / Permissions:** ✅ OK
+- `/data/.clawdbot/openclaw.json` permissions: `600 root root`
+- WhatsApp allowlist remains restricted to `+[REDACTED_CLIENT_ID]401` only for both `custom-1` and `default`
+
+**Process Check:** ✅ No suspicious processes observed
+- Expected services only: `node src/server.js`, `python3 welly-daemon.py start`, `openclaw`, `openclaw-gateway`
+
+**Disk Usage:** ✅ Normal
+- `/`: 59%
+- `/data`: 53%
 
 **SUMMARY:** Security review passed — all clear.

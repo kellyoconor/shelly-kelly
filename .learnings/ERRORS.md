@@ -305,3 +305,61 @@ Use POSIX-safe `set -eu` or explicitly run `bash -lc` when pipefail is needed.
 - Related Files: /data/workspace/.learnings/ERRORS.md
 
 ---
+
+## [ERR-20260415-001] read
+
+**Logged**: 2026-04-15T08:00:00Z
+**Priority**: low
+**Status**: pending
+**Area**: docs
+
+### Summary
+Session bootstrap tried to read today/yesterday workspace memory files before checking whether they exist
+
+### Error
+```
+ENOENT: no such file or directory, access /data/workspace/memory/2026-04-15.md
+ENOENT: no such file or directory, access /data/workspace/memory/2026-04-14.md
+```
+
+### Context
+- Operation attempted: bootstrap reads required by AGENTS.md
+- Paths may legitimately not exist yet early in the day or if no technical log was created
+- Better pattern: check existence first or tolerate missing memory files
+
+### Suggested Fix
+Treat missing daily memory files as optional during session bootstrap and avoid logging them as hard failures.
+
+### Metadata
+- Reproducible: yes
+- Related Files: /data/workspace/AGENTS.md
+
+---
+## [ERR-20260416-001] exec-shell-pipefail
+
+**Logged**: 2026-04-16T06:00:48+00:00
+**Priority**: low
+**Status**: pending
+**Area**: infra
+
+### Summary
+Initial nightly security review command failed because `/bin/sh` does not support `set -o pipefail`.
+
+### Error
+```
+sh: 1: set: Illegal option -o pipefail
+```
+
+### Context
+- Command/operation attempted: composite shell script via exec
+- Input or parameters used: `set -euo pipefail` under default shell
+- Environment details if relevant: exec uses `/bin/sh` by default in this environment
+
+### Suggested Fix
+Use `bash -lc` for scripts that rely on `pipefail` or other bash-specific shell options.
+
+### Metadata
+- Reproducible: yes
+- Related Files: /data/workspace/.learnings/ERRORS.md
+
+---
