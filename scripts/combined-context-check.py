@@ -365,9 +365,8 @@ def merge_contexts(external_events, significance_result):
             record_discussion_topic('health_data')
             return messages[0]
         
-    # PRIORITY 8: Default caring check-in (only if nothing else is interesting)
-    messages.append("Everything running smooth - how are YOU doing?")
-    
+    # PRIORITY 8: No generic fallback.
+    # Stay quiet unless there is a specific signal worth surfacing.
     return messages[0] if messages else ""
 
 def check_recent_kelly_messages():
@@ -490,9 +489,7 @@ def get_combined_context():
     
     # Handle errors gracefully
     if "error" in external_events and "error" in significance_result:
-        result = "How's your day going? (Context checks temporarily unavailable)"
-        record_heartbeat_message()
-        return result
+        return ""
     
     # If one failed, use the other
     if "error" in external_events:
@@ -501,9 +498,7 @@ def get_combined_context():
             record_heartbeat_message()
             return result
         else:
-            result = "How are you feeling today?"
-            record_heartbeat_message()
-            return result
+            return ""
             
     if "error" in significance_result:
         # Check conversation history even in fallback cases
@@ -515,9 +510,7 @@ def get_combined_context():
             record_heartbeat_message()
             return result
         else:
-            result = "Everything running smooth - how are YOU doing?"
-            record_heartbeat_message()
-            return result
+            return ""
     
     # Both successful - merge intelligently
     result = merge_contexts(external_events, significance_result)

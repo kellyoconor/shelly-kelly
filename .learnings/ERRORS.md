@@ -363,3 +363,34 @@ Use `bash -lc` for scripts that rely on `pipefail` or other bash-specific shell 
 - Related Files: /data/workspace/.learnings/ERRORS.md
 
 ---
+## [ERR-20260417-001] alert-retry-processor heartbeat
+
+**Logged**: 2026-04-17T05:53:00Z
+**Priority**: high
+**Status**: pending
+**Area**: infra
+
+### Summary
+Heartbeat alert processor failed immediately with a syntax error when executed as instructed from HEARTBEAT.md.
+
+### Error
+```
+File "/data/workspace/alert-retry-processor.cjs", line 53
+    * Check for Kelly's recent activity and auto-mark alerts as seen
+                     ^
+SyntaxError: unterminated string literal (detected at line 53)
+```
+
+### Context
+- Command attempted: `python3 /data/workspace/alert-retry-processor.cjs heartbeat`
+- HEARTBEAT.md says to run this on every heartbeat
+- The file has a `.cjs` extension, so invoking it with Python is likely wrong or the file contents are malformed for Python execution
+
+### Suggested Fix
+Verify the intended runtime for `alert-retry-processor.cjs` (likely `node`, not `python3`) and/or correct the file content so the documented heartbeat command matches the actual executable.
+
+### Metadata
+- Reproducible: yes
+- Related Files: /data/workspace/HEARTBEAT.md, /data/workspace/alert-retry-processor.cjs
+
+---

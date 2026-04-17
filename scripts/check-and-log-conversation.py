@@ -48,6 +48,25 @@ def should_log_now():
     # Only log if at least 15 minutes since last entry
     return time_since > timedelta(minutes=15)
 
+
+def should_skip_summary(summary: str) -> bool:
+    """Skip routine system-noise summaries that clutter the daily note."""
+    summary_lower = summary.lower()
+
+    noisy_patterns = [
+        "heartbeat saw a brief whatsapp",
+        "heartbeat saw another brief whatsapp",
+        "heartbeat ran after another whatsapp connected state",
+        "heartbeat ran after another gateway-connected reminder",
+        "heartbeat ran after another gateway connected state",
+        "scheduled heartbeat ran after a whatsapp connected notice",
+        "overnight heartbeat ran after another gateway-connected reminder",
+        "alert pipeline and combined context checks were quiet",
+        "alert pipeline and context checks were reviewed",
+    ]
+
+    return any(pattern in summary_lower for pattern in noisy_patterns)
+
 def append_to_activity_log(summary: str) -> bool:
     """Append to Activity Log in vault daily note"""
     try:
@@ -103,6 +122,9 @@ def append_to_activity_log(summary: str) -> bool:
 
 def log_conversation(summary: str):
     """Log a conversation summary if appropriate"""
+    if should_skip_summary(summary):
+        return False
+
     if should_log_now():
         if append_to_activity_log(summary):
             save_log_time()

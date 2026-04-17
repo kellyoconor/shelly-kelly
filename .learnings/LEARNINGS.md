@@ -4,6 +4,36 @@ Log of corrections, knowledge gaps, and best practices for continuous improvemen
 
 ---
 
+## [LRN-20260416-001] correction
+
+**Logged**: 2026-04-16T12:40:00Z
+**Priority**: high
+**Status**: resolved
+**Area**: behavioral
+
+### Summary
+Heartbeat context scripts must not send generic fallback check-ins like "How are you doing?" when there is no specific signal.
+
+### Details
+Kelly pointed out that I asked a redundant broad check-in question while she was already actively narrating how she was doing. The root cause was not WhatsApp; it was the heartbeat/context scripts still containing generic default fallback prompts (for example, "Everything running smooth - how are YOU doing?"). In a live conversation, those create awkward duplication and make me seem inattentive.
+
+### Suggested Action
+1. Remove generic fallback heartbeat messages from context-significance-check.py and combined-context-check.py.
+2. Keep heartbeat output silent unless there is a concrete signal, alert, or meaningful context event.
+3. Treat active user narration as a reason not to inject broad check-in questions.
+
+### Metadata
+- Source: user_feedback
+- Related Files: /data/workspace/scripts/context-significance-check.py, /data/workspace/scripts/combined-context-check.py
+- Tags: correction, heartbeat, redundancy, conversation-flow
+- Pattern-Key: behavioral.suppress_generic_checkins_during_active_convo
+
+### Resolution
+- **Resolved**: 2026-04-16T12:41:00Z
+- **Notes**: Removed generic fallback heartbeat messages from context-significance-check.py and combined-context-check.py so heartbeat stays quiet unless there is a specific signal.
+
+---
+
 ## [LRN-20260407-001] date_time_verification
 
 **Logged**: 2026-04-07T12:48:00Z

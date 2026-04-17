@@ -186,31 +186,9 @@ def get_personal_checkin():
         mark_as_asked(topic["type"])
         return topic["message"]
     else:
-        # NEW: Only send default check-ins occasionally, not every heartbeat
-        # Check if it's been at least 4 hours since any check-in
-        history = load_tracking_history()
-        if 'last_general_checkin' in history:
-            last_checkin = datetime.fromisoformat(history['last_general_checkin'])
-            # Require 4+ hours between generic check-ins
-            if datetime.now() - last_checkin < timedelta(hours=4):
-                return ""  # Stay quiet
-        
-        # Send a default caring check-in (but mark it so we don't spam)
-        defaults = [
-            "How's your energy today? Feeling aligned or scattered?",
-            "What's on your mind lately? Anything you're processing?", 
-            "How are you feeling about the week ahead?",
-            "Everything running smooth - how are YOU doing?"
-        ]
-        
-        # Simple rotation based on hour
-        hour = datetime.now().hour
-        message = defaults[hour % len(defaults)]
-        
-        # Mark that we sent a general check-in
-        mark_as_asked('general_checkin')
-        
-        return message
+        # Stay quiet when there's no meaningful signal.
+        # Generic fallback check-ins create redundant messages during active conversations.
+        return ""
 
 if __name__ == "__main__":
     result = get_personal_checkin()
