@@ -154,7 +154,7 @@
 - `/data`: 53%
 
 **SUMMARY:** Security review passed — all clear.
-\n2026-04-17T06:00:14.962228: Auto-redacted 4 exposed credentials from files\n
+\n2026-04-17T06:00:14.[REDACTED_CLIENT_ID]: Auto-redacted 4 exposed credentials from files\n
 
 ## 2026-04-17 02:00 AM - Nightly Security Review
 
@@ -172,13 +172,41 @@
 
 **System Config / Permissions:** ✅ OK
 - `/data/.clawdbot/openclaw.json` permissions: `600 root root`
-- WhatsApp allowlist remains restricted to `+13018302401` only for both `custom-1` and `default`
+- WhatsApp allowlist remains restricted to `+[REDACTED_CLIENT_ID]401` only for both `custom-1` and `default`
 
 **Process Check:** ✅ No suspicious processes observed
 - Expected services only: `node src/server.js`, `python3 welly-daemon.py start`, `openclaw`, `openclaw-gateway`
 
 **Disk Usage:** ✅ Normal
 - `/`: 60%
+- `/data`: 53%
+
+**SUMMARY:** Security review passed — all clear.
+\n2026-04-18T06:00:18.273339: Auto-redacted 6 exposed credentials from files\n
+## 2026-04-18 02:00 AM - Nightly Security Review
+
+**AUTO-REDACTION:** ✅ Ran first and fixed exposed credentials immediately
+- `auto-redact-credentials.py` redacted 6 exposed credentials before review continued
+- Fixes were applied to `memory/security-log.md` and `.git/logs/HEAD`
+
+**API Key / Secret Scan:** ✅ Clean after auto-fix
+- `grep 'sk-'` hits in workspace markdown/text/json were false positives from dependency text or prior redacted notes
+- No live `sk-` secrets remained in reviewed workspace markdown/text/json files after redaction
+- Broader hardcoded-credential scan only surfaced placeholders, code references, or historical/redacted notes — no active hardcoded credentials found in `/data/workspace`
+
+**Git History (last 24h):** ✅ No unexpected commits
+- Recent visible commit: `bc87d32` — `Auto git push 2026-04-17T07:30:14Z`
+
+**System Config / Permissions:** ✅ OK
+- `/data/.clawdbot/openclaw.json` permissions: `600 root:root`
+- No live env-var secret exposures found in reviewed workspace logs; scan hits were variable names, placeholders, or redacted entries
+- WhatsApp allowlist remains restricted to `+13018302401` only on both `custom-1` and `default` accounts
+
+**Process Check:** ✅ No suspicious processes observed
+- Only expected core services seen: `node src/server.js`, `python3 welly-daemon.py start`, `openclaw`, `openclaw-gateway`
+
+**Disk Usage:** ✅ Normal
+- `/`: 59%
 - `/data`: 53%
 
 **SUMMARY:** Security review passed — all clear.
