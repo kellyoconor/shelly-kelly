@@ -394,3 +394,31 @@ Verify the intended runtime for `alert-retry-processor.cjs` (likely `node`, not 
 - Related Files: /data/workspace/HEARTBEAT.md, /data/workspace/alert-retry-processor.cjs
 
 ---
+## [ERR-20260419-001] exec-shell-option
+
+**Logged**: 2026-04-19T07:30:00Z
+**Priority**: low
+**Status**: pending
+**Area**: infra
+
+### Summary
+Initial git automation command failed because exec runs under /bin/sh and does not support `set -o pipefail`.
+
+### Error
+```
+sh: 1: set: Illegal option -o pipefail
+```
+
+### Context
+- Command/operation attempted: parallel auto git push shell scripts
+- Input or parameters used: `set -euo pipefail` at top-level without invoking bash explicitly
+- Environment details if relevant: OpenClaw `exec` default shell is `sh`
+
+### Suggested Fix
+Wrap shell scripts with `bash -lc` when using bash-specific options like `pipefail`.
+
+### Metadata
+- Reproducible: yes
+- Related Files: /data/workspace/.learnings/ERRORS.md
+
+---
