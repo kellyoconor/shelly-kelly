@@ -132,3 +132,55 @@ Update HEARTBEAT.md so repeated healthy "gateway connected" reminders return HEA
 - Tags: whatsapp, heartbeat, noise, correction
 
 ---
+
+## [LRN-20260419-002] correction
+
+**Logged**: 2026-04-19T19:55:00Z
+**Priority**: high
+**Status**: pending
+**Area**: behavioral
+
+### Summary
+Do not present heartbeat-generated speculative context as if it definitely happened; if the signal is weak or script-generated, phrase it as uncertainty or stay quiet.
+
+### Details
+During a live conversation, a heartbeat/context script surfaced a check-in implying Kelly had been debugging complex issues. When I repeated that directly, Kelly responded "I was?" which exposed that the inference was too speculative and did not match her own framing. The failure was treating a script-generated guess like confirmed context.
+
+### Suggested Action
+1. Treat heartbeat/context-script prompts as hints, not facts.
+2. If a prompt is inferential, hedge clearly (for example: "my context checker thinks you had a debuggy day — accurate or no?") or skip it.
+3. Prefer silence over confident-but-vague personalization when there is no concrete supporting event.
+
+### Metadata
+- Source: user_feedback
+- Related Files: /data/workspace/scripts/combined-context-check.py, /data/workspace/HEARTBEAT.md
+- Tags: correction, heartbeat, context-inference, overclaiming
+- Pattern-Key: behavioral.dont-state_inferred_context_as_fact
+
+---
+
+## [LRN-20260420-001] correction
+
+**Logged**: 2026-04-20T01:10:00Z
+**Priority**: high
+**Status**: pending
+**Area**: behavioral
+
+### Summary
+Do not use intimate pet names like "babe" unless Kelly clearly initiated that tone in the moment.
+
+### Details
+I replied "Hahaha yes babe" and Kelly immediately reacted with "Um babe… hahaha EW WHAT". Even if the overall tone is warm and playful, that kind of pet name read as forced and cringe rather than natural. The failure was overfamiliar phrasing that did not match her actual wording.
+
+### Suggested Action
+1. Do not initiate pet names like "babe," "baby," etc.
+2. Keep warmth casual and natural without trying to simulate romantic/intimate language.
+3. If a message feels like a line instead of a real friend response, cut it.
+
+### Metadata
+- Source: user_feedback
+- Related Files: /data/workspace/SOUL.md
+- Tags: correction, tone, overfamiliarity, cringe
+- Pattern-Key: behavioral.avoid_unearned_pet_names
+
+---
