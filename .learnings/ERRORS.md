@@ -422,3 +422,32 @@ Wrap shell scripts with `bash -lc` when using bash-specific options like `pipefa
 - Related Files: /data/workspace/.learnings/ERRORS.md
 
 ---
+
+## [ERR-20260421-001] exec-shell
+
+**Logged**: 2026-04-21T07:31:00Z
+**Priority**: medium
+**Status**: pending
+**Area**: infra
+
+### Summary
+Initial git automation shell used bash-only pipefail under /bin/sh and failed before running repo sync
+
+### Error
+```
+sh: 1: set: Illegal option -o pipefail
+```
+
+### Context
+- Command/operation attempted: exec wrapper for auto git push across workspace and vault repos
+- Input or parameters used: `set -euo pipefail` in default shell
+- Environment details if relevant: exec default shell is /bin/sh, not bash
+
+### Suggested Fix
+Use `bash -lc` explicitly for bash features, or stick to POSIX `set -eu`
+
+### Metadata
+- Reproducible: yes
+- Related Files: /data/workspace/.learnings/ERRORS.md
+
+---
