@@ -210,7 +210,7 @@
 - `/data`: 53%
 
 **SUMMARY:** Security review passed — all clear.
-\n2026-04-19T06:00:25.[REDACTED_CLIENT_ID]: Auto-redacted 7 exposed credentials from files\n\n2026-04-19T06:01:01.[REDACTED_CLIENT_ID]: Auto-redacted 1 exposed credentials from files\n\n## 2026-04-19 02:00 AM - Nightly Security Review\n\n**AUTO-REDACTION:** ✅ Ran first and fixed exposed credentials immediately\n- `auto-redact-credentials.py` redacted 1 additional exposed credential from `memory/security-log.md` during this review\n- Review continued after re-running focused scans\n\n**API Key / Secret Scan:** ✅ Clean after auto-fix\n- `grep 'sk-'` in workspace markdown/text/json only surfaced prior review notes, redacted placeholders, and code/dependency text\n- Focused follow-up secret scans found no live `sk-`, GitHub, Slack, AWS, or private-key style secrets in reviewed workspace markdown/text/json files\n- No active hardcoded credentials were found in `/data/workspace` after redaction\n\n**Git History (last 24h):** ✅ No unexpected commits\n- Recent visible commit: `d0afb3d` — `Auto git push 2026-04-18 07:30 UTC`\n\n**System Config / Permissions:** ✅ OK\n- `/data/.clawdbot/openclaw.json` permissions: `600 root:root`\n- No live env-var secret exposures found in reviewed workspace memory/log paths\n- WhatsApp allowlist remains restricted to `+[REDACTED_CLIENT_ID]401` only on both `custom-1` and `default` accounts\n\n**Process Check:** ✅ No suspicious processes observed\n- Only expected core services seen: `node src/server.js`, `python3 welly-daemon.py start`, `openclaw`, `openclaw-gateway`\n\n**Disk Usage:** ✅ Normal\n- `/`: 59%\n- `/data`: 53%\n\n**Security Audit / Update Status:** ✅ No alertable security findings\n- `openclaw security audit --deep`: `0 critical · 0 warn · 1 info`\n- Informational note only: WhatsApp group allowlist is empty, so group messages are dropped unless explicitly allowlisted\n- `openclaw update status`: update available (`2026.4.15`), but this is maintenance, not an active incident\n\n**SUMMARY:** Security review passed — all clear.\n\n2026-04-21T06:00:32.383801: Auto-redacted 9 exposed credentials from files\n
+\n2026-04-19T06:00:25.[REDACTED_CLIENT_ID]: Auto-redacted 7 exposed credentials from files\n\n2026-04-19T06:01:01.[REDACTED_CLIENT_ID]: Auto-redacted 1 exposed credentials from files\n\n## 2026-04-19 02:00 AM - Nightly Security Review\n\n**AUTO-REDACTION:** ✅ Ran first and fixed exposed credentials immediately\n- `auto-redact-credentials.py` redacted 1 additional exposed credential from `memory/security-log.md` during this review\n- Review continued after re-running focused scans\n\n**API Key / Secret Scan:** ✅ Clean after auto-fix\n- `grep 'sk-'` in workspace markdown/text/json only surfaced prior review notes, redacted placeholders, and code/dependency text\n- Focused follow-up secret scans found no live `sk-`, GitHub, Slack, AWS, or private-key style secrets in reviewed workspace markdown/text/json files\n- No active hardcoded credentials were found in `/data/workspace` after redaction\n\n**Git History (last 24h):** ✅ No unexpected commits\n- Recent visible commit: `d0afb3d` — `Auto git push 2026-04-18 07:30 UTC`\n\n**System Config / Permissions:** ✅ OK\n- `/data/.clawdbot/openclaw.json` permissions: `600 root:root`\n- No live env-var secret exposures found in reviewed workspace memory/log paths\n- WhatsApp allowlist remains restricted to `+[REDACTED_CLIENT_ID]401` only on both `custom-1` and `default` accounts\n\n**Process Check:** ✅ No suspicious processes observed\n- Only expected core services seen: `node src/server.js`, `python3 welly-daemon.py start`, `openclaw`, `openclaw-gateway`\n\n**Disk Usage:** ✅ Normal\n- `/`: 59%\n- `/data`: 53%\n\n**Security Audit / Update Status:** ✅ No alertable security findings\n- `openclaw security audit --deep`: `0 critical · 0 warn · 1 info`\n- Informational note only: WhatsApp group allowlist is empty, so group messages are dropped unless explicitly allowlisted\n- `openclaw update status`: update available (`2026.4.15`), but this is maintenance, not an active incident\n\n**SUMMARY:** Security review passed — all clear.\n\n2026-04-21T06:00:32.[REDACTED_CLIENT_ID]: Auto-redacted 9 exposed credentials from files\n
 ## 2026-04-21 02:00 AM - Nightly Security Review
 
 **AUTO-REDACTION:** ✅ Ran first and fixed exposed credentials immediately
@@ -242,5 +242,33 @@
 - `openclaw security audit --deep`: `0 critical · 0 warn · 1 info`
 - Informational note only: WhatsApp group allowlist is empty, so group messages are dropped unless explicitly allowlisted
 - `openclaw update status`: update available (`2026.4.15`), but this is maintenance, not an active incident
+
+**SUMMARY:** Security review passed — all clear.
+\n2026-04-22T06:01:08.354154: Auto-redacted 6 exposed credentials from files\n
+## 2026-04-22 02:00 AM - Nightly Security Review
+
+**AUTO-REDACTION:** ✅ Ran first and fixed exposed credentials immediately
+- `auto-redact-credentials.py` redacted 6 exposed credentials before review continued
+- Affected files: `memory/security-log.md` and `.git/logs/HEAD`
+
+**API Key / Secret Scan:** ✅ Clean after auto-fix
+- Broad `grep 'sk-'` hits were false positives from dependency text, docs/examples, prior redacted notes, or placeholder strings
+- Focused hardcoded-credential scans found no live hardcoded credentials remaining in reviewed `/data/workspace` files
+
+**Git History (last 24h):** ✅ No unexpected commits
+- Recent visible commit: `8138eb3` — `Auto git push 2026-04-21T07:30:30Z`
+- Additional workspace changes were expected state/log updates from normal automation and this review's learning entry
+
+**System Config / Permissions:** ✅ OK
+- `/data/.clawdbot/openclaw.json` permissions: `600 root:root`
+- No live env-var secret exposures found in reviewed workspace/log files
+- WhatsApp allowlist remains restricted to `+[REDACTED_CLIENT_ID]401` only on both `custom-1` and `default` accounts
+
+**Process Check:** ✅ No suspicious processes observed
+- Only expected core services seen: `node src/server.js`, `python3 welly-daemon.py start`, `openclaw`, `openclaw-gateway`
+
+**Disk Usage:** ✅ Normal
+- `/`: 58%
+- `/data`: 54%
 
 **SUMMARY:** Security review passed — all clear.

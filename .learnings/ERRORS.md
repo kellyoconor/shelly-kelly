@@ -103,6 +103,35 @@ Detect the repo's default branch dynamically (or handle detached-tag installs ex
 - Related Files: /openclaw
 
 ---
+## [ERR-20260421-001] combined-context-check-heartbeat
+
+**Logged**: 2026-04-21T19:53:00Z
+**Priority**: medium
+**Status**: pending
+**Area**: infra
+
+### Summary
+`combined-context-check.py` was terminated during heartbeat execution before producing output.
+
+### Error
+```text
+Process exited with signal SIGTERM.
+```
+
+### Context
+- Operation attempted: `python3 /data/workspace/scripts/combined-context-check.py`
+- Trigger: scheduled heartbeat reminder after WhatsApp gateway connected
+- Other heartbeat checks in the same run succeeded (`smart-context-check.py`, `alert-retry-processor.cjs`)
+- No user-facing issue was surfaced from this run, but the heartbeat context pipeline did not complete cleanly
+
+### Suggested Fix
+Check whether the script is hanging on an external dependency, timing out, or being terminated by the runner; consider adding clearer logging or a bounded timeout path.
+
+### Metadata
+- Reproducible: unknown
+- Related Files: /data/workspace/scripts/combined-context-check.py
+
+---
 ## [ERR-20260412-001] git_push_auth
 
 **Logged**: 2026-04-12T07:30:30Z
@@ -445,6 +474,122 @@ sh: 1: set: Illegal option -o pipefail
 
 ### Suggested Fix
 Use `bash -lc` explicitly for bash features, or stick to POSIX `set -eu`
+
+### Metadata
+- Reproducible: yes
+- Related Files: /data/workspace/.learnings/ERRORS.md
+
+---
+
+## [ERR-20260421-001] combined-context-check.py
+
+**Logged**: 2026-04-21T22:56:00Z
+**Priority**: medium
+**Status**: pending
+**Area**: infra
+
+### Summary
+Heartbeat combined-context-check.py hung and timed out after 25 seconds with no output
+
+### Error
+```
+EXIT:124
+```
+
+### Context
+- Command attempted: `python3 /data/workspace/scripts/combined-context-check.py`
+- Trigger: heartbeat routine from /data/workspace/HEARTBEAT.md
+- Behavior: initial run hung; second run with `timeout 25s` exited 124 with no stdout
+
+### Suggested Fix
+Inspect script for blocking network/tool call or missing timeout handling so heartbeat cannot stall indefinitely.
+
+### Metadata
+- Reproducible: unknown
+- Related Files: /data/workspace/scripts/combined-context-check.py, /data/workspace/HEARTBEAT.md
+
+---
+## [ERR-20260422-001] combined-context-check
+
+**Logged**: 2026-04-22T04:28:44+00:00
+**Priority**: medium
+**Status**: pending
+**Area**: infra
+
+### Summary
+Heartbeat combined context check hung without producing output and had to be terminated.
+
+### Error
+```
+python3 /data/workspace/scripts/combined-context-check.py
+-> no output after repeated polls; process was still running and was killed
+Earlier heartbeat also reported: Exec failed (sharp-at, signal SIGTERM)
+```
+
+### Context
+- Operation attempted during mandatory heartbeat processing
+- Alert retry processor completed successfully
+- Combined context script produced no stdout/stderr within ~20 seconds and did not exit
+
+### Suggested Fix
+Investigate blocking calls or missing timeouts inside combined-context-check.py so heartbeats do not stall.
+
+### Metadata
+- Reproducible: unknown
+- Related Files: /data/workspace/scripts/combined-context-check.py
+
+---
+
+## [ERR-20260422-001] exec
+
+**Logged**: 2026-04-22T01:54:34-04:00
+**Priority**: low
+**Status**: pending
+**Area**: infra
+
+### Summary
+Heartbeat-related exec session was terminated with SIGTERM before completion
+
+### Error
+```
+System: [2026-04-22 01:54:34 EDT] Exec failed (neat-bre, signal SIGTERM)
+```
+
+### Context
+- Operation attempted: heartbeat workflow exec
+- Environment: OpenClaw heartbeat session
+- Follow-up: reran required heartbeat checks successfully in a new exec session
+
+### Suggested Fix
+Review why the original exec was terminated and prefer bounded commands/timeouts for heartbeat scripts that may hang.
+
+### Metadata
+- Reproducible: unknown
+- Related Files: /data/workspace/HEARTBEAT.md
+
+---
+## [ERR-20260422-001] exec-shell
+
+**Logged**: 2026-04-22T06:00:00Z
+**Priority**: low
+**Status**: pending
+**Area**: infra
+
+### Summary
+Initial security review command failed because /bin/sh did not support `set -o pipefail`.
+
+### Error
+```
+sh: 1: set: Illegal option -o pipefail
+```
+
+### Context
+- Command/operation attempted: multi-step `exec` script for nightly security review
+- Input or parameters used: shell prologue with `set -euo pipefail`
+- Environment details if relevant: `exec` default shell was `/bin/sh`, not bash
+
+### Suggested Fix
+Wrap multi-step scripts with `bash -lc` when relying on `pipefail`.
 
 ### Metadata
 - Reproducible: yes

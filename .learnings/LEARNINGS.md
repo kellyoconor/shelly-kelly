@@ -34,6 +34,32 @@ Kelly pointed out that I asked a redundant broad check-in question while she was
 
 ---
 
+## [LRN-20260421-001] correction
+
+**Logged**: 2026-04-21T12:05:00Z
+**Priority**: high
+**Status**: pending
+**Area**: behavioral
+
+### Summary
+Do not imply Kelly is working out or ask workout-related questions when current context shows no recent exercise.
+
+### Details
+Kelly corrected me directly: she is not working out at all right now, and that lack of movement is making her mornings feel worse. Even with context tools showing no recent runs, I still implied workout context. That reads as inattentive and misses the actual issue, which is that the absence of movement is affecting her mornings.
+
+### Suggested Action
+1. Treat "no recent runs/workouts" as meaningful context, not just a reason to avoid asking about a run.
+2. When Kelly mentions rough mornings, consider lack of movement as part of the picture if recent activity is absent.
+3. Reflect back her actual experience before suggesting anything.
+
+### Metadata
+- Source: user_feedback
+- Related Files: /data/workspace/scripts/smart-context-check.py
+- Tags: correction, exercise, mornings, context-awareness
+- Pattern-Key: behavioral.dont_assume_active_workout_context
+
+---
+
 ## [LRN-20260407-001] date_time_verification
 
 **Logged**: 2026-04-07T12:48:00Z
