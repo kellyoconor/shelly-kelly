@@ -1,0 +1,14 @@
+{
+  "date": "2026-04-22",
+  "day_of_week": "Wednesday",
+  "oura": {
+    "sleep_efficiency": 76.0,
+    "body_temp_deviation": 0.36,
+    "hrv": 82.0
+  },
+  "strava": {
+    "recent_count": 10,
+    "trained_today": false
+  },
+  "calendar": null
+}

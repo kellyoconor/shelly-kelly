@@ -596,3 +596,154 @@ Wrap multi-step scripts with `bash -lc` when relying on `pipefail`.
 - Related Files: /data/workspace/.learnings/ERRORS.md
 
 ---
+
+## [ERR-20260422-001] heartbeat_exec_failure
+
+**Logged**: 2026-04-22T09:00:00Z
+**Priority**: medium
+**Status**: pending
+**Area**: infra
+
+### Summary
+A heartbeat-related exec session (`glow-wil`) was terminated with SIGTERM.
+
+### Error
+```
+System: [2026-04-22 05:00:02 EDT] Exec failed (glow-wil, signal SIGTERM)
+```
+
+### Context
+- Operation attempted: scheduled heartbeat execution
+- Environment: OpenClaw main session / heartbeat channel
+- Follow-up action: rerunning heartbeat checks directly in a fresh turn
+
+### Suggested Fix
+If this recurs, inspect whether the prior heartbeat command is timing out or being cancelled by overlap with the next scheduled run.
+
+### Metadata
+- Reproducible: unknown
+- Related Files: /data/workspace/HEARTBEAT.md
+
+---
+
+## [ERR-20260422-002] combined-context-check-heartbeat
+
+**Logged**: 2026-04-22T09:33:00Z
+**Priority**: medium
+**Status**: pending
+**Area**: infra
+
+### Summary
+`combined-context-check.py` was terminated with SIGTERM during heartbeat processing.
+
+### Error
+```text
+python3 /data/workspace/scripts/combined-context-check.py
+-> Process exited with signal SIGTERM.
+```
+
+### Context
+- Operation attempted: mandatory heartbeat combined context check from `/data/workspace/HEARTBEAT.md`
+- Other heartbeat checks in the same turn succeeded (`smart-context-check.py`, `alert-retry-processor.cjs`)
+- This is another recurrence of the combined context script failing to complete cleanly during heartbeat execution
+
+### Suggested Fix
+Investigate blocking work or overlapping heartbeat runs inside `combined-context-check.py`; add internal timeouts or faster fail behavior so heartbeat does not get killed mid-run.
+
+### Metadata
+- Reproducible: unknown
+- Related Files: /data/workspace/scripts/combined-context-check.py, /data/workspace/HEARTBEAT.md
+- See Also: ERR-20260421-001, ERR-20260422-001
+
+---
+
+## [ERR-20260422-003] combined-context-check-heartbeat
+
+**Logged**: 2026-04-22T09:35:30Z
+**Priority**: medium
+**Status**: pending
+**Area**: infra
+
+### Summary
+`combined-context-check.py` hung during heartbeat processing and required manual termination.
+
+### Error
+```text
+python3 /data/workspace/scripts/combined-context-check.py
+-> no output within 30s; process still running and was killed
+```
+
+### Context
+- Operation attempted: mandatory heartbeat combined context check from `/data/workspace/HEARTBEAT.md`
+- Alert retry processor completed successfully in the same turn
+- This is another recurrence of the combined context script not exiting promptly during heartbeat
+
+### Suggested Fix
+Add bounded timeouts and better internal logging inside `combined-context-check.py`, and investigate any blocking dependency so heartbeat stays fast and reliable.
+
+### Metadata
+- Reproducible: unknown
+- Related Files: /data/workspace/scripts/combined-context-check.py, /data/workspace/HEARTBEAT.md
+- See Also: ERR-20260421-001, ERR-20260422-001, ERR-20260422-002
+
+---
+
+## [ERR-20260422-003] heartbeat-checks-sigterm-burst
+
+**Logged**: 2026-04-22T09:36:30Z
+**Priority**: high
+**Status**: pending
+**Area**: infra
+
+### Summary
+Multiple heartbeat context checks were terminated with SIGTERM within a few minutes, preventing the normal heartbeat pipeline from completing cleanly.
+
+### Error
+```text
+python3 /data/workspace/scripts/smart-context-check.py -> Process exited with signal SIGTERM
+python3 /data/workspace/scripts/combined-context-check.py -> Process exited with signal SIGTERM
+```
+
+### Context
+- Trigger: scheduled heartbeat reminder after system exec failure notice
+- Alert retry processor still completed successfully
+- This happened again minutes after earlier SIGTERM heartbeat failures, suggesting overlap, timeout pressure, or another runner-level interruption rather than a one-off script blip
+
+### Suggested Fix
+Inspect overlapping heartbeat scheduling or runner cancellation behavior, and add bounded execution / skip-if-already-running logic to the context scripts.
+
+### Metadata
+- Reproducible: unknown
+- Related Files: /data/workspace/HEARTBEAT.md, /data/workspace/scripts/smart-context-check.py, /data/workspace/scripts/combined-context-check.py
+- See Also: ERR-20260421-001, ERR-20260422-001, ERR-20260422-002
+
+---
+
+## [ERR-20260423-001] exec-shell-default
+
+**Logged**: 2026-04-23T06:03:00Z
+**Priority**: medium
+**Status**: pending
+**Area**: infra
+
+### Summary
+Initial security-review shell command failed because exec defaulted to /bin/sh, which does not support `set -o pipefail`.
+
+### Error
+```
+sh: 1: set: Illegal option -o pipefail
+```
+
+### Context
+- Command/operation attempted: nightly security review batch script via exec
+- Parameters used: shell snippet starting with `set -euo pipefail`
+- Environment details: OpenClaw exec wrapper invoked `sh -c` unless explicitly wrapped with `bash -lc`
+
+### Suggested Fix
+Wrap pipefail-dependent scripts with `bash -lc` when using exec.
+
+### Metadata
+- Reproducible: yes
+- Related Files: /data/workspace/.learnings/ERRORS.md
+
+---

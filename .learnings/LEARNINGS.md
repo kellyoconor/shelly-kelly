@@ -210,3 +210,83 @@ I replied "Hahaha yes babe" and Kelly immediately reacted with "Um babe… hahah
 - Pattern-Key: behavioral.avoid_unearned_pet_names
 
 ---
+
+## [LRN-20260422-002] correction
+
+**Logged**: 2026-04-22T11:24:00Z
+**Priority**: high
+**Status**: pending
+**Area**: behavioral
+
+### Summary
+Do not explain a context-check system as if it is working normally when there is an active failure pattern.
+
+### Details
+Kelly replied "Ah ok cool but it’s not working" after I described smart context check in a clean conceptual way. That answer missed the live operational reality: the heartbeat context scripts had been repeatedly failing with SIGTERM. Even if the concept description was accurate, presenting it without acknowledging the current outage made the answer feel incomplete and slightly misleading.
+
+### Suggested Action
+1. When explaining a system/tool, distinguish clearly between what it is supposed to do and whether it is currently working.
+2. If there is an active failure pattern in the same area, mention it plainly.
+3. Prefer: "it’s meant to X, but right now Y is broken" over polished abstract explanations.
+
+### Metadata
+- Source: user_feedback
+- Related Files: /data/workspace/scripts/smart-context-check.py, /data/workspace/.learnings/ERRORS.md
+- Tags: correction, honesty, system-status, context-awareness
+- See Also: ERR-20260422-003
+- Pattern-Key: behavioral.explain_intended_vs_actual_system_state
+
+---
+
+## [LRN-20260422-003] correction
+
+**Logged**: 2026-04-22T21:40:00-04:00
+**Priority**: high
+**Status**: pending
+**Area**: behavioral
+
+### Summary
+Context hardening changes made the assistant noticeably too quiet in normal conversation.
+
+### Details
+Kelly said: "We made some changes today to context and now it’s been SO quiet." The fix for heartbeat/context noise solved the hanging problem and reduced spam, but the overall behavior overcorrected into under-engagement. Reliability and non-spam are good, but the day-to-day conversational presence still needs to feel alive.
+
+### Suggested Action
+1. Separate heartbeat suppression from normal conversational warmth more clearly.
+2. Keep background jobs conservative, but do not let that make direct-chat replies feel absent.
+3. Tune proactive behavior so it is present-but-not-spammy instead of defaulting to silence.
+
+### Metadata
+- Source: user_feedback
+- Related Files: /data/workspace/scripts/smart-context-check.py, /data/workspace/scripts/combined-context-check.py, /data/workspace/HEARTBEAT.md
+- Tags: correction, quietness, overcorrection, context-behavior
+- See Also: LRN-20260422-002
+- Pattern-Key: behavioral.dont_overcorrect_into_silence
+
+---
+
+## [LRN-20260422-004] correction
+
+**Logged**: 2026-04-22T22:00:00-04:00
+**Priority**: high
+**Status**: pending
+**Area**: behavioral
+
+### Summary
+For live sports score questions, do not answer from pregame/search-summary snippets when the user likely wants the current in-progress score.
+
+### Details
+Kelly asked for the Flyers score, and I answered that the game had not started based on stale/upcoming search snippets. Kelly immediately corrected me that the game was almost over. The failure was not verifying a live box score source before replying.
+
+### Suggested Action
+1. For live sports questions, prefer a live score page or live update feed over generic search snippets.
+2. If the status is ambiguous, say so and check a live source before answering.
+3. Avoid pregame framing unless the source clearly indicates the game has not started.
+
+### Metadata
+- Source: user_feedback
+- Related Files: /data/workspace/.learnings/LEARNINGS.md
+- Tags: correction, sports, live-score, stale-search
+- Pattern-Key: behavioral.verify_live_scores_with_live_source
+
+---

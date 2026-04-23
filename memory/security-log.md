@@ -244,7 +244,7 @@
 - `openclaw update status`: update available (`2026.4.15`), but this is maintenance, not an active incident
 
 **SUMMARY:** Security review passed — all clear.
-\n2026-04-22T06:01:08.354154: Auto-redacted 6 exposed credentials from files\n
+\n2026-04-22T06:01:08.[REDACTED_CLIENT_ID]: Auto-redacted 6 exposed credentials from files\n
 ## 2026-04-22 02:00 AM - Nightly Security Review
 
 **AUTO-REDACTION:** ✅ Ran first and fixed exposed credentials immediately
@@ -270,5 +270,41 @@
 **Disk Usage:** ✅ Normal
 - `/`: 58%
 - `/data`: 54%
+
+**SUMMARY:** Security review passed — all clear.
+\n2026-04-23T02:00:54.249298: Auto-redacted 15 exposed credentials from files\n
+## 2026-04-23 02:00 AM - Nightly Security Review
+
+**AUTO-REDACTION:** ✅ Ran first and fixed exposed credentials immediately
+- `auto-redact-credentials.py` redacted 1 credential from `memory/security-log.md`
+- `auto-redact-credentials.py` also redacted 14 credential exposures from `.git/logs/HEAD`
+- Review continued after remediation, per policy
+
+**Workspace Secret Scan:** ✅ Clean after auto-fix
+- Broad `grep 'sk-'` matches in workspace markdown/text/json were prior security-log notes and redacted placeholders, not live secrets
+- Focused hardcoded-credential scan only surfaced example/placeholders in docs (`skills/agentmail/SKILL.md`, `README.md`)
+- No live hardcoded credentials remained in reviewed `/data/workspace` markdown/text/json files after auto-redaction
+
+**Git History (last 24h):** ✅ Expected
+- `606853d` — `Add live sports score verification rule`
+- `10ce464` — `Harden context checks against hangs`
+- `5a7db10` — `auto git push 2026-04-22 07:30 UTC`
+
+**System Config / Permissions:** ✅ OK
+- `/data/.clawdbot/openclaw.json` permissions: `600 root:root`
+- No live env-var secret exposures found in reviewed workspace memory/log paths; remaining hits were setup examples/placeholders in skill docs
+- WhatsApp allowlist remains restricted to `+13018302401` only on both `custom-1` and `default` accounts
+
+**Process Check:** ✅ No suspicious processes observed
+- Expected services only: `node src/server.js`, `python3 welly-daemon.py start`, `openclaw`, `openclaw-gateway`
+
+**Disk Usage:** ✅ Normal
+- `/`: 62%
+- `/data`: 54%
+
+**OpenClaw Audit / Update Status:** ✅ No alertable security findings
+- `openclaw security audit --deep`: `0 critical · 0 warn · 1 info`
+- Informational note only: WhatsApp group allowlist is empty, so group messages are silently dropped unless explicitly allowlisted
+- `openclaw update status`: update available (`2026.4.21`), but this is maintenance, not an active incident
 
 **SUMMARY:** Security review passed — all clear.

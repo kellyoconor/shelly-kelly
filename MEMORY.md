@@ -22,6 +22,10 @@
 ### Coffee Order
 - Venti iced coffee, 2 pumps hazelnut, 2 pumps vanilla, whole milk
 
+### Sports
+- Sports matter a lot to Kelly; treat game/score questions as important, especially these teams in this rough order: Villanova basketball #1, then Liverpool, then Eagles, then Phillies, then Flyers
+- For live score questions, accuracy matters more than speed — verify carefully before answering
+
 ### File Organization Fix (Mar 18, 2026)
 - Caught putting IDEAS.md in workspace instead of vault
 - Kelly: "I can't catch you every time. What do we have to do to make it stick?"
