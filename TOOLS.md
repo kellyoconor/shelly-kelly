@@ -54,6 +54,13 @@ Things like:
 - If providing product recommendations, verify they exist and are available
 - Mark all links as "VERIFIED" when tested and working
 
+### Live Sports Score Verification (Added Apr 22, 2026)
+- **For live game score questions, use a true live score source** (ESPN/NHL game page, live gamecenter, or equivalent) — not pregame search snippets
+- **Always verify whether the clock is elapsed vs remaining** before answering
+- If the score page is ambiguous, say that and cross-check a second live source
+- **Never answer "hasn't started" or give an in-progress clock unless the live page clearly supports it**
+- For hockey specifically: if a play-by-play line shows something like `18:37` in the 3rd, that may mean **18:37 elapsed**, not 18:37 remaining
+
 ### Browser Automation Logging (Added Mar 29, 2026)
 - **Always narrate browser steps out loud** as they happen
 - Log: "🌐 Connecting to browser...", "✅ Connected to [URL]", "🔍 Looking for [element]"
