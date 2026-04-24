@@ -290,3 +290,25 @@ Kelly asked for the Flyers score, and I answered that the game had not started b
 - Pattern-Key: behavioral.verify_live_scores_with_live_source
 
 ---
+## [LRN-20260423-001] correction
+
+**Logged**: 2026-04-23T12:29:15.901539+00:00
+**Priority**: high
+**Status**: pending
+**Area**: docs
+
+### Summary
+When asked for Welly's recent findings, do not rely on historical March logs if the user is asking about current activity.
+
+### Details
+Kelly asked what Welly had found recently. I answered with old March/early-April findings from sparse internal logs, which made the answer feel stale and misleading. The correct behavior is to distinguish between truly recent output (e.g. today's quiet status) and historical findings, and say plainly when Welly has not produced fresh user-facing insights.
+
+### Suggested Action
+For future Welly recency questions, first check timestamps on the latest heartbeat/filter output and only present older findings if clearly labeled as historical backlog.
+
+### Metadata
+- Source: user_feedback
+- Related Files: /data/workspace/memory/welly_heartbeat.json, /data/workspace/welly/shelly_filter.py
+- Tags: welly, recency, correction
+
+---

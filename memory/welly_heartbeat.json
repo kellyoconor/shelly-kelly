@@ -1,109 +1,5 @@
 [
   {
-    "timestamp": "2026-03-16T00:35:01.003436",
-    "cycle_result": {
-      "date": "2026-03-16",
-      "timestamp": "2026-03-16T00:34:59.295576",
-      "steps": [
-        "database_ready",
-        "data_ingested_excellent",
-        "trends_analyzed",
-        "state_interpreted",
-        "patterns_updated",
-        "should_stay_quiet"
-      ],
-      "should_check_in": false,
-      "check_in_message": null,
-      "errors": [
-        "Low interpretation confidence"
-      ]
-    },
-    "interpreted_state": {
-      "recovery_status": "okay-ish",
-      "mind_body_alignment": "aligned",
-      "push_risk": "low",
-      "confidence": 0.0
-    }
-  },
-  {
-    "timestamp": "2026-03-16T01:39:05.313957",
-    "cycle_result": {
-      "date": "2026-03-16",
-      "timestamp": "2026-03-16T01:39:03.054842",
-      "steps": [
-        "database_ready",
-        "data_ingested_excellent",
-        "trends_analyzed",
-        "state_interpreted",
-        "patterns_updated",
-        "should_stay_quiet"
-      ],
-      "should_check_in": false,
-      "check_in_message": null,
-      "errors": [
-        "Low interpretation confidence"
-      ]
-    },
-    "interpreted_state": {
-      "recovery_status": "okay-ish",
-      "mind_body_alignment": "aligned",
-      "push_risk": "low",
-      "confidence": 0.0
-    }
-  },
-  {
-    "timestamp": "2026-03-23T22:05:24.893919",
-    "cycle_result": {
-      "date": "2026-03-23",
-      "timestamp": "2026-03-23T22:05:22.171934",
-      "steps": [
-        "database_ready",
-        "data_ingested_excellent",
-        "trends_analyzed",
-        "state_interpreted",
-        "patterns_updated",
-        "should_stay_quiet"
-      ],
-      "should_check_in": false,
-      "check_in_message": null,
-      "errors": [
-        "Low interpretation confidence"
-      ]
-    },
-    "interpreted_state": {
-      "recovery_status": "okay-ish",
-      "mind_body_alignment": "aligned",
-      "push_risk": "low",
-      "confidence": 0.0
-    }
-  },
-  {
-    "timestamp": "2026-03-24T10:01:32.690432",
-    "cycle_result": {
-      "date": "2026-03-24",
-      "timestamp": "2026-03-24T10:01:19.368164",
-      "steps": [
-        "database_ready",
-        "data_ingested_excellent",
-        "trends_analyzed",
-        "state_interpreted",
-        "patterns_updated",
-        "should_stay_quiet"
-      ],
-      "should_check_in": false,
-      "check_in_message": null,
-      "errors": [
-        "Low interpretation confidence"
-      ]
-    },
-    "interpreted_state": {
-      "recovery_status": "okay-ish",
-      "mind_body_alignment": "aligned",
-      "push_risk": "low",
-      "confidence": 0.0
-    }
-  },
-  {
     "timestamp": "2026-03-25T01:48:20.046188",
     "cycle_result": {
       "date": "2026-03-25",
@@ -264,6 +160,32 @@
     "cycle_result": {
       "date": "2026-04-09",
       "timestamp": "2026-04-09T12:54:39.100712",
+      "steps": [
+        "database_ready",
+        "data_ingested_excellent",
+        "trends_analyzed",
+        "state_interpreted",
+        "patterns_updated",
+        "should_stay_quiet"
+      ],
+      "should_check_in": false,
+      "check_in_message": null,
+      "errors": [
+        "Low interpretation confidence"
+      ]
+    },
+    "interpreted_state": {
+      "recovery_status": "okay-ish",
+      "mind_body_alignment": "aligned",
+      "push_risk": "low",
+      "confidence": 0.0
+    }
+  },
+  {
+    "timestamp": "2026-04-23T12:23:15.863608",
+    "cycle_result": {
+      "date": "2026-04-23",
+      "timestamp": "2026-04-23T12:23:12.674560",
       "steps": [
         "database_ready",
         "data_ingested_excellent",

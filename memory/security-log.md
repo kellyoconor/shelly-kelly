@@ -272,7 +272,7 @@
 - `/data`: 54%
 
 **SUMMARY:** Security review passed — all clear.
-\n2026-04-23T02:00:54.249298: Auto-redacted 15 exposed credentials from files\n
+\n2026-04-23T02:00:54.[REDACTED_CLIENT_ID]: Auto-redacted 15 exposed credentials from files\n
 ## 2026-04-23 02:00 AM - Nightly Security Review
 
 **AUTO-REDACTION:** ✅ Ran first and fixed exposed credentials immediately
@@ -286,14 +286,14 @@
 - No live hardcoded credentials remained in reviewed `/data/workspace` markdown/text/json files after auto-redaction
 
 **Git History (last 24h):** ✅ Expected
-- `606853d` — `Add live sports score verification rule`
+- `[REDACTED_CLIENT_ID]d` — `Add live sports score verification rule`
 - `10ce464` — `Harden context checks against hangs`
 - `5a7db10` — `auto git push 2026-04-22 07:30 UTC`
 
 **System Config / Permissions:** ✅ OK
 - `/data/.clawdbot/openclaw.json` permissions: `600 root:root`
 - No live env-var secret exposures found in reviewed workspace memory/log paths; remaining hits were setup examples/placeholders in skill docs
-- WhatsApp allowlist remains restricted to `+13018302401` only on both `custom-1` and `default` accounts
+- WhatsApp allowlist remains restricted to `+[REDACTED_CLIENT_ID]401` only on both `custom-1` and `default` accounts
 
 **Process Check:** ✅ No suspicious processes observed
 - Expected services only: `node src/server.js`, `python3 welly-daemon.py start`, `openclaw`, `openclaw-gateway`
@@ -308,3 +308,4 @@
 - `openclaw update status`: update available (`2026.4.21`), but this is maintenance, not an active incident
 
 **SUMMARY:** Security review passed — all clear.
+\n2026-04-24T06:01:01.711971: Auto-redacted 7 exposed credentials from files\n
