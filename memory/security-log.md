@@ -308,4 +308,35 @@
 - `openclaw update status`: update available (`2026.4.21`), but this is maintenance, not an active incident
 
 **SUMMARY:** Security review passed — all clear.
-\n2026-04-24T06:01:01.711971: Auto-redacted 7 exposed credentials from files\n
+\n2026-04-24T06:01:01.[REDACTED_CLIENT_ID]: Auto-redacted 7 exposed credentials from files\n\n2026-04-25T06:00:32.491228: Auto-redacted 5 exposed credentials from files\n
+## 2026-04-25 02:00 AM - Nightly Security Review
+
+**AUTO-REDACTION:** ✅ Ran first and fixed exposed credentials immediately
+- `auto-redact-credentials.py` redacted 1 credential exposure from `memory/security-log.md`
+- `auto-redact-credentials.py` redacted 4 credential exposures from `.git/logs/HEAD`
+- Review continued after remediation, per policy
+
+**Workspace Secret Scan:** ✅ Clean after auto-fix
+- Broad `grep 'sk-'` matches in workspace markdown/text/json were prior security-log notes, redacted placeholders, or dependency text
+- Focused follow-up scan found no live hardcoded credentials in reviewed `/data/workspace` files; remaining hits were environment-variable references or placeholders in code/docs
+
+**Git History (last 24h):** ✅ Expected
+- `b98bfdd` — `Auto git push 2026-04-24T07:30:08Z`
+
+**System Config / Permissions:** ✅ OK
+- `/data/.clawdbot/openclaw.json` permissions: `600 root:root`
+- No live env-var secret exposures found in reviewed workspace memory/log paths
+- WhatsApp allowlist remains restricted to `+13018302401` only on both `custom-1` and `default` accounts
+
+**Process Check:** ✅ No suspicious processes observed
+- Expected services only: `node src/server.js`, `python3 welly-daemon.py start`, `openclaw`, `openclaw-gateway`
+
+**Disk Usage:** ✅ Normal
+- `/`: 58%
+- `/data`: 54%
+
+**OpenClaw Audit:** ✅ No alertable security findings
+- `openclaw security audit --deep`: `0 critical · 0 warn · 1 info`
+- Informational note only: WhatsApp group allowlist is empty, so non-allowlisted group messages are silently dropped
+
+**SUMMARY:** Security review passed — all clear.

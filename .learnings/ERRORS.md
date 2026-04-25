@@ -747,3 +747,31 @@ Wrap pipefail-dependent scripts with `bash -lc` when using exec.
 - Related Files: /data/workspace/.learnings/ERRORS.md
 
 ---
+## [ERR-20260425-001] exec-shell
+
+**Logged**: 2026-04-25T07:30:00Z
+**Priority**: medium
+**Status**: pending
+**Area**: infra
+
+### Summary
+Shell command failed because `/bin/sh` does not support `set -o pipefail` in this exec environment.
+
+### Error
+```text
+sh: 1: set: Illegal option -o pipefail
+```
+
+### Context
+- Command/operation attempted: git automation script via `exec`
+- Input/parameters used: inline shell script beginning with `set -euo pipefail`
+- Environment details: `exec` default shell invoked `sh`, not `bash`
+
+### Suggested Fix
+Wrap shell scripts with `bash -lc` when relying on `pipefail` or bash-specific behavior.
+
+### Metadata
+- Reproducible: yes
+- Related Files: /data/workspace/.learnings/ERRORS.md
+
+---
