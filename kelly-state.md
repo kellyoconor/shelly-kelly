@@ -1,6 +1,6 @@
 # Kelly State - Working Memory
 
-*Updated: 2026-04-25 07:01:34*
+*Updated: 2026-04-25 13:24:12*
 
 Physical: Kelly hasn't logged any recent runs. Kelly's readiness is low at 55% and her sleep was restless last night (56%).
 Schedule: Kelly's calendar authentication has expired.

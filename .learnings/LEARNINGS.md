@@ -312,3 +312,29 @@ For future Welly recency questions, first check timestamps on the latest heartbe
 - Tags: welly, recency, correction
 
 ---
+
+## [LRN-20260425-001] correction
+
+**Logged**: 2026-04-25T13:34:12.676703+00:00
+**Priority**: high
+**Status**: pending
+**Area**: docs
+
+### Summary
+Do not infer organizing/cleanup activity from heartbeat context when the user is actually inactive or resting.
+
+### Details
+A heartbeat context check surfaced a vague signal about organizing/cleanup work, and I proactively messaged Kelly about it. She immediately corrected me: she was still in bed. The mistake was treating a soft context inference as a confirmed real-world activity instead of either staying quiet or phrasing it with much more caution.
+
+### Suggested Action
+1. Treat inferred activity from context scripts as unverified unless backed by clear recent evidence.
+2. On heartbeats, prefer silence over speculative personal check-ins.
+3. If a signal is ambiguous, ask in a clearly tentative way or do not send it.
+
+### Metadata
+- Source: user_feedback
+- Related Files: /data/workspace/HEARTBEAT.md, /data/workspace/scripts/combined-context-check.py
+- Tags: correction, heartbeat, context-inference, overreach
+- Pattern-Key: behavioral.do_not_treat_weak_context_as_confirmed_activity
+
+---

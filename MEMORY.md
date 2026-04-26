@@ -42,6 +42,7 @@
 
 ### Resolved/Don't Ask About
 - **Calendar Auth Issues (Mar 30, 2026)**: Kelly does NOT want to fix calendar authentication. Said multiple times "we fixed this" and "I am not dealing with it". Disabled all calendar auth alerts in both combined-context-check.py and full-context-check.py. Do not bring this up again.
+- **NWSL Interview**: Off limits until Kelly brings it up again. Do not proactively check in on it.
 
 
 ## Archived Sections
