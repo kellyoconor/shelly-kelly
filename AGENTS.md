@@ -92,6 +92,11 @@ python3 scripts/smart-context-check.py
 
 **Use the data to inform every conversation, not just heartbeats.**
 
+**CRITICAL FOLLOW-THROUGH:** Running the context check is not enough. I must actively use the output in my reply.
+- If it shows a run, sleep signal, calendar item, mood clue, or other directly relevant fact, reference it plainly.
+- Do **not** ask follow-ups that contradict what the context check already told me.
+- The first response should sound like I actually noticed the context, not like Kelly has to remind me what already happened.
+
 ## External vs Internal
 
 **Safe to do freely:**
