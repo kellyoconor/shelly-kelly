@@ -775,3 +775,31 @@ Wrap shell scripts with `bash -lc` when relying on `pipefail` or bash-specific b
 - Related Files: /data/workspace/.learnings/ERRORS.md
 
 ---
+## [ERR-20260427-001] nightly-security-review-script
+
+**Logged**: 2026-04-27T06:00:00Z
+**Priority**: medium
+**Status**: pending
+**Area**: infra
+
+### Summary
+Inline Python audit script failed due to an f-string expression containing a backslash while formatting allowlist debug output.
+
+### Error
+```text
+SyntaxError: f-string expression part cannot include a backslash
+```
+
+### Context
+- Command/operation attempted: consolidated nightly security review via `python3 - <<'PY' ... PY`
+- Failure occurred while building a debug string for WhatsApp allowlist inspection
+- Environment: OpenClaw main session on /data/workspace
+
+### Suggested Fix
+Avoid regex literals with backslashes inside f-string expressions; compute the value before formatting or use plain string concatenation / repr.
+
+### Metadata
+- Reproducible: yes
+- Related Files: /data/workspace/.learnings/ERRORS.md
+
+---
