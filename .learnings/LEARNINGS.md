@@ -338,3 +338,30 @@ A heartbeat context check surfaced a vague signal about organizing/cleanup work,
 - Pattern-Key: behavioral.do_not_treat_weak_context_as_confirmed_activity
 
 ---
+## [LRN-20260427-001] correction
+
+**Logged**: 2026-04-27T08:21:00-04:00
+**Priority**: high
+**Status**: pending
+**Area**: docs
+
+### Summary
+When smart-context-check shows a recent run or other relevant activity, I must explicitly use that information in the reply instead of asking as if I missed it.
+
+### Details
+Kelly pointed out that I responded to her sleep message without clearly acknowledging that context check already showed she had run earlier that day (5.46mi at 8:56/mi). I then followed with a question that implied I had not actually noticed the run. This makes the context check feel performative instead of useful. Similar pattern has come up before: run/activity context exists, but I fail to surface it naturally in the answer.
+
+### Suggested Action
+Before sending a reply, explicitly scan the smart-context-check output for any directly relevant facts (run today, sleep/readiness, calendar, mood). If one is relevant, weave it into the first response in plain language. Do not ask a follow-up that contradicts already-known context.
+
+### Metadata
+- Source: user_feedback
+- Related Files: /data/workspace/AGENTS.md, /data/workspace/MEMORY.md, /data/workspace/scripts/smart-context-check.py
+- Tags: context-awareness, correction, running, smart-context-check
+- See Also: memory/2026-03-25.md#L1-L25
+- Pattern-Key: context.use-smart-context-check-output
+- Recurrence-Count: 1
+- First-Seen: 2026-04-27
+- Last-Seen: 2026-04-27
+
+---
