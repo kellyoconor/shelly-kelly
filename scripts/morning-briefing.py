@@ -15,6 +15,7 @@ import subprocess
 from dataclasses import dataclass
 from datetime import datetime
 from pathlib import Path
+import re
 from zoneinfo import ZoneInfo
 
 ET = ZoneInfo("America/New_York")
@@ -107,21 +108,76 @@ def summarize_packages() -> str | None:
     return f"Package watch: {len(active)} active — " + "; ".join(active[:3]) + ("." if len(active) <= 3 else "; more in tracker.")
 
 
+def parse_weather(weather: str | None) -> tuple[str | None, str | None]:
+    if not weather:
+        return None, None
+    text = weather.replace("Philadelphia:", "").strip()
+    text = re.sub(r"\s+", " ", text)
+    match = re.search(r"([+-]?\d+)°F", text)
+    temp = f"{match.group(1)}°F" if match else None
+    return text, temp
+
+
+def parse_oura_scores(oura: str | None) -> tuple[int | None, int | None]:
+    if not oura:
+        return None, None
+    readiness_match = re.search(r"readiness\s+(\d+)%", oura, re.IGNORECASE)
+    sleep_match = re.search(r"sleep\s+(\d+)%", oura, re.IGNORECASE)
+    readiness = int(readiness_match.group(1)) if readiness_match else None
+    sleep = int(sleep_match.group(1)) if sleep_match else None
+    return readiness, sleep
+
+
+def readiness_vibe(readiness: int | None, sleep: int | None) -> str | None:
+    if readiness is None and sleep is None:
+        return None
+    if readiness is not None and readiness >= 80:
+        return "Body looks pretty online today."
+    if readiness is not None and readiness >= 70:
+        return "Energy looks decent — solid, not superhero."
+    if readiness is not None and readiness >= 60:
+        return "Feels like a lighter, steadier-energy kind of day."
+    return "Recovery looks a little fragile today, so gentle > heroic."
+
+
+def mirror_line(mirror: str | None) -> str | None:
+    if not mirror:
+        return None
+    return f"Tiny mirror thought: {mirror}"
+
+
 def build_brief(data: BriefData) -> str:
-    parts: list[str] = []
-    if data.weather:
-        parts.append(f"Morning ☀️ {data.weather}.")
+    weather_text, temp = parse_weather(data.weather)
+    readiness, sleep = parse_oura_scores(data.oura)
+
+    lines: list[str] = []
+
+    opening = "Morning ☀️"
+    if temp:
+        opening += f" Philly's at {temp}"
+    if weather_text:
+        opening += f" — {weather_text}."
     else:
-        parts.append("Morning ☀️")
+        opening += "."
+    lines.append(opening)
 
-    if data.oura:
-        parts.append(f"Oura: {data.oura}")
+    vibe = readiness_vibe(readiness, sleep)
+    if vibe:
+        if readiness is not None and sleep is not None:
+            lines.append(f"{vibe} Oura has you at {readiness}% readiness and {sleep}% sleep.")
+        elif data.oura:
+            lines.append(f"{vibe} {data.oura}")
+    elif data.oura:
+        lines.append(f"Oura check: {data.oura}.")
+
     if data.packages:
-        parts.append(data.packages)
-    if data.mirror:
-        parts.append(f"Mirror: {data.mirror}")
+        lines.append(data.packages)
 
-    return "\n".join(parts)
+    mline = mirror_line(data.mirror)
+    if mline:
+        lines.append(mline)
+
+    return "\n".join(lines)
 
 
 def daily_note_path(now: datetime) -> Path:
