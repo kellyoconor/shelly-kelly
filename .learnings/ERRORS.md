@@ -803,3 +803,31 @@ Avoid regex literals with backslashes inside f-string expressions; compute the v
 - Related Files: /data/workspace/.learnings/ERRORS.md
 
 ---
+## [ERR-20260429-001] exec-shell
+
+**Logged**: 2026-04-29T07:30:00Z
+**Priority**: medium
+**Status**: pending
+**Area**: infra
+
+### Summary
+Initial git automation command failed because the default exec shell did not support `set -o pipefail`.
+
+### Error
+```
+sh: 1: set: Illegal option -o pipefail
+```
+
+### Context
+- Command/operation attempted: run a bash-style multi-repo git automation script via `exec`
+- Input or parameters used: `set -euo pipefail` at script start without explicitly invoking bash
+- Environment details if relevant: `exec` used default shell (`sh`), which rejected `pipefail`
+
+### Suggested Fix
+Invoke the script with `bash -lc` when relying on bash-only shell options.
+
+### Metadata
+- Reproducible: yes
+- Related Files: /data/workspace/.learnings/ERRORS.md
+
+---
