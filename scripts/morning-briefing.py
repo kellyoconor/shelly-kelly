@@ -47,7 +47,18 @@ def run_command(cmd: list[str], timeout: int = 20) -> str | None:
 
 
 def fetch_weather() -> str | None:
-    return run_command(["curl", "-sS", WEATHER_URL], timeout=15)
+    """Fetch weather with a couple retries so one flaky request doesn't blank the briefing."""
+    commands = [
+        ["curl", "-sS", "--max-time", "10", WEATHER_URL],
+        ["curl", "-sS", "--max-time", "10", "--retry", "2", "--retry-delay", "1", WEATHER_URL],
+    ]
+
+    for cmd in commands:
+        text = run_command(cmd, timeout=15)
+        if text and "Philadelphia:" in text:
+            return text
+
+    return None
 
 
 def fetch_oura() -> str | None:

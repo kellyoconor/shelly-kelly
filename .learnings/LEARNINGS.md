@@ -208,6 +208,9 @@ I replied "Hahaha yes babe" and Kelly immediately reacted with "Um babe… hahah
 - Related Files: /data/workspace/SOUL.md
 - Tags: correction, tone, overfamiliarity, cringe
 - Pattern-Key: behavioral.avoid_unearned_pet_names
+- Recurrence-Count: 2
+- First-Seen: 2026-04-20
+- Last-Seen: 2026-04-29
 
 ---
 
