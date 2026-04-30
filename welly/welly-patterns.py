@@ -86,13 +86,14 @@ class WellyPatterns:
         high_effort_on_low_readiness = 0
         
         for i, state in enumerate(states):
-            readiness = state.get('readiness_score', 100)
+            readiness = state.get('readiness', state.get('readiness_score', 100))
+            readiness = 100 if readiness is None else readiness
             effort_level = self._estimate_effort_level(state)
-            mind_body_alignment = state.get('mind_body_alignment', 'aligned')
+            mind_body_alignment = state.get('mind_body_alignment', 'aligned') or 'aligned'
             
             # Check for declining readiness pattern
             if i > 0:
-                prev_readiness = states[i-1].get('readiness_score', 100)
+                prev_readiness = states[i-1].get('readiness', states[i-1].get('readiness_score', 100))
                 if readiness < prev_readiness:
                     consecutive_decline += 1
                 else:
@@ -133,9 +134,10 @@ class WellyPatterns:
         pattern_signals = []
         
         for i, state in enumerate(states):
-            alignment = state.get('mind_body_alignment', 'aligned')
-            recovery_status = state.get('recovery_status', 'okay-ish')
-            readiness = state.get('readiness_score', 100)
+            alignment = state.get('mind_body_alignment', 'aligned') or 'aligned'
+            recovery_status = state.get('recovery_status', 'okay-ish') or 'okay-ish'
+            readiness = state.get('readiness', state.get('readiness_score', 100))
+            readiness = 100 if readiness is None else readiness
             
             if alignment == 'aligned':
                 alignment_days += 1
@@ -175,8 +177,10 @@ class WellyPatterns:
         prev_energy = None
         for i, state in enumerate(states):
             energy = state.get('energy', 3)
-            stress = state.get('stress', 3) 
-            alignment = state.get('mind_body_alignment', 'aligned')
+            energy = 3 if energy is None else energy
+            stress = state.get('stress', 3)
+            stress = 3 if stress is None else stress
+            alignment = state.get('mind_body_alignment', 'aligned') or 'aligned'
             effort_level = self._estimate_effort_level(state)
             
             # Track mind-body misalignment
@@ -214,23 +218,34 @@ class WellyPatterns:
         return None
     
     def _estimate_effort_level(self, state: Dict) -> int:
-        """Estimate effort level from available data (1-5 scale)"""
-        # This would integrate with Strava workout intensity, Oura activity data, etc.
-        # For now, use basic heuristics
-        
-        activity_score = state.get('activity_score', 3)
-        workout_intensity = state.get('workout_intensity', 3)
-        subjective_effort = state.get('perceived_effort', 3)
-        
-        # Use whatever data is available
-        if subjective_effort:
-            return subjective_effort
-        elif workout_intensity:
-            return workout_intensity
-        elif activity_score:
-            return min(5, int(activity_score / 20))  # Convert 0-100 to 1-5
-        else:
-            return 3  # Default moderate
+        """Estimate effort level from available data (1-5 scale)."""
+        subjective_effort = state.get('perceived_effort')
+        workout_intensity = state.get('workout_intensity')
+        activity_score = state.get('activity_score')
+        workout_load = state.get('workout_load')
+
+        if isinstance(subjective_effort, (int, float)) and subjective_effort > 0:
+            return max(1, min(5, int(round(subjective_effort))))
+
+        if isinstance(workout_intensity, (int, float)) and workout_intensity > 0:
+            return max(1, min(5, int(round(workout_intensity))))
+
+        if isinstance(activity_score, (int, float)) and activity_score > 0:
+            return max(1, min(5, int(activity_score / 20)))
+
+        if isinstance(workout_load, (int, float)):
+            if workout_load >= 180:
+                return 5
+            if workout_load >= 130:
+                return 4
+            if workout_load >= 90:
+                return 3
+            if workout_load >= 40:
+                return 2
+            if workout_load > 0:
+                return 1
+
+        return 3
     
     def _detect_kelly_specific_patterns(self, states: List[Dict]) -> List[Dict]:
         """Detect patterns specific to Kelly's tendencies"""
@@ -388,6 +403,10 @@ def main():
         elif command == "summary":
             days = int(sys.argv[2]) if len(sys.argv) > 2 else 14
             summary = patterns.get_pattern_summary(days)
+
+            if summary.get("error"):
+                print(f"❌ Pattern summary error: {summary['error']}")
+                return
             
             print(f"📈 Pattern Summary ({days} days)")
             print(f"   States analyzed: {summary['states_analyzed']}")

@@ -199,10 +199,14 @@ class WellyHeartbeat:
         if len(daily_states) < 3:
             return {"error": "Insufficient data for weekly review"}
         
-        # Calculate weekly averages
-        avg_energy = sum(state.get("energy", 0) for state in daily_states) / len(daily_states)
-        avg_stress = sum(state.get("stress", 0) for state in daily_states) / len(daily_states)
-        avg_mood = sum(state.get("mood", 0) for state in daily_states) / len(daily_states)
+        # Calculate weekly averages (ignore missing subjective fields)
+        energy_values = [state.get("energy") for state in daily_states if state.get("energy") is not None]
+        stress_values = [state.get("stress") for state in daily_states if state.get("stress") is not None]
+        mood_values = [state.get("mood") for state in daily_states if state.get("mood") is not None]
+
+        avg_energy = (sum(energy_values) / len(energy_values)) if energy_values else 0
+        avg_stress = (sum(stress_values) / len(stress_values)) if stress_values else 0
+        avg_mood = (sum(mood_values) / len(mood_values)) if mood_values else 0
         
         # Count "feel like self" responses
         feel_like_self_responses = [state.get("feel_like_self") for state in daily_states]
