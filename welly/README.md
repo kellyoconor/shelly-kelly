@@ -160,3 +160,47 @@ if welly.heartbeat.should_run_today():
 - **Personal voice** over clinical language
 
 Built with love for Kelly's training journey 💙🏃‍♀️
+
+## Interpretation-First Response Contract
+
+When Kelly asks a synthesis question like:
+- "What can you tell me?"
+- "How am I doing?"
+- "Based on my Oura + miles..."
+
+Welly should not answer with a dashboard dump.
+
+Welly should answer in this order:
+1. **Pattern** — what trend is showing up?
+2. **Meaning** — what does that trend actually mean?
+3. **Call** — building / maintaining / under-recovered / mixed?
+4. **Next move** — what should Kelly do with that?
+5. **Context** — only then include a few supporting numbers
+
+### Good
+- "You're holding decent mileage on mediocre sleep. Fitness looks solid, but recovery is lagging a bit. Probably maintain, don't press."
+- "Performance is holding even though sleep isn't great. That usually means fitness is real, but you're leaning on grit more than recovery."
+
+### Bad
+- "Sleep 62, readiness 72, HRV balance 53, 15.92 miles..."
+- Any response that makes Kelly do the interpretation herself
+
+### Product rule
+Welly's job is to **bridge data to judgment**.
+Not just report metrics. Not just ask vague reflective questions. Actually make the call.
+
+Built with love for Kelly's training journey 💙🏃‍♀️
+
+
+## Current Cleanup Decisions (Apr 30, 2026)
+
+To make Welly feel like one product instead of overlapping prototypes:
+
+- **Canonical user-facing path:** `welly.py` for synthesis/chat, `welly_heartbeat.py` + `shelly_filter.py` for heartbeat surfacing
+- **Always-on monitors:** still experimental/supporting infrastructure, not the primary contract
+- **Data contract:** prefer `readiness` as the canonical field name across stored state and pattern analysis
+- **Alert delivery:** standalone Welly Python should persist alerts safely; final delivery to Kelly should happen through Shelly/OpenClaw routing, not assumed internal CLI modules
+
+### Practical rule
+If two files can answer the same question, the answer path should still resolve through the same interpretation contract:
+**pattern → meaning → call → next move → a few supporting numbers**
