@@ -129,6 +129,8 @@ class RPEResponseParser:
                     leg_scores.append(score)
                     
         # Contextual leg indicators
+        if 'heavy legs' in text or 'legs felt heavy' in text:
+            leg_scores.append(3)
         if 'legs' in text and any(phrase in text for phrase in ['weren\'t there', 'not there', 'just weren\'t', 'didn\'t have', 'just didn\'t have']):
             leg_scores.append(2)
         if 'legs' in text and any(word in text for word in ['fine', 'good', 'okay']):
@@ -190,7 +192,7 @@ class RPEResponseParser:
     def _calculate_confidence(self, text):
         """Calculate confidence in the parsing"""
         # More specific language = higher confidence
-        specific_words = ['effort', 'legs', 'feeling', 'felt', 'was', 'had to']
+        specific_words = ['effort', 'legs', 'feeling', 'felt', 'was', 'had to', 'heavy', 'tired', 'period', 'sluggish']
         confidence = sum(1 for word in specific_words if word in text)
         
         # Explicit numbers = high confidence

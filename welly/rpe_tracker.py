@@ -84,13 +84,13 @@ class RPETracker:
             notes
         ))
         
-        # Check for significant mismatch
+        conn.commit()
+        conn.close()
+
+        # Check for significant mismatch after releasing the first write lock
         if abs(effort_delta) >= 3:  # 3+ point difference
             mismatch_type = "high_effort_low_hr" if effort_delta > 0 else "low_effort_high_hr"
             self._log_effort_mismatch(run_data['_date'], mismatch_type, abs(effort_delta), notes)
-        
-        conn.commit()
-        conn.close()
         
     def _estimate_expected_effort(self, avg_hr, pace):
         """Rough estimate of expected effort based on HR and pace"""
