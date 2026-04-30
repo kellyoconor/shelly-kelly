@@ -7,10 +7,11 @@ Integrates all 5 components into a production-ready system.
 """
 
 import json
+import subprocess
 import sys
 from datetime import datetime
 from pathlib import Path
-from typing import Dict
+from typing import Dict, List, Optional
 
 # Import all Welly components
 from welly_ingest import WellyIngest
@@ -133,25 +134,157 @@ class Welly:
         current_state = self.get_current_state()
         return self.memory.get_relevant_patterns(current_state)
     
+    def _run_json_command(self, command: List[str]) -> Optional[Dict]:
+        """Run a helper command that returns JSON."""
+        try:
+            result = subprocess.run(command, capture_output=True, text=True, cwd=self.workspace)
+            if result.returncode != 0:
+                return None
+            return json.loads(result.stdout)
+        except Exception:
+            return None
+    
+    def _maybe_auto_capture_subjective(self, message: str) -> Optional[Dict]:
+        """Quietly capture likely run-related subjective data from natural language."""
+        message_lower = message.lower()
+        run_response_indicators = [
+            "felt", "feel", "feeling", "legs", "leg", "hard", "easy", "tough", "good",
+            "alright", "okay", "push", "effort", "tired", "fresh", "strong",
+            "slow", "fast", "laggy", "smooth", "pace", "hr", "heart rate", "period",
+            "heavy", "sluggish", "weekly number"
+        ]
+
+        if not any(indicator in message_lower for indicator in run_response_indicators):
+            return None
+
+        try:
+            result = self.ingest.ingest_run_subjective_response(message)
+            return result if result.get("logged") else None
+        except Exception:
+            return None
+
+    def synthesize_training_state(self) -> Dict:
+        """Turn Oura + Strava into an actual opinion, not a data dump."""
+        strava_script = self.workspace / "skills" / "strava" / "scripts" / "strava.py"
+        oura_script = self.workspace / "skills" / "oura" / "scripts" / "oura.py"
+        
+        weekly = self._run_json_command(["python3", str(strava_script), "weekly"]) if strava_script.exists() else None
+        runs = self._run_json_command(["python3", str(strava_script), "runs", "7"]) if strava_script.exists() else None
+        oura_today = self._run_json_command(["python3", str(oura_script), "brief", datetime.now().strftime("%Y-%m-%d")]) if oura_script.exists() else None
+        
+        summary = {
+            "training_state": "unknown",
+            "pattern": None,
+            "meaning": None,
+            "call": None,
+            "next_move": None,
+            "facts": {}
+        }
+        
+        if weekly:
+            summary["facts"]["weekly_miles"] = weekly.get("total_miles")
+            summary["facts"]["total_runs"] = weekly.get("total_runs")
+        
+        recent_runs = weekly.get("runs", []) if weekly else []
+        if recent_runs:
+            summary["facts"]["recent_runs"] = recent_runs
+        
+        if oura_today:
+            sleep_score = (oura_today.get("sleep") or {}).get("score")
+            readiness_score = (oura_today.get("readiness") or {}).get("score")
+            hrv_balance = ((oura_today.get("readiness") or {}).get("contributors") or {}).get("hrv_balance")
+            summary["facts"].update({
+                "sleep_score": sleep_score,
+                "readiness_score": readiness_score,
+                "hrv_balance": hrv_balance,
+            })
+        else:
+            sleep_score = None
+            readiness_score = None
+            hrv_balance = None
+        
+        pace_trend_better = False
+        hr_trend_higher = False
+        if len(recent_runs) >= 2:
+            paces = [run.get("pace", "") for run in recent_runs]
+            avg_hrs = [run.get("hr_avg") for run in recent_runs]
+            try:
+                def pace_to_seconds(p: str) -> int:
+                    mm, rest = p.split(":")
+                    ss = rest.split("/")[0]
+                    return int(mm) * 60 + int(ss)
+                pace_values = [pace_to_seconds(p) for p in paces if p]
+                if len(pace_values) >= 2:
+                    pace_trend_better = pace_values[-1] < pace_values[0]
+                if avg_hrs[0] is not None and avg_hrs[-1] is not None:
+                    hr_trend_higher = avg_hrs[-1] > avg_hrs[0]
+            except Exception:
+                pass
+        
+        if pace_trend_better and readiness_score is not None and sleep_score is not None and sleep_score < 70:
+            summary["pattern"] = "performance is holding even though recovery is a little behind"
+            summary["meaning"] = "fitness looks real, but some of the work is being covered by grit"
+            summary["call"] = "maintaining"
+            summary["next_move"] = "hold steady and recover instead of forcing more"
+            summary["training_state"] = "maintaining_with_recovery_lag"
+        
+        if pace_trend_better and readiness_score is not None and readiness_score >= 75 and sleep_score is not None and sleep_score >= 70:
+            summary["pattern"] = "recovery and performance are moving together"
+            summary["meaning"] = "you look like you're actually building, not just surviving the week"
+            summary["call"] = "building"
+            summary["next_move"] = "keep the rhythm and don't get greedy"
+            summary["training_state"] = "building"
+        
+        if readiness_score is not None and readiness_score < 68 and sleep_score is not None and sleep_score < 65 and hr_trend_higher:
+            summary["pattern"] = "your body is working harder to hit the same kind of effort"
+            summary["meaning"] = "under-recovery is starting to leak into the runs"
+            summary["call"] = "under_recovered"
+            summary["next_move"] = "back off a notch and prioritize sleep"
+            summary["training_state"] = "under_recovered"
+        
+        if summary["training_state"] == "unknown":
+            summary["pattern"] = "your consistency looks solid, but the signal is mixed"
+            summary["meaning"] = "nothing looks alarming, just not fully clear yet"
+            summary["call"] = "steady"
+            summary["next_move"] = "keep watching the next couple of days before changing much"
+            summary["training_state"] = "steady"
+        
+        return summary
+    
     def chat(self, message: str) -> str:
         """Chat interface with Welly"""
+
+        # Quietly capture subjective run context when a natural response contains it.
+        self._maybe_auto_capture_subjective(message)
         
         # Simple pattern matching for common queries
         message_lower = message.lower()
         
-        if any(word in message_lower for word in ["how am i", "how do i", "what's my"]):
-            state = self.get_current_state()
-            patterns = self.get_patterns()
+        if any(word in message_lower for word in ["how am i", "how do i", "what's my", "what can you tell me", "recovery", "miles"]):
+            synthesis = self.synthesize_training_state()
+            facts = synthesis.get("facts", {})
+            weekly_miles = facts.get("weekly_miles")
+            sleep_score = facts.get("sleep_score")
+            readiness_score = facts.get("readiness_score")
             
-            # Generate response based on current state
-            if state.get("mind_body_alignment") == "misaligned":
-                return "Numbers say okay-ish. Mood says not quite. Worth checking in with yourself."
-            elif state.get("push_risk") in ["high", "very_high"]:
-                return "This looks like one of your 'I can push through it' stretches. What's your body actually asking for?"
-            elif state.get("recovery_status") == "concerning":
-                return "Your body's been whispering for a few days. How are you feeling about that?"
-            else:
-                return "Things look pretty aligned today. How does that feel from your end?"
+            opener = synthesis.get("pattern", "I'm seeing a mixed picture")
+            meaning = synthesis.get("meaning", "Nothing looks alarming")
+            call = synthesis.get("call", "steady")
+            next_move = synthesis.get("next_move", "keep listening")
+            
+            details = []
+            if weekly_miles is not None:
+                details.append(f"{weekly_miles} miles this week")
+            if readiness_score is not None:
+                details.append(f"readiness {readiness_score}")
+            if sleep_score is not None:
+                details.append(f"sleep {sleep_score}")
+            detail_text = ", ".join(details)
+            
+            if detail_text:
+                return f"I'm noticing {opener}. Meaning: {meaning}. Call: {call}. Next move: {next_move}. Context: {detail_text}."
+            
+            return f"I'm noticing {opener}. Meaning: {meaning}. Call: {call}. Next move: {next_move}."
         
         elif any(word in message_lower for word in ["pattern", "tend to", "usually"]):
             patterns = self.get_patterns()
