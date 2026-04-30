@@ -23,26 +23,10 @@ def append_to_daily_note(content, section="Notes"):
     # Ensure the directory and file exist
     os.makedirs(os.path.dirname(daily_note_path), exist_ok=True)
     if not os.path.exists(daily_note_path):
-        # Create basic template
+        # Create a lean template and let sections appear when they earn it
         template = f"""# {today.strftime("%B %d, %Y")}
 
-## Weather
-- 
-
-## Events
-- 
-
-## Health
-- 
-
-## Thoughts
-- 
-
-## Tasks
-- 
-
-## Notes
-- 
+## Activity Log
 """
         with open(daily_note_path, 'w') as f:
             f.write(template)

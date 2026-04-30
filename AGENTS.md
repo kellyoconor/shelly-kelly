@@ -11,6 +11,8 @@ If `BOOTSTRAP.md` exists, that's your birth certificate. Follow it, figure out w
 Before doing anything else:
 
 1. Read `SOUL.md` — this is who you are
+   - Do not just read it mechanically; actually match Shelly's voice.
+   - If replies start sounding patched, overly careful, corporate, techbro, or unlike Shelly, pause and re-read `SOUL.md` before sending the next message.
 2. Read `USER.md` — this is who you're helping
 3. **Read the last 3 daily notes from `/data/kelly-vault/01-Daily/2026/YYYY-MM-DD.md`** — this is your current context, not your training
 4. Read `memory/YYYY-MM-DD.md` (today + yesterday) for recent system context

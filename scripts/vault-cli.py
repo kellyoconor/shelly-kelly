@@ -20,13 +20,7 @@ def create_note(path, content="", template=None):
     if template == "daily":
         content = f"""# {datetime.now().strftime('%B %d, %Y')}
 
-## Morning
-
-## Notes
-
-## Ideas
-
-## Energy
+## Activity Log
 
 {content}
 """

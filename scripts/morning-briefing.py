@@ -201,16 +201,11 @@ def ensure_daily_note(path: Path, now: datetime) -> None:
         return
     path.write_text(
         f"# {now.strftime('%B %d, %Y')}\n\n"
-        "## Weather\n- \n\n"
-        "## Events\n- \n\n"
-        "## Health\n- \n\n"
-        "## Thoughts\n- \n\n"
-        "## Tasks\n- \n\n"
-        "## Notes\n- \n"
+        "## Activity Log\n"
     )
 
 
-def insert_under_section(content: str, section: str, bullet: str, path: Path) -> None:
+def insert_under_section(section: str, bullet: str, path: Path) -> None:
     lines = path.read_text().splitlines(keepends=True)
     header = f"## {section}"
     insert_index = len(lines)
@@ -225,8 +220,18 @@ def insert_under_section(content: str, section: str, bullet: str, path: Path) ->
     if not found:
         if lines and not lines[-1].endswith("\n"):
             lines[-1] += "\n"
-        lines.extend([f"\n{header}\n"])
+        if lines and lines[-1].strip() != "":
+            lines.append("\n")
+        lines.extend([f"{header}\n"])
         insert_index = len(lines)
+
+    # Clear old placeholder bullets if they exist.
+    if found:
+        section_lines = lines[i + 1:insert_index]
+        if all(l.strip() in {"", "-"} for l in section_lines):
+            del lines[i + 1:insert_index]
+            insert_index = i + 1
+
     lines.insert(insert_index, bullet + "\n")
     path.write_text("".join(lines))
 
@@ -236,10 +241,29 @@ def append_daily_note(data: BriefData) -> None:
     path = daily_note_path(now)
     ensure_daily_note(path, now)
     stamp = now.strftime("%I:%M %p").lstrip("0")
+
+    weather_text, _ = parse_weather(data.weather)
+    readiness, sleep = parse_oura_scores(data.oura)
+    vibe = readiness_vibe(readiness, sleep)
+
+    morning_bits: list[str] = []
+    if weather_text:
+        morning_bits.append(weather_text)
+    if readiness is not None and sleep is not None:
+        morning_bits.append(f"Oura: {readiness}% readiness, {sleep}% sleep")
+    if vibe:
+        morning_bits.append(vibe)
+    if data.packages:
+        morning_bits.append(data.packages)
+
+    if morning_bits:
+        insert_under_section("Morning", f"- **{stamp}**: " + " — ".join(morning_bits), path)
     if data.weather:
-        insert_under_section("Weather", "Weather", f"- **{stamp}**: {data.weather}", path)
+        insert_under_section("Weather", f"- **{stamp}**: {data.weather}", path)
     if data.oura:
-        insert_under_section("Health", "Health", f"- **{stamp}**: {data.oura}", path)
+        insert_under_section("Health", f"- **{stamp}**: {data.oura}", path)
+    if data.mirror:
+        insert_under_section("Thoughts", f"- **{stamp}**: {mirror_line(data.mirror)}", path)
 
 
 def main() -> int:
