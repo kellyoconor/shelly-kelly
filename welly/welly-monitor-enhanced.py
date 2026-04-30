@@ -102,11 +102,6 @@ class WellyMonitor:
         self.logger.info(f"Received signal {signum}, shutting down gracefully...")
         self.running = False
         
-    def _signal_handler(self, signum, frame):
-        """Handle shutdown signals gracefully"""
-        self.logger.info(f"Received signal {signum}, shutting down gracefully...")
-        self.running = False
-        
     def _load_state(self) -> Dict:
         """Load persistent monitor state"""
         if self.state_file.exists():
@@ -357,12 +352,12 @@ class WellyMonitor:
                 # Reset components after too many failures
                 if consecutive_failures >= 5:
                     self.logger.warning("Resetting all components after repeated failures")
-                    self._poller = None
-                    self._interpreter = None
-                    self._memory = None
-                    self._voice = None
-                    self._patterns = None
-                    self._alerts = None
+                    self.poller = WellyPoller(self.workspace)
+                    self.interpreter = WellyInterpreter(self.workspace)
+                    self.memory = WellyMemory(self.workspace)
+                    self.voice = WellyVoice()
+                    self.patterns = WellyPatterns(self.workspace)
+                    self.alerts = WellyAlerts(self.workspace)
                     consecutive_failures = 0
                 
                 # Wait before retry (minimum 1 minute, maximum 10 minutes)

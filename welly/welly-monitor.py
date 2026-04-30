@@ -103,11 +103,6 @@ class WellyMonitor:
         self.logger.info(f"Received signal {signum}, shutting down gracefully...")
         self.running = False
         
-    def _signal_handler(self, signum, frame):
-        """Handle shutdown signals gracefully"""
-        self.logger.info(f"Received signal {signum}, shutting down gracefully...")
-        self.running = False
-        
     def _load_state(self) -> Dict:
         """Load persistent monitor state"""
         if self.state_file.exists():

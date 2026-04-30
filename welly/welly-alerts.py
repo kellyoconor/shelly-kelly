@@ -10,7 +10,6 @@ Respects quiet hours, alert frequency limits, and Kelly's preference for non-ove
 
 import json
 import logging
-import subprocess
 import sys
 from datetime import datetime, timedelta
 from pathlib import Path
@@ -30,7 +29,7 @@ class WellyAlerts:
         
         # Kelly's alert preferences
         self.alert_config = {
-            "preferred_channel": "whatsapp",  # Kelly's main channel
+            "preferred_channel": "file",  # Safe default: persist alerts for Shelly/filter to surface
             "quiet_hours_start": "23:00",
             "quiet_hours_end": "08:00",
             "max_alerts_per_day": 2,  # Don't overwhelm
@@ -161,36 +160,14 @@ class WellyAlerts:
         return "\n\n".join(kelly_formatted)
     
     async def _send_whatsapp_message(self, message: str) -> bool:
-        """Send message via WhatsApp using existing message system"""
-        try:
-            # Use the workspace message tool to send to Kelly
-            cmd = [
-                "python3", "-m", "openclaw.tools.message",
-                "send", "--channel", "whatsapp", 
-                "--target", "kelly",  # Assuming Kelly is the default target
-                "--message", message
-            ]
-            
-            result = subprocess.run(
-                cmd, 
-                cwd=self.workspace,
-                capture_output=True,
-                text=True,
-                timeout=30
-            )
-            
-            if result.returncode == 0:
-                self.logger.info("WhatsApp message sent successfully")
-                return True
-            else:
-                self.logger.error(f"WhatsApp send failed: {result.stderr}")
-                # Fall back to file method
-                return await self._write_to_file(message)
-                
-        except Exception as e:
-            self.logger.error(f"Error sending WhatsApp message: {e}")
-            # Fall back to file method
-            return await self._write_to_file(message)
+        """Deprecated direct send path.
+
+        In OpenClaw runtime, proactive delivery should be handled by the host/message tool
+        or by Shelly's heartbeat/filter layer. Here we persist safely instead of assuming
+        a CLI messaging module exists inside this Python process.
+        """
+        self.logger.info("WhatsApp direct send not available in standalone Welly runtime; writing alert to file instead")
+        return await self._write_to_file(message)
     
     async def _write_to_file(self, message: str) -> bool:
         """Write alert to file for Kelly to see later"""
