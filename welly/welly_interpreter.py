@@ -172,10 +172,10 @@ class WellyInterpreter:
         """Analyze Kelly's tendency to push through when she shouldn't"""
         insights = []
         
-        # Get stress and motivation levels
-        stress = daily_data.get("stress", 3)
-        motivation = daily_data.get("motivation", 3)
-        energy = daily_data.get("energy", 3)
+        # Get stress and motivation levels (default to neutral when None)
+        stress = daily_data.get("stress") or 3
+        motivation = daily_data.get("motivation") or 3
+        energy = daily_data.get("energy") or 3
         
         # Check recent pattern of pushing
         recent_states = trends.get("daily_states", [])
@@ -187,7 +187,7 @@ class WellyInterpreter:
             insights.append("High stress but high motivation - classic push zone")
         
         # Low energy but high workout loads recently
-        recent_workout_loads = [state.get("workout_load", 0) for state in recent_states[-3:]]
+        recent_workout_loads = [(state.get("workout_load") or 0) for state in recent_states[-3:]]
         if energy <= 2 and any(load > 6 for load in recent_workout_loads):
             push_indicators += 1
             insights.append("Low energy but maintained high training loads")
@@ -224,9 +224,9 @@ class WellyInterpreter:
         """Analyze emotional state impact on recovery"""
         insights = []
         
-        stress = daily_data.get("stress", 3)
-        mood = daily_data.get("mood", 3) 
-        feel_like_self = daily_data.get("feel_like_self", "yes")
+        stress = daily_data.get("stress") or 3
+        mood = daily_data.get("mood") or 3
+        feel_like_self = daily_data.get("feel_like_self") or "yes"
         
         emotional_score = 0
         
@@ -246,7 +246,7 @@ class WellyInterpreter:
             insights.append("Only somewhat feeling like yourself")
         
         # Check for emotional patterns in trends
-        recent_stress = [state.get("stress", 3) for state in trends.get("daily_states", [])[-3:]]
+        recent_stress = [(state.get("stress") or 3) for state in trends.get("daily_states", [])[-3:]]
         if recent_stress and len(recent_stress) > 0 and sum(recent_stress) / len(recent_stress) > 3.5:
             emotional_score += 1
             insights.append("Stress elevated multiple days")
@@ -280,7 +280,7 @@ class WellyInterpreter:
             if state.get("date"):
                 date_obj = datetime.strptime(state["date"], "%Y-%m-%d")
                 if date_obj.weekday() == 0:  # Monday
-                    monday_energies.append(state.get("energy", 3))
+                    monday_energies.append(state.get("energy") or 3)
         
         if monday_energies and sum(monday_energies) / len(monday_energies) < 2.5:
             patterns.append("Monday energy consistently low")
@@ -291,7 +291,7 @@ class WellyInterpreter:
             if state.get("date"):
                 date_obj = datetime.strptime(state["date"], "%Y-%m-%d")
                 if date_obj.weekday() in [5, 6]:  # Sat/Sun
-                    weekend_readiness.append(state.get("readiness", 70))
+                    weekend_readiness.append(state.get("readiness") or 70)
         
         if weekend_readiness and sum(weekend_readiness) / len(weekend_readiness) > 75:
             patterns.append("Weekends good for recovery")
