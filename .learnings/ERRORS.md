@@ -859,3 +859,31 @@ Wrap shell scripts needing `pipefail` in `bash -lc '...'` when using `exec`.
 - Related Files: /data/workspace/.learnings/ERRORS.md
 
 ---
+## [ERR-20260506-001] exec-shell-pipefail
+
+**Logged**: 2026-05-06T07:30:21Z
+**Priority**: medium
+**Status**: pending
+**Area**: infra
+
+### Summary
+OpenClaw exec uses /bin/sh by default, so `set -o pipefail` failed and aborted a git automation command.
+
+### Error
+```
+sh: 1: set: Illegal option -o pipefail
+```
+
+### Context
+- Command/operation attempted: parallel git automation for workspace and vault repos
+- Input or parameters used: `set -euo pipefail` in `exec` shell command
+- Environment details if relevant: OpenClaw `exec` launched `sh`, not bash
+
+### Suggested Fix
+Avoid bash-specific shell options in `exec` commands unless invoking `bash -lc ...` explicitly.
+
+### Metadata
+- Reproducible: yes
+- Related Files: /data/workspace/TOOLS.md
+
+---

@@ -68,6 +68,11 @@ Things like:
 - Call out any errors immediately: "❌ Element not found, trying different approach"
 - **Goal**: Kelly always knows what's happening, even if snapshots fail
 
+### Exec Shell Compatibility (Added May 6, 2026)
+- OpenClaw `exec` uses `/bin/sh` by default, not bash
+- Do **not** use bash-only options like `set -o pipefail` unless explicitly running `bash -lc '...'`
+- For portable shell snippets, prefer `set -eu` and avoid bashisms unless needed
+
 ### Git Push Strategy (Updated Mar 12, 2026)
 - **Commit and push immediately** after each logical unit of work (feature, fix, config change)
 - Railway auto-deploys on push to main — brief downtime is fine for immediate iteration
