@@ -354,6 +354,8 @@ When smart-context-check shows a recent run or other relevant activity, I must e
 ### Details
 Kelly pointed out that I responded to her sleep message without clearly acknowledging that context check already showed she had run earlier that day (5.46mi at 8:56/mi). I then followed with a question that implied I had not actually noticed the run. This makes the context check feel performative instead of useful. Similar pattern has come up before: run/activity context exists, but I fail to surface it naturally in the answer.
 
+This happened again on 2026-05-09 when Kelly corrected me with "No I went for a big run" after an overnight heartbeat/reminder flow. Even when a reminder says to relay helpfully, I still need to actually use the live context-check output before replying so I don't contradict what happened.
+
 ### Suggested Action
 Before sending a reply, explicitly scan the smart-context-check output for any directly relevant facts (run today, sleep/readiness, calendar, mood). If one is relevant, weave it into the first response in plain language. Do not ask a follow-up that contradicts already-known context.
 
@@ -363,8 +365,8 @@ Before sending a reply, explicitly scan the smart-context-check output for any d
 - Tags: context-awareness, correction, running, smart-context-check
 - See Also: memory/2026-03-25.md#L1-L25
 - Pattern-Key: context.use-smart-context-check-output
-- Recurrence-Count: 1
+- Recurrence-Count: 2
 - First-Seen: 2026-04-27
-- Last-Seen: 2026-04-27
+- Last-Seen: 2026-05-09
 
 ---
