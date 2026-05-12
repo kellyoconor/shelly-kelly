@@ -887,3 +887,62 @@ Avoid bash-specific shell options in `exec` commands unless invoking `bash -lc .
 - Related Files: /data/workspace/TOOLS.md
 
 ---
+## [ERR-20260512-001] alert-retry-processor-heartbeat
+
+**Logged**: 2026-05-12T05:24:00Z
+**Priority**: high
+**Status**: pending
+**Area**: infra
+
+### Summary
+Heartbeat alert processor failed immediately with a JavaScript syntax error, blocking the first required heartbeat check.
+
+### Error
+```
+File "/data/workspace/alert-retry-processor.cjs", line 53
+    * Check for Kelly's recent activity and auto-mark alerts as seen
+                     ^
+SyntaxError: unterminated string literal (detected at line 53)
+```
+
+### Context
+- Command attempted: `python3 /data/workspace/alert-retry-processor.cjs heartbeat`
+- Triggered while handling scheduled heartbeat instructions from HEARTBEAT.md
+- Failure occurred before any alert processing could run
+
+### Suggested Fix
+Run the file with Node instead of Python if it is valid JavaScript, or repair the file contents if the script itself is malformed.
+
+### Metadata
+- Reproducible: yes
+- Related Files: /data/workspace/alert-retry-processor.cjs
+
+---
+## [ERR-20260512-001] exec-shell-printf
+
+**Logged**: 2026-05-12T06:24:00Z
+**Priority**: medium
+**Status**: pending
+**Area**: infra
+
+### Summary
+Portable /bin/sh `printf` treated a leading `---` format string as an illegal option.
+
+### Error
+```
+sh: 6: printf: Illegal option --
+```
+
+### Context
+- Command/operation attempted: heartbeat multi-step shell command via OpenClaw `exec`
+- Used `printf '---SMART---\n'` under `/bin/sh`
+- Existing guidance already notes exec uses `/bin/sh` by default
+
+### Suggested Fix
+Use `echo` for plain section headers or `printf '%s\n' '---SMART---'` to avoid option parsing on portable shells.
+
+### Metadata
+- Reproducible: yes
+- Related Files: /data/workspace/TOOLS.md
+
+---
