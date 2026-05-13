@@ -4,6 +4,32 @@ Log of corrections, knowledge gaps, and best practices for continuous improvemen
 
 ---
 
+## [LRN-20260512-001] correction
+
+**Logged**: 2026-05-12T12:09:17Z
+**Priority**: high
+**Status**: pending
+**Area**: behavioral
+
+### Summary
+When discussing Welly, treat trend monitoring as an expected core behavior, not an optional nice-to-have.
+
+### Details
+Kelly pushed back when I framed HRV/recovery pattern detection as something Welly might or might not surface depending on filtering. Her expectation is more direct: Welly is supposed to be monitoring those kinds of trends. The better response is to acknowledge that expectation plainly and treat misses as a monitoring/filtering gap, not as an ambiguous maybe.
+
+### Suggested Action
+1. When Kelly asks whether Welly should catch HRV, sleep, readiness, strain, or recovery trends, answer yes clearly.
+2. Frame failures to surface those patterns as a system gap or threshold issue.
+3. Avoid hedging language that makes core monitoring responsibilities sound optional.
+
+### Metadata
+- Source: user_feedback
+- Related Files: /data/workspace/welly/shelly_filter.py, /data/workspace/HEARTBEAT.md
+- Tags: correction, welly, monitoring, trends, expectations
+- Pattern-Key: behavioral.treat_welly_trend_monitoring_as_core
+
+---
+
 ## [LRN-20260416-001] correction
 
 **Logged**: 2026-04-16T12:40:00Z

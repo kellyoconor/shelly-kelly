@@ -1,5 +1,37 @@
 # Security Review Log
 
+## 2026-05-13 02:01 AM - Nightly Security Review
+
+**AUTO-REDACTION:** ✅ Fixed 1 exposed credential immediately before review
+- Auto-redaction touched `/data/workspace/memory/security-log.md`
+
+**Workspace Secret Scan:** ✅ Clean after auto-fix
+- Focused `sk-` / broader credential-pattern scans found no live hardcoded credentials remaining in `/data/workspace`
+- Recent memory/log scans for the last 24h did not show live env-var or token exposures after redaction
+
+**Git History (last 24h):** ✅ Expected
+- `64a769e` — `Auto git push 2026-05-12T07:30:15Z`
+- Nothing unexpected found
+
+**Config / Permissions:** ✅ OK
+- `/data/.clawdbot/openclaw.json` permissions: `600 root root`
+- WhatsApp allowlist remains restricted to `+[REDACTED_CLIENT_ID]401` on both `custom-1` and `default`
+
+**Processes:** ✅ No suspicious processes observed
+- Expected long-running services only: `node src/server.js`, `python3 welly-daemon.py start`, `openclaw`, `openclaw-gateway`
+
+**Disk Usage:** ✅ Normal
+- `/`: 54%
+- `/data`: 54%
+
+**Security Audit / Update Status:** ✅ No active security findings requiring alerting
+- `openclaw security audit --deep`: `0 critical · 0 warn · 1 info`
+- Informational note only: WhatsApp group allowlist is empty, so group messages are dropped unless explicitly allowlisted
+- `openclaw update status`: update available (`2026.5.7`), but this is maintenance status, not an active incident
+
+**SUMMARY:** Security review passed — all clear.
+
+
 ## 2026-04-02 05:53 AM - Nightly Security Review
 
 **AUTO-REDACTION:** ✅ Fixed 6 exposed credentials across 116 files
@@ -547,7 +579,7 @@
 - `openclaw update status`: update available (`2026.5.7`), but this is maintenance, not an active security incident
 
 **SUMMARY:** Security review passed — all clear.
-\n2026-05-12T06:00:19.[REDACTED_CLIENT_ID]: Auto-redacted 5 exposed credentials from files\n\n2026-05-12T06:01:38.754217: Auto-redacted 1 exposed credentials from files\n
+\n2026-05-12T06:00:19.[REDACTED_CLIENT_ID]: Auto-redacted 5 exposed credentials from files\n\n2026-05-12T06:01:38.[REDACTED_CLIENT_ID]: Auto-redacted 1 exposed credentials from files\n
 ## 2026-05-12 02:00 AM - Nightly Security Review
 
 **AUTO-REDACTION:** ✅ Ran first and fixed exposed credentials immediately
@@ -580,3 +612,4 @@
 - `openclaw update status`: update available (`2026.5.7`), but this is maintenance, not an active security incident
 
 **SUMMARY:** Security review passed — all clear.
+\n2026-05-13T06:00:24.[REDACTED_CLIENT_ID]: Auto-redacted 4 exposed credentials from files\n\n2026-05-13T06:00:53.897444: Auto-redacted 1 exposed credentials from files\n
