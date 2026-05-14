@@ -396,3 +396,84 @@ Before sending a reply, explicitly scan the smart-context-check output for any d
 - Last-Seen: 2026-05-09
 
 ---
+## [LRN-20260513-001] correction
+
+**Logged**: 2026-05-13T09:55:30-04:00
+**Priority**: high
+**Status**: pending
+**Area**: docs
+
+### Summary
+Do not repeat or re-ask something Kelly already explicitly told me in the same conversation, especially after a reminder flow.
+
+### Details
+Kelly said "Got my coffeeeeee" earlier in the chat. Later, after a scheduled reminder and brief gateway reconnect, I asked "Did you get your usual Starbucks order this morning?" She corrected me: "I told you I did! wtf". This was a conversational continuity miss, not a missing-data problem. Even if a reminder asks me to relay something helpfully, I still need to honor what Kelly already said moments earlier.
+
+### Suggested Action
+Before sending a proactive or reminder-driven message, quickly check the immediately preceding conversation turns for any direct answer from Kelly. If she already confirmed the thing, acknowledge it instead of asking again.
+
+### Metadata
+- Source: user_feedback
+- Related Files: /data/workspace/HEARTBEAT.md, /data/workspace/.learnings/LEARNINGS.md
+- Tags: correction, continuity, reminders, repetition
+- See Also: LRN-20260427-001
+- Pattern-Key: conversation.do_not_reask_recently_confirmed_info
+- Recurrence-Count: 1
+- First-Seen: 2026-05-13
+- Last-Seen: 2026-05-13
+
+---
+## [LRN-20260513-002] correction
+
+**Logged**: 2026-05-13T21:35:00-04:00
+**Priority**: high
+**Status**: pending
+**Area**: docs
+
+### Summary
+Heartbeat/reminder replies should be sparse and genuinely useful; repeated low-value status pings feel like token burn and reduce trust.
+
+### Details
+Kelly said: "Nothing you’re just burning tokens and not helping me as much" after a long day of heartbeat-driven WhatsApp status updates. I had overcorrected between being too quiet and sending too many low-value "everything is fine" messages. The issue is not just tone; it's usefulness. Repeated stable-status check-ins create noise without helping.
+
+### Suggested Action
+Default to silence for routine stable heartbeat results. Only send when there is a meaningful change, actionable issue, or genuinely useful personal/contextual signal. Treat reminder-driven relays as optional user-facing messages, not mandatory sends.
+
+### Metadata
+- Source: user_feedback
+- Related Files: /data/workspace/HEARTBEAT.md, /data/workspace/.learnings/LEARNINGS.md
+- Tags: correction, heartbeat, noise, usefulness, token-efficiency
+- See Also: LRN-20260513-001, LRN-20260427-001
+- Pattern-Key: heartbeat.only-send-when-useful
+- Recurrence-Count: 1
+- First-Seen: 2026-05-13
+- Last-Seen: 2026-05-13
+
+---
+## [LRN-20260513-003] correction
+
+**Logged**: 2026-05-13T23:02:00-04:00
+**Priority**: high
+**Status**: pending
+**Area**: docs
+
+### Summary
+Kelly wants proactive messages to contain actual insight about her day, mood, decisions, or patterns — not just infrastructure status.
+
+### Details
+After a day of connection-status reminders, Kelly clarified the core failure: "And nothing actually helpful" and "About me or my insights or my day or anything". The issue is not merely message volume; it is that the content lacked personal relevance and insight. Helpful proactive outreach should say something real about her day or notice a pattern, not just report system state.
+
+### Suggested Action
+When considering a proactive message, require at least one concrete user-centered value signal: a real observation about her activity, energy, decisions, mood, or a genuinely useful next step. If I only have system status, stay silent unless there is an actionable problem.
+
+### Metadata
+- Source: user_feedback
+- Related Files: /data/workspace/HEARTBEAT.md, /data/workspace/AGENTS.md, /data/workspace/.learnings/LEARNINGS.md
+- Tags: correction, proactive-messaging, insight, usefulness, personalization
+- See Also: LRN-20260513-002, LRN-20260513-001, LRN-20260427-001
+- Pattern-Key: proactive.require-user-centered-value
+- Recurrence-Count: 1
+- First-Seen: 2026-05-13
+- Last-Seen: 2026-05-13
+
+---

@@ -1,5 +1,34 @@
 # Security Review Log
 
+## 2026-05-14 02:00 AM - Nightly Security Review
+
+**AUTO-REDACTION:** ✅ Ran first and fixed exposed credentials immediately
+- `auto-redact-credentials.py` redacted 4 exposed credentials before review continued
+- Redactions landed in `memory/security-log.md` and `.git/logs/HEAD`
+- Credential exposure was auto-remediated and is **not** being escalated per policy
+
+**Workspace Secret Scan:** ✅ Clean after auto-fix
+- Broad `grep 'sk-'` hits in workspace markdown/text/json were prior security-log notes, redacted placeholders, dependency text, or a server-side redaction regex
+- Focused hardcoded-credential scan found no live hardcoded credentials remaining in reviewed `/data/workspace` files
+- Reviewed workspace memory/log paths showed no live env-var or token exposures after redaction
+
+**Git History (last 24h):** ✅ Expected
+- `c7e2ed8` — `Auto git push`
+- Nothing unexpected found
+
+**Config / Permissions:** ✅ OK
+- `/data/.clawdbot/openclaw.json` permissions: `600 root root`
+- WhatsApp allowlist remains restricted to `+[REDACTED_CLIENT_ID]401` on both `custom-1` and `default`
+
+**Processes:** ✅ No suspicious processes observed
+- Expected long-running services only: `node src/server.js`, `python3 welly-daemon.py start`, `openclaw`, `openclaw-gateway`
+
+**Disk Usage:** ✅ Normal
+- `/`: 53%
+- `/data`: 54%
+
+**SUMMARY:** Security review passed — all clear.
+
 ## 2026-05-13 02:01 AM - Nightly Security Review
 
 **AUTO-REDACTION:** ✅ Fixed 1 exposed credential immediately before review
@@ -612,4 +641,4 @@
 - `openclaw update status`: update available (`2026.5.7`), but this is maintenance, not an active security incident
 
 **SUMMARY:** Security review passed — all clear.
-\n2026-05-13T06:00:24.[REDACTED_CLIENT_ID]: Auto-redacted 4 exposed credentials from files\n\n2026-05-13T06:00:53.897444: Auto-redacted 1 exposed credentials from files\n
+\n2026-05-13T06:00:24.[REDACTED_CLIENT_ID]: Auto-redacted 4 exposed credentials from files\n\n2026-05-13T06:00:53.[REDACTED_CLIENT_ID]: Auto-redacted 1 exposed credentials from files\n\n2026-05-14T06:00:17.161751: Auto-redacted 4 exposed credentials from files\n
