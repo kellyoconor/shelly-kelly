@@ -641,4 +641,33 @@
 - `openclaw update status`: update available (`2026.5.7`), but this is maintenance, not an active security incident
 
 **SUMMARY:** Security review passed — all clear.
-\n2026-05-13T06:00:24.[REDACTED_CLIENT_ID]: Auto-redacted 4 exposed credentials from files\n\n2026-05-13T06:00:53.[REDACTED_CLIENT_ID]: Auto-redacted 1 exposed credentials from files\n\n2026-05-14T06:00:17.161751: Auto-redacted 4 exposed credentials from files\n
+\n2026-05-13T06:00:24.[REDACTED_CLIENT_ID]: Auto-redacted 4 exposed credentials from files\n\n2026-05-13T06:00:53.[REDACTED_CLIENT_ID]: Auto-redacted 1 exposed credentials from files\n\n2026-05-14T06:00:17.[REDACTED_CLIENT_ID]: Auto-redacted 4 exposed credentials from files\n\n2026-05-15T06:00:15.577604: Auto-redacted 4 exposed credentials from files\n
+
+## 2026-05-15 02:00 AM - Nightly Security Review
+
+**AUTO-REDACTION:** ✅ Ran first and fixed exposed credentials immediately
+- `auto-redact-credentials.py` auto-redacted 4 exposed credentials before review continued
+- Redactions landed in `memory/security-log.md` and `.git/logs/HEAD`
+- Credential exposure was auto-remediated and is **not** being escalated per policy
+
+**API Key / Secret Scan:** ✅ Clean after auto-fix
+- Broad `grep 'sk-'` hits in workspace markdown/text/json were false positives from dependency text, prior redacted security-log notes, or already-redacted placeholders
+- Focused hardcoded-credential scans found no live `sk-`, GitHub, Slack, AWS, private-key, or bearer-token style secrets remaining in reviewed `/data/workspace` files after redaction
+- Reviewed env-var/log-style scans only surfaced script references, documentation examples, or variable names — not live secret values
+
+**Git History (last 24h):** ✅ No unexpected commits
+- Visible recent commit: `4b66ab6` — `Auto git push`
+
+**System Config / Permissions:** ✅ OK
+- `/data/.clawdbot/openclaw.json` permissions remain `600 root:root`
+- WhatsApp allowlist verified under `channels.whatsapp.accounts`: both `custom-1` and `default` accounts restrict `allowFrom` to `+13018302401`
+- No live env-var secret exposures were found in reviewed workspace logs/files
+
+**Process Check:** ✅ No suspicious processes observed
+- Expected core services only: `node src/server.js`, `python3 welly-daemon.py start`, `openclaw`, and `openclaw-gateway`
+
+**Disk Usage:** ✅ Normal
+- `/`: 53%
+- `/data`: 54%
+
+**SUMMARY:** Security review passed — all clear.
