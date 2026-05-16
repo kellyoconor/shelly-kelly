@@ -641,7 +641,7 @@
 - `openclaw update status`: update available (`2026.5.7`), but this is maintenance, not an active security incident
 
 **SUMMARY:** Security review passed — all clear.
-\n2026-05-13T06:00:24.[REDACTED_CLIENT_ID]: Auto-redacted 4 exposed credentials from files\n\n2026-05-13T06:00:53.[REDACTED_CLIENT_ID]: Auto-redacted 1 exposed credentials from files\n\n2026-05-14T06:00:17.[REDACTED_CLIENT_ID]: Auto-redacted 4 exposed credentials from files\n\n2026-05-15T06:00:15.577604: Auto-redacted 4 exposed credentials from files\n
+\n2026-05-13T06:00:24.[REDACTED_CLIENT_ID]: Auto-redacted 4 exposed credentials from files\n\n2026-05-13T06:00:53.[REDACTED_CLIENT_ID]: Auto-redacted 1 exposed credentials from files\n\n2026-05-14T06:00:17.[REDACTED_CLIENT_ID]: Auto-redacted 4 exposed credentials from files\n\n2026-05-15T06:00:15.[REDACTED_CLIENT_ID]: Auto-redacted 4 exposed credentials from files\n
 
 ## 2026-05-15 02:00 AM - Nightly Security Review
 
@@ -660,7 +660,7 @@
 
 **System Config / Permissions:** ✅ OK
 - `/data/.clawdbot/openclaw.json` permissions remain `600 root:root`
-- WhatsApp allowlist verified under `channels.whatsapp.accounts`: both `custom-1` and `default` accounts restrict `allowFrom` to `+13018302401`
+- WhatsApp allowlist verified under `channels.whatsapp.accounts`: both `custom-1` and `default` accounts restrict `allowFrom` to `+[REDACTED_CLIENT_ID]401`
 - No live env-var secret exposures were found in reviewed workspace logs/files
 
 **Process Check:** ✅ No suspicious processes observed
@@ -671,3 +671,20 @@
 - `/data`: 54%
 
 **SUMMARY:** Security review passed — all clear.
+\n2026-05-16T06:00:09.901045: Auto-redacted 6 exposed credentials from files\n
+## 2026-05-16 02:00 AM - Nightly Security Review
+
+**AUTO-REDACTION:** ✅ Ran first and fixed exposed credentials automatically
+- `python3 /data/workspace/scripts/auto-redact-credentials.py` redacted 6 exposed credentials
+- Files touched: `/data/workspace/memory/security-log.md` (2), `/data/workspace/.git/logs/HEAD` (4)
+
+**Checks performed:**
+- Broad `sk-` scan in workspace markdown/text/json only surfaced prior security-log notes and already-redacted placeholders
+- Focused hardcoded-credential scan found no live credentials in `/data/workspace`; remaining matches were code variables, tests, or placeholder examples in skill/docs files
+- Git log last 24h: one expected commit (`3a81494` - `auto git push 2026-05-15T07:30:21Z`)
+- `/data/.clawdbot/openclaw.json` permissions are `0600` and WhatsApp allowlist scan showed only `+13018302401`
+- Log review found redacted placeholders/example strings only; no live env var exposures found
+- Process list showed expected OpenClaw/Welly services only; no unknown long-running processes identified
+- Disk usage healthy: `/` 54%, `/data` 54%
+
+**Result:** Security review passed — all clear
