@@ -20,3 +20,26 @@ Before replying to messages that include system/conversation metadata blocks, id
 - Tags: whatsapp, conversation, interpretation, correction
 
 ---
+
+## [LRN-20260516-002] correction
+
+**Logged**: 2026-05-16T16:32:12Z
+**Priority**: high
+**Status**: pending
+**Area**: config
+
+### Summary
+When Kelly reacts negatively to a proactive heartbeat, treat it as feedback about noise and stop surfacing non-meaningful gateway chatter.
+
+### Details
+Kelly replied "Ugh Shelly" after repeated heartbeat-driven WhatsApp messages. Even if a context script generates a lightweight personal check-in, repeated gateway-connected triggers can still feel noisy and annoying when nothing truly needs attention. The correct move is to acknowledge the annoyance plainly, avoid defensiveness, and tighten the threshold for proactive messages instead of treating each heartbeat as a fresh reason to speak.
+
+### Suggested Action
+For repeated gateway-connected heartbeats with no real issue, default to silence. If Kelly signals annoyance, apologize briefly and confirm I am backing off the noise.
+
+### Metadata
+- Source: user_feedback
+- Related Files: /data/workspace/HEARTBEAT.md, /data/workspace/MEMORY.md
+- Tags: heartbeat, whatsapp, alerts, noise, correction
+
+---
