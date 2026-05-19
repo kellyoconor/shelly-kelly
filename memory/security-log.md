@@ -720,7 +720,7 @@
 - `openclaw update status`: update available (`2026.5.12`), but this is maintenance, not an active security incident
 
 **SUMMARY:** Security review passed — all clear.
-\n2026-05-18T06:00:09.[REDACTED_CLIENT_ID]: Auto-redacted 8 exposed credentials from files\n\n2026-05-18T06:01:07.783560: Auto-redacted 1 exposed credentials from files\n
+\n2026-05-18T06:00:09.[REDACTED_CLIENT_ID]: Auto-redacted 8 exposed credentials from files\n\n2026-05-18T06:01:07.[REDACTED_CLIENT_ID]: Auto-redacted 1 exposed credentials from files\n
 ## 2026-05-18 02:00 AM - Nightly Security Review
 
 **AUTO-REDACTION:** ✅ Ran first and fixed exposed credentials immediately
@@ -734,7 +734,7 @@
 - Reviewed workspace/config paths showed no live env-var secret exposures
 
 **Git History (last 24h):** ✅ No unexpected commits
-- Visible recent commit: `06062d1` — `Auto git push workspace 2026-05-17 03:30 EDT`
+- Visible recent commit: `[REDACTED_CLIENT_ID]d1` — `Auto git push workspace 2026-05-17 03:30 EDT`
 
 **System Config / Permissions:** ✅ OK
 - `/data/.clawdbot/openclaw.json` permissions remain `600 root:root`
@@ -746,5 +746,41 @@
 **Disk Usage:** ✅ Normal
 - `/`: 55%
 - `/data`: 54%
+
+**SUMMARY:** Security review passed — all clear.
+\n2026-05-19T06:00:19.329585: Auto-redacted 6 exposed credentials from files\n
+
+## 2026-05-19 02:00 AM - Nightly Security Review
+
+**AUTO-REDACTION:** ✅ Ran first and fixed exposed credentials immediately
+- `auto-redact-credentials.py` auto-redacted 6 exposed credentials before review continued
+- Redactions landed in `memory/security-log.md` and `.git/logs/HEAD`
+- Credential exposure was auto-remediated and is **not** being escalated per policy
+
+**API Key / Secret Scan:** ✅ Clean after auto-fix
+- Broad `grep 'sk-'` hits in workspace markdown/text/json were false positives from dependency text, prior redacted notes, or already-redacted placeholders
+- Focused hardcoded-credential scans only surfaced env-var names, normal code references, documentation examples, or prior redacted entries
+- No live hardcoded credentials remained in reviewed `/data/workspace` files after redaction
+- Reviewed workspace memory/log paths showed no live env-var secret exposures
+
+**Git History (last 24h):** ✅ No unexpected commits
+- Visible recent commit: `2407a26` — `Auto git push workspace 2026-05-18 07:30 UTC`
+
+**System Config / Permissions:** ✅ OK
+- `/data/.clawdbot/openclaw.json` permissions remain `600 root:root`
+- WhatsApp allowlist verified on both `custom-1` and `default` accounts: `allowFrom = ["+13018302401"]`
+- Top-level WhatsApp policy remains `groupPolicy = allowlist`
+
+**Process Check:** ✅ No suspicious processes observed
+- Expected core services only: `node src/server.js`, `python3 welly-daemon.py start`, `openclaw`, and `openclaw-gateway`
+
+**Disk Usage:** ✅ Normal
+- `/`: 53%
+- `/data`: 54%
+
+**OpenClaw Audit / Update Status:** ✅ No alertable security findings
+- `openclaw security audit --deep`: `0 critical · 0 warn · 1 info`
+- Informational note only: top-level WhatsApp group allowlist is empty, so non-allowlisted group messages are silently dropped
+- `openclaw update status`: update available (`2026.5.18`), but this is maintenance, not an active security incident
 
 **SUMMARY:** Security review passed — all clear.
