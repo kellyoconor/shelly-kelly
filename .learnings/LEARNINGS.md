@@ -43,3 +43,31 @@ For repeated gateway-connected heartbeats with no real issue, default to silence
 - Tags: heartbeat, whatsapp, alerts, noise, correction
 
 ---
+
+## [LRN-20260521-003] correction
+
+**Logged**: 2026-05-21T13:25:00Z
+**Priority**: high
+**Status**: pending
+**Area**: docs
+
+### Summary
+Do not use Starbucks as a repetitive generic morning check-in with Kelly.
+
+### Details
+Kelly replied "You ask me this all the timeeeeeeeee" after another heartbeat-generated message asking whether she got her usual Starbucks order. Even if the prompt is grounded in remembered preference, repeating the same low-value morning opener reads lazy and annoying. The issue is not Starbucks itself; it's using the same personal-detail callback as a default check-in instead of only when genuinely relevant.
+
+### Suggested Action
+Retire the Starbucks-order question as a default heartbeat prompt. Only mention it when Kelly brings it up first or when there is a concrete reason it matters. Prefer fresher, more situational check-ins or silence.
+
+### Metadata
+- Source: user_feedback
+- Related Files: /data/workspace/HEARTBEAT.md, /data/workspace/MEMORY.md
+- Tags: heartbeat, morning-checkin, starbucks, repetition, correction
+- See Also: LRN-20260516-002
+- Pattern-Key: proactive.no_repetitive_personal_opener
+- Recurrence-Count: 1
+- First-Seen: 2026-05-21
+- Last-Seen: 2026-05-21
+
+---
