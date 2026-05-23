@@ -1,8 +1,8 @@
 # Kelly State - Working Memory
 
-*Updated: 2026-05-18 10:30:09*
+*Updated: 2026-05-23 07:24:48*
 
-Physical: Kelly hasn't run since Wednesday, 2026-05-13. Kelly's readiness is low at 57% and her sleep was restless last night (42%).
+Physical: Kelly hasn't logged any recent runs. Kelly's readiness is moderate at 76% and her sleep quality was decent last night (76%).
 Schedule: Kelly's calendar authentication has expired.
 Focus: Kelly is currently focused on improving Shelly's architecture and context awareness.
 
