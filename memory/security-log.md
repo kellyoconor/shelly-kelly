@@ -908,7 +908,7 @@
 - `/data`: 55%
 
 **SUMMARY:** Security review passed — all clear.
-\n2026-05-24T06:00:11.152131: Auto-redacted 7 exposed credentials from files\n
+\n2026-05-24T06:00:11.[REDACTED_CLIENT_ID]: Auto-redacted 7 exposed credentials from files\n
 ## 2026-05-24 02:00 AM - Nightly Security Review
 
 **AUTO-REDACTION:** ✅ Ran first and fixed exposed credentials immediately
@@ -933,6 +933,36 @@
 
 **Disk Usage:** ✅ Normal
 - `/`: 53%
+- `/data`: 55%
+
+**SUMMARY:** Security review passed — all clear.
+\n2026-05-25T06:00:12.394037: Auto-redacted 5 exposed credentials from files\n
+## 2026-05-25 02:00 AM - Nightly Security Review
+
+**AUTO-REDACTION:** ✅ Ran first and fixed exposed credentials immediately
+- `auto-redact-credentials.py` redacted 5 exposed credentials before review continued
+- Redactions landed in `memory/security-log.md` and `.git/logs/HEAD`
+- Credential exposure was auto-remediated and is **not** being escalated per policy
+
+**Workspace Secret Scan:** ✅ Clean after auto-fix
+- Broad `grep 'sk-'` hits in workspace markdown/text/json were false positives from dependency text, old review notes, or redacted placeholders
+- Focused hardcoded-credential scan found no live hardcoded secrets remaining in reviewed `/data/workspace` files after redaction
+- Reviewed workspace memory/log paths showed no live env-var secret exposures
+
+**Git History (last 24h):** ✅ No unexpected commits observed
+- Visible recent commit: `9dfae75` — `auto git push 2026-05-24 07:30:11 UTC`
+
+**System Config / Permissions:** ✅ OK
+- `/data/.clawdbot/openclaw.json` permissions remain `600 root:root`
+- WhatsApp allowlist verified on both `custom-1` and `default` accounts: `allowFrom = ["+[REDACTED_CLIENT_ID]401"]`
+- OpenClaw audit shows `0 critical · 0 warn · 1 info`; informational note only: group messages are silently dropped unless allowlisted
+- `openclaw update status` shows an update available (`2026.5.22`), but this is maintenance, not an active security incident
+
+**Process Check:** ✅ No suspicious processes observed
+- Expected core services only: `node src/server.js`, `python3 welly-daemon.py start`, `openclaw`, and `openclaw-gateway`
+
+**Disk Usage:** ✅ Normal
+- `/`: 52%
 - `/data`: 55%
 
 **SUMMARY:** Security review passed — all clear.
