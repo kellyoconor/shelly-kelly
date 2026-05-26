@@ -7,6 +7,7 @@ Generate working memory about Kelly's current state
 import subprocess
 import json
 import os
+import re
 import sys
 from datetime import datetime, timedelta
 
@@ -169,17 +170,98 @@ def get_research_state():
     except Exception as e:
         return "Kelly's research system status is unknown."
 
+def read_daily_note(date_obj):
+    """Read a daily note from Kelly's vault if it exists."""
+    path = f"/data/kelly-vault/01-Daily/2026/{date_obj.strftime('%Y-%m-%d')}.md"
+    try:
+        with open(path, 'r') as f:
+            return f.read()
+    except FileNotFoundError:
+        return ''
+
+
+def clean_note_bullet(text):
+    """Strip markdown timestamp wrappers and excess formatting from note bullets."""
+    cleaned = re.sub(r'^\*\*[^*]+\*\*:\s*', '', text.strip())
+    cleaned = re.sub(r'\s+', ' ', cleaned)
+    return cleaned.strip()
+
+
+def extract_bullets_from_section(content, section_name):
+    """Pull simple bullets from a markdown section."""
+    if not content:
+        return []
+
+    pattern = rf"## {re.escape(section_name)}\n(.*?)(?:\n## |\Z)"
+    match = re.search(pattern, content, re.S)
+    if not match:
+        return []
+
+    section = match.group(1)
+    lines = []
+    for raw_line in section.splitlines():
+        line = raw_line.strip()
+        if line.startswith('- '):
+            lines.append(clean_note_bullet(line[2:].strip()))
+    return lines
+
+
+def get_recent_daily_context():
+    """Build a lightweight read of Kelly's recent rhythm from daily notes."""
+    today_note = read_daily_note(datetime.now())
+    yesterday_note = read_daily_note(datetime.now() - timedelta(days=1))
+
+    notes = [today_note, yesterday_note]
+    day_notes = []
+    thoughts = []
+
+    for note in notes:
+        day_notes.extend(extract_bullets_from_section(note, 'Day Notes')[:2])
+        thoughts.extend(extract_bullets_from_section(note, 'Thoughts')[:1])
+
+    return {
+        'day_notes': [item for item in day_notes if item][:3],
+        'thoughts': [item for item in thoughts if item][:2],
+    }
+
+
 def get_focus_state():
-    """Determine what Kelly is currently focused on"""
-    # This could analyze recent vault activity, chat topics, etc.
-    # For now, based on recent patterns from memory
-    return "Kelly is currently focused on improving Shelly's architecture and context awareness."
+    """Determine what Kelly is currently focused on from recent notes and activity."""
+    context = get_recent_daily_context()
+
+    for item in context['day_notes']:
+        lowered = item.lower()
+        if 'run' in lowered or 'miles' in lowered:
+            return 'Kelly has been in a training/body-awareness rhythm over the last couple of days.'
+        if 'quiet' in lowered or 'low-drama' in lowered or 'reset' in lowered:
+            return 'Kelly seems to be in a quieter reset rhythm right now, more about steadiness than chaos.'
+        if 'project' in lowered or 'build' in lowered:
+            return 'Kelly has active project energy right now, with some builder-mode momentum.'
+
+    if context['thoughts']:
+        return f"Recent theme: {context['thoughts'][0]}"
+
+    vault_state = get_obsidian_state()
+    if 'daily notes' in vault_state.lower():
+        return 'Kelly has been actively reflecting in her daily notes.'
+    if 'projects' in vault_state.lower():
+        return 'Kelly has been spending energy on active projects.'
+
+    return 'Kelly’s current focus is not fully clear from the latest context yet.'
+
 
 def get_emotional_state():
-    """Get background emotional context (from memory patterns)"""
-    # This would analyze recent memory entries, vault notes, etc.
-    # For now, placeholder based on known context
-    return ""  # Only include if there's specific recent context
+    """Get lightweight emotional/rhythm context from recent notes."""
+    context = get_recent_daily_context()
+    for item in context['day_notes'] + context['thoughts']:
+        lowered = item.lower()
+        if 'quiet' in lowered or 'flat' in lowered:
+            return 'The recent tone looks a little quiet/flat, even with decent body signals.'
+        if 'resilient' in lowered or 'strong' in lowered:
+            return 'There is a resilient undertone in the recent notes.'
+        if 'pressure' in lowered:
+            return 'Pressure has been part of the backdrop lately.'
+    return ''
 
 def generate_kelly_state():
     """Generate Kelly State as natural working memory"""
@@ -223,18 +305,22 @@ def generate_kelly_state():
 
 def generate_compact_kelly_state():
     """Generate compact Kelly State for working memory injection"""
-    
+
     running_state = get_running_state()
     health_state = get_health_state()
     calendar_state = get_calendar_state()
     focus_state = get_focus_state()
-    
+    emotional_state = get_emotional_state()
+
     state_lines = [
         f"Physical: {running_state} {health_state}",
         f"Schedule: {calendar_state}",
         f"Focus: {focus_state}"
     ]
-    
+
+    if emotional_state:
+        state_lines.append(f"Tone: {emotional_state}")
+
     return "\n".join(state_lines)
 
 if __name__ == "__main__":

@@ -9,6 +9,7 @@ Supports --daily-note-mode to auto-append significant events to vault daily note
 
 import fcntl
 import json
+import re
 import subprocess
 import sys
 from contextlib import contextmanager
@@ -293,63 +294,128 @@ def detect_and_record_response(user_message):
         return []
 
 
+def is_literal_prompt(message):
+    """Reject low-value or overly literal proactive prompts."""
+    if not message:
+        return True
+
+    message_lower = message.lower()
+    banned_patterns = [
+        'usual starbucks',
+        'did you get your usual',
+        'did you get coffee',
+        'how are you?',
+        'how was your day',
+        'have you run yet',
+        "how's the steely development going",
+        'any breakthroughs today',
+        'taking a rest day or just',
+        'how are you feeling energy-wise?',
+        "how's your energy matching the data?",
+    ]
+    return any(pattern in message_lower for pattern in banned_patterns)
+
+
+def build_quality_flags(message):
+    """Estimate whether a message contains observation, interpretation, and action."""
+    lowered = (message or '').lower()
+    observation_markers = [
+        'you ran', 'you slept', 'readiness', 'sleep', 'yesterday', 'today', 'seems',
+        'looks', 'i noticed', 'i’m noticing', "i'm noticing", 'your body', 'the pattern'
+    ]
+    interpretation_markers = [
+        'which suggests', 'which usually means', 'feels like', 'seems like',
+        'more like', 'less like', 'tells me', 'might be', 'looks like'
+    ]
+    action_markers = [
+        'want me to', 'you could', 'worth', 'might help', 'i can help',
+        'today is a good day to', 'lean into', 'protect', 'use that', 'keep it'
+    ]
+
+    has_observation = any(marker in lowered for marker in observation_markers)
+    has_interpretation = any(marker in lowered for marker in interpretation_markers)
+    has_action = any(marker in lowered for marker in action_markers)
+
+    # A multi-sentence message with a concrete stat/read usually counts as observation.
+    if not has_observation and re.search(r'\b\d+(?:\.\d+)?\b', lowered):
+        has_observation = True
+
+    return {
+        'observation': has_observation,
+        'interpretation': has_interpretation,
+        'action': has_action,
+    }
+
+
+def passes_quality_gate(message):
+    """Require proactive messages to be substantive, not just message-shaped."""
+    if not message or not message.strip():
+        return False
+    if is_literal_prompt(message):
+        return False
+
+    flags = build_quality_flags(message)
+    return sum(1 for value in flags.values() if value) >= 2
+
+
+def build_run_message(run_info):
+    """Create a higher-signal run message when there's something real to say."""
+    if not run_info:
+        return ''
+    return (
+        f"Nice work on your run — {run_info}. "
+        "That usually means the day already has some momentum; protect that instead of negotiating with it."
+    )
+
+
+def build_health_message(health_msg, running_context):
+    """Create a health/body read only when it adds actual synthesis."""
+    if not health_msg:
+        return ''
+
+    health_lower = health_msg.lower()
+    running_lower = (running_context or '').lower()
+
+    if any(token in health_lower for token in ['😴', '🥱', '💤', 'sleep']) and 'yesterday' in running_lower:
+        return (
+            f"Your body data looks mixed today: {health_msg}. "
+            "Because you already put work in yesterday, this feels more like a rhythm/protect-your-energy day than a prove-something day."
+        )
+
+    if any(token in health_lower for token in ['90', '91', '92', '93', '94', '95', '96', '97', '98', '99', '100', '💪', '🔥', '⚡']):
+        return (
+            f"Your body looks pretty available today: {health_msg}. "
+            "That doesn't mean force it — just that structure will probably work better than hesitation."
+        )
+
+    return ''
+
+
 def merge_contexts(external_events, significance_result):
-    """SMART Priority Logic - prioritize most INTERESTING/ACTIONABLE context"""
-    messages = []
+    """Prioritize non-literal, useful proactive messages — otherwise stay quiet."""
     conversation_check = check_recent_conversation()
 
-    if 'run_today' in external_events and not conversation_check.get('running', False):
-        run_info = external_events['run_today']
-        messages.append(f"Nice work on your run! {run_info} - how did it feel? 🏃‍♀️")
-        record_run_checkin()
-        return messages[0]
-
-    eastern_offset = timedelta(hours=-4)
-    now = datetime.now(timezone.utc).astimezone(timezone(eastern_offset))
-    if (
-        now.weekday() < 5 and
-        9 <= now.hour <= 17 and
-        'run_today' not in external_events and
-        not conversation_check.get('running', False)
-    ):
-        running_context = external_events.get('running', '')
-        if 'Yesterday:' in running_context:
-            messages.append("No run today - taking a rest day or just haven't gotten out there yet? 🏃‍♀️")
-        else:
-            messages.append("No run today - how's your energy for getting out there later? 🏃‍♀️")
-        record_discussion_topic('running')
-        return messages[0]
-
     if 'significance_message' in significance_result:
-        messages.append(significance_result['significance_message'])
-        return messages[0]
+        significance_message = significance_result['significance_message']
+        if passes_quality_gate(significance_message):
+            return significance_message
 
-    if 9 <= now.hour <= 11 and not conversation_check.get('morning_routine', False):
-        messages.append("Did you get your usual Starbucks order this morning? ☕")
-        record_discussion_topic('morning_routine')
-        return messages[0]
-
-    obsidian_context = external_events.get('obsidian', '')
-    if 'Steely' in obsidian_context and not conversation_check.get('current_work', False):
-        messages.append("How's the Steely development going? Any breakthroughs today? 🤖")
-        record_discussion_topic('current_work')
-        return messages[0]
+    if 'run_today' in external_events and not conversation_check.get('running', False):
+        run_message = build_run_message(external_events['run_today'])
+        if passes_quality_gate(run_message):
+            record_run_checkin()
+            return run_message
 
     if 'health' in external_events and not conversation_check.get('health_data', False):
-        health_msg = external_events['health']
-        if (
-            any(emoji in health_msg for emoji in ['💪', '🔥', '⚡', '😴', '🥱', '💤']) or
-            any(num in health_msg for num in ['90', '91', '92', '93', '94', '95', '96', '97', '98', '99', '100']) or
-            any(num in health_msg for num in ['40', '41', '42', '43', '44', '45', '46', '47', '48', '49', '50'])
-        ):
-            if '😴' in health_msg or '🥱' in health_msg:
-                messages.append(f"Your body's telling a story today: {health_msg}. How are you feeling energy-wise?")
-            else:
-                messages.append(f"Looking strong: {health_msg}. How's your energy matching the data?")
+        health_message = build_health_message(
+            external_events['health'],
+            external_events.get('running', ''),
+        )
+        if passes_quality_gate(health_message):
             record_discussion_topic('health_data')
-            return messages[0]
+            return health_message
 
-    return messages[0] if messages else ""
+    return ''
 
 
 def check_recent_kelly_messages():
@@ -457,11 +523,11 @@ def get_combined_context():
     if "error" in significance_result:
         conversation_check = check_recent_conversation()
         if 'run_today' in external_events and not conversation_check.get('running', False):
-            run_info = external_events['run_today']
-            record_run_checkin()
-            result = f"Saw your run! {run_info} - how did it feel? 🏃‍♀️"
-            record_heartbeat_message()
-            return result
+            result = build_run_message(external_events['run_today'])
+            if passes_quality_gate(result):
+                record_run_checkin()
+                record_heartbeat_message()
+                return result
         return ""
 
     result = merge_contexts(external_events, significance_result)

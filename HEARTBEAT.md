@@ -32,11 +32,21 @@ python3 /data/workspace/scripts/combined-context-check.py
 - **Memory analysis**: Emotional processing, work milestones, personal moments (context-significance-check.py)
 
 **If personal check-in generated:**
-- Send that message to Kelly and STOP (no system status needed)
-- Personal connection always trumps system reports
-- **Examples**: 
-  - "Nice work on your run! ✅ Ran today: 7.03mi at 8:42/mi - how did it feel? 🏃‍♀️"
-  - "You had a massive engineering day building cognitive architecture. How are you feeling after all that intensive work?"
+- **Do not send it automatically.** First apply a strict quality gate.
+- Only send if it is:
+  - non-literal
+  - non-repetitive
+  - grounded in current context
+  - materially useful
+  - more than a generic question or remembered fact
+- Personal connection only counts if the message contains actual noticing, synthesis, or help.
+- If it fails that bar, stay quiet and continue to other checks.
+
+**Never send heartbeat messages like:**
+- coffee / Starbucks openers
+- generic "how are you" or "how was your day" check-ins
+- obvious activity questions the system can answer itself
+- repetitive "saw your run" loops unless there is a genuinely new angle
 
 **If no significant events detected:**
 - Continue to system checks below
@@ -144,10 +154,10 @@ Check MEMORY.md size: `python3 /data/workspace/scripts/memory-auto-trim.py`
 
 ## 🌅 SIMPLIFIED MORNING APPROACH
 **No more morning quiet hours - heartbeat operates normally all day:**
-- If context check generates a personal message → send it (any time of day)
-- If no significant events → HEARTBEAT_OK (any time of day)
+- If context check generates a personal message, only send it if it passes the quality gate above
+- If no significant events or the message is weak/literal → HEARTBEAT_OK
 - Scheduled briefing can run alongside heartbeat without conflicts
-- **Never leave Kelly without check-ins due to scheduling assumptions**
+- **Never send filler just because a heartbeat fired**
 
 ## Personal Follow-ups (when system checks are quiet)
 **Only when something specific needs attention:**
