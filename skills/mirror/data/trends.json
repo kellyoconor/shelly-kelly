@@ -1,19 +1,19 @@
 {
-  "last_updated": "2026-05-24",
+  "last_updated": "2026-05-25",
   "day_count": 57,
   "weekly": [
     {
       "metric": "hrv",
-      "avg": 71.0,
+      "avg": 68.3,
       "direction": "falling",
       "values": [
-        83.0,
         86.0,
         74.0,
         74.0,
         48.0,
         79.0,
-        53.0
+        53.0,
+        64.0
       ]
     }
   ],

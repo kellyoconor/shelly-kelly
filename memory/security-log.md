@@ -936,7 +936,7 @@
 - `/data`: 55%
 
 **SUMMARY:** Security review passed — all clear.
-\n2026-05-25T06:00:12.394037: Auto-redacted 5 exposed credentials from files\n
+\n2026-05-25T06:00:12.[REDACTED_CLIENT_ID]: Auto-redacted 5 exposed credentials from files\n
 ## 2026-05-25 02:00 AM - Nightly Security Review
 
 **AUTO-REDACTION:** ✅ Ran first and fixed exposed credentials immediately
@@ -966,3 +966,4 @@
 - `/data`: 55%
 
 **SUMMARY:** Security review passed — all clear.
+\n2026-05-26T06:00:12.475698: Auto-redacted 5 exposed credentials from files\n\n## 2026-05-26 — Nightly Security Review (02:00 America/New_York)\n- Auto-redaction ran first and removed 5 exposed credentials (`memory/security-log.md` and `.git/logs/HEAD`)\n- Markdown/text/json secret scans in `/data/workspace` found no remaining live hardcoded credentials\n- Git review (last 24h): only expected `87aea96` (`Auto git push`)\n- `/data/.clawdbot/openclaw.json` permissions verified: `600 root:root`\n- WhatsApp allowlist verified for both `custom-1` and `default`: `+13018302401` only\n- Process list reviewed; only expected core services observed\n- Disk usage normal (`/` 53%, `/data` 55%)\n- Security review passed — all clear\n
