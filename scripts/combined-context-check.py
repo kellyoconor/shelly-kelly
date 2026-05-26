@@ -9,11 +9,12 @@ Supports --daily-note-mode to auto-append significant events to vault daily note
 
 import fcntl
 import json
-import re
 import subprocess
 import sys
 from contextlib import contextmanager
 from datetime import datetime, timedelta, timezone
+
+from message_quality_gate import validate_proactive_message
 
 LOCK_PATH = "/tmp/combined-context-check.lock"
 FULL_CONTEXT_TIMEOUT = 8
@@ -294,68 +295,10 @@ def detect_and_record_response(user_message):
         return []
 
 
-def is_literal_prompt(message):
-    """Reject low-value or overly literal proactive prompts."""
-    if not message:
-        return True
-
-    message_lower = message.lower()
-    banned_patterns = [
-        'usual starbucks',
-        'did you get your usual',
-        'did you get coffee',
-        'how are you?',
-        'how was your day',
-        'have you run yet',
-        "how's the steely development going",
-        'any breakthroughs today',
-        'taking a rest day or just',
-        'how are you feeling energy-wise?',
-        "how's your energy matching the data?",
-    ]
-    return any(pattern in message_lower for pattern in banned_patterns)
-
-
-def build_quality_flags(message):
-    """Estimate whether a message contains observation, interpretation, and action."""
-    lowered = (message or '').lower()
-    observation_markers = [
-        'you ran', 'you slept', 'readiness', 'sleep', 'yesterday', 'today', 'seems',
-        'looks', 'i noticed', 'i’m noticing', "i'm noticing", 'your body', 'the pattern'
-    ]
-    interpretation_markers = [
-        'which suggests', 'which usually means', 'feels like', 'seems like',
-        'more like', 'less like', 'tells me', 'might be', 'looks like'
-    ]
-    action_markers = [
-        'want me to', 'you could', 'worth', 'might help', 'i can help',
-        'today is a good day to', 'lean into', 'protect', 'use that', 'keep it'
-    ]
-
-    has_observation = any(marker in lowered for marker in observation_markers)
-    has_interpretation = any(marker in lowered for marker in interpretation_markers)
-    has_action = any(marker in lowered for marker in action_markers)
-
-    # A multi-sentence message with a concrete stat/read usually counts as observation.
-    if not has_observation and re.search(r'\b\d+(?:\.\d+)?\b', lowered):
-        has_observation = True
-
-    return {
-        'observation': has_observation,
-        'interpretation': has_interpretation,
-        'action': has_action,
-    }
-
-
 def passes_quality_gate(message):
-    """Require proactive messages to be substantive, not just message-shaped."""
-    if not message or not message.strip():
-        return False
-    if is_literal_prompt(message):
-        return False
-
-    flags = build_quality_flags(message)
-    return sum(1 for value in flags.values() if value) >= 2
+    """Require proactive messages to use the shared quality gate."""
+    allowed, _reason = validate_proactive_message(message)
+    return allowed
 
 
 def build_run_message(run_info):

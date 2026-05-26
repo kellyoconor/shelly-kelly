@@ -320,15 +320,29 @@ def get_emotional_state():
 
 
 def load_open_followups():
-    """Load active follow-ups for active context."""
+    """Load lifecycle-aware follow-ups for active context."""
+    env = os.environ.copy()
+    env['KELLY_FOLLOWUPS_FILE'] = FOLLOWUPS_FILE
     try:
-        with open(FOLLOWUPS_FILE, 'r') as f:
-            data = json.load(f)
-    except (FileNotFoundError, json.JSONDecodeError):
+        result = subprocess.run(
+            ['python3', '/data/workspace/scripts/kelly-followups.py', 'list', 'open'],
+            capture_output=True,
+            text=True,
+            cwd='/data/workspace',
+            env=env,
+        )
+    except Exception:
         return []
 
-    items = data.get('items', []) if isinstance(data, dict) else []
-    return [item for item in items if item.get('status') in ['open', 'surfaced']]
+    if result.returncode != 0 or not result.stdout.strip():
+        return []
+
+    try:
+        items = json.loads(result.stdout)
+    except json.JSONDecodeError:
+        return []
+
+    return items if isinstance(items, list) else []
 
 
 def get_open_loops_state(limit=3):

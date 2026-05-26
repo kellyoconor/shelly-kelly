@@ -32,6 +32,14 @@ pass "literal prompt blocked"
 python3 scripts/message_quality_gate.py "You ran 6.02 yesterday and slept well, which suggests the floor is steadier than the vibe. Might help to protect momentum instead of overthinking the day." >/dev/null 2>&1 || fail "substantive prompt should pass"
 pass "substantive prompt allowed"
 
+if python3 scripts/message-interceptor.py validate message send --to "+[REDACTED_CLIENT_ID]401" --message "Did you get your usual Starbucks order this morning? ☕" >/dev/null 2>&1; then
+  fail "message interceptor should block literal prompt"
+fi
+pass "message interceptor blocks literal prompt"
+
+python3 scripts/message-interceptor.py validate message send --to "+[REDACTED_CLIENT_ID]401" --message "You ran 6.02 yesterday and slept well, which suggests the floor is steadier than the vibe. Might help to protect momentum instead of overthinking the day." >/dev/null 2>&1 || fail "message interceptor should allow substantive prompt"
+pass "message interceptor allows substantive prompt"
+
 export KELLY_FOLLOWUPS_FILE="$TMP_FOLLOWUPS"
 export KELLY_FOLLOWUPS_RESURFACE_HOURS=24
 python3 scripts/kelly-followups.py add "Test Loop" "Something to follow up on" emotional high >/dev/null || fail "follow-up add"
@@ -61,5 +69,9 @@ pass "extractor captured follow-up"
 printf '{"updated_at":null,"items":[{"id":"fu-009","topic":"State Test","note":"Check state integration","kind":"general","priority":"medium","status":"open","created_at":"2026-05-26T10:00:00","last_seen":"2026-05-26T10:00:00","last_surfaced":null,"times_surfaced":0,"resolved_at":null,"stale_at":null}]}' > "$TMP_FOLLOWUPS"
 KELLY_FOLLOWUPS_FILE="$TMP_FOLLOWUPS" python3 scripts/kelly-state-check.py compact | grep -q 'Open loops: State Test: Check state integration' || fail "state integration"
 pass "state integration"
+
+printf '{"updated_at":null,"items":[{"id":"fu-010","topic":"Repeat Test","note":"Should stay hidden while surfaced","kind":"general","priority":"medium","status":"surfaced","created_at":"2026-05-26T10:00:00","last_seen":"2026-05-26T10:00:00","last_surfaced":"2999-05-26T10:00:00","times_surfaced":1,"resolved_at":null,"stale_at":null}]}' > "$TMP_FOLLOWUPS"
+KELLY_FOLLOWUPS_FILE="$TMP_FOLLOWUPS" python3 scripts/kelly-state-check.py compact | grep -q 'Repeat Test' && fail "surfaced follow-up should not appear before reopen window"
+pass "surfaced follow-up stays hidden before reopen"
 
 echo "All proactive presence tests passed."

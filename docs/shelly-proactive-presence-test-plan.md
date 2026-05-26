@@ -23,6 +23,7 @@ sh /data/workspace/scripts/test-proactive-presence.sh
 ### 1. Quality gate
 - Literal proactive opener is blocked
 - Substantive proactive message is allowed
+- Message interceptor blocks/permits the same cases (no bypass)
 
 ### 2. Follow-up lifecycle
 - Add follow-up
