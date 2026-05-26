@@ -23,6 +23,7 @@ def parse_compact_state(kelly_state_text, timestamp):
         'focus': '',
         'tone': '',
         'open_loops': '',
+        'avoid': '',
     }
 
     for line in (kelly_state_text or '').splitlines():

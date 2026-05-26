@@ -15,6 +15,12 @@ STALE_AFTER_DAYS = int(os.environ.get('KELLY_FOLLOWUPS_STALE_DAYS', '14'))
 RESURFACE_AFTER_HOURS = int(os.environ.get('KELLY_FOLLOWUPS_RESURFACE_HOURS', '18'))
 
 ACTIVE_STATUSES = {'open', 'surfaced'}
+PRIORITY_RANK = {
+    'critical': 0,
+    'high': 1,
+    'medium': 2,
+    'low': 3,
+}
 
 
 def now_iso():
@@ -149,6 +155,14 @@ def mark_surfaced(item_id):
     return None
 
 
+def sort_seconds(value):
+    dt = parse_dt(value)
+    if not dt:
+        return float('-inf')
+    epoch = datetime(1970, 1, 1)
+    return (dt - epoch).total_seconds()
+
+
 def apply_lifecycle_rules(data):
     changed = False
     cutoff = datetime.now() - timedelta(days=STALE_AFTER_DAYS)
@@ -192,8 +206,9 @@ def active_followups(limit=None):
     active = [item for item in items if item.get('status') in ACTIVE_STATUSES]
     active.sort(key=lambda item: (
         item.get('status') != 'open',
-        parse_dt(item.get('last_surfaced')) or datetime.min,
-        parse_dt(item.get('created_at')) or datetime.min,
+        PRIORITY_RANK.get(item.get('priority', 'medium'), PRIORITY_RANK['medium']),
+        -max(sort_seconds(item.get('last_seen')), sort_seconds(item.get('created_at'))),
+        int(item.get('times_surfaced', 0)),
     ))
     return active[:limit] if limit else active
 

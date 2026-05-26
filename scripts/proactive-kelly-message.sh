@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # Proactive Kelly Message Script
-# Updates Kelly State before proactive messages and blocks literal/weak sends.
+# Uses the shared Kelly message pipeline before sending proactive messages.
 
 set -eu
 
@@ -13,11 +13,8 @@ fi
 MESSAGE="$1"
 shift
 
-echo "🔍 Validating proactive message..."
-python3 /data/workspace/scripts/message_quality_gate.py "$MESSAGE"
-
-echo "🔄 [$(date)] Updating Kelly State before proactive message..."
-python3 /data/workspace/scripts/update-kelly-state.py
+echo "🔍 Preparing proactive Kelly message through shared pipeline..."
+python3 /data/workspace/scripts/kelly_message_pipeline.py prepare "$MESSAGE" >/dev/null
 
 echo "📤 [$(date)] Sending proactive message to Kelly..."
 openclaw message send \

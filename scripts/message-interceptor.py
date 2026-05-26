@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Message Pipeline Interceptor
+Message Pipeline Interceptor.
 Intercepts messages to Kelly, enforces the shared quality gate for proactive sends,
 and auto-updates Kelly State first.
 """
@@ -10,10 +10,7 @@ import sys
 import time
 from datetime import datetime
 
-from message_quality_gate import validate_proactive_message
-
-KELLY_NUMBER = "+[REDACTED_CLIENT_ID]401"
-KELLY_STATE_UPDATE_SCRIPT = "/data/workspace/scripts/update-kelly-state.py"
+from kelly_message_pipeline import KELLY_NUMBER, refresh_kelly_state, validate_message
 
 
 def is_message_to_kelly(args):
@@ -33,26 +30,12 @@ def extract_message_arg(args):
     return None
 
 
-def update_kelly_state():
-    """Update Kelly State before messaging"""
-    print(f"[{datetime.now()}] 🔄 Auto-updating Kelly State before message...")
-
-    result = subprocess.run(['python3', KELLY_STATE_UPDATE_SCRIPT], capture_output=True, text=True)
-
-    if result.returncode != 0:
-        print(f"[{datetime.now()}] ⚠️  Kelly State update failed: {result.stderr}")
-    else:
-        print(f"[{datetime.now()}] ✅ Kelly State updated successfully")
-
-    return result.returncode == 0
-
-
 def validate_message_args(args):
     """Validate the outbound proactive message before send."""
     message_text = extract_message_arg(args)
     if message_text is None:
         return True, 'no-message-arg'
-    return validate_proactive_message(message_text)
+    return validate_message(message_text)
 
 
 def main():
@@ -66,7 +49,7 @@ def main():
             print(f"[{datetime.now()}] 🛑 Message blocked by quality gate ({reason})")
             return 1
 
-        update_kelly_state()
+        refresh_kelly_state(logger=lambda message: print(f"[{datetime.now()}] {message}"))
         time.sleep(1)
 
     cmd = ['openclaw'] + original_args

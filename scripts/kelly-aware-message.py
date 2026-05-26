@@ -1,33 +1,21 @@
 #!/usr/bin/env python3
 """
-Kelly-Aware Message Sender
-Automatically updates Kelly State before sending proactive messages
-and blocks weak/literal proactive sends.
+Kelly-Aware Message Sender.
+Uses the shared Kelly outbound pipeline before sending proactive messages.
 """
 
 import subprocess
 import sys
-from message_quality_gate import validate_proactive_message
+
+from kelly_message_pipeline import prepare_message
 
 
 def send_kelly_aware_message(message, target="+[REDACTED_CLIENT_ID]401", channel="whatsapp", accountId="custom-1"):
-    """Send message to Kelly with automatic state update and quality validation first"""
+    """Send message to Kelly with shared state update + quality validation first."""
 
-    is_valid, reason = validate_proactive_message(message)
-    if not is_valid:
-        print(f"🛑 Message blocked by quality gate ({reason})")
+    result = prepare_message(message_text=message, proactive=True)
+    if not result['message_allowed']:
         return False
-
-    print("🔄 Updating Kelly State before message...")
-
-    update_result = subprocess.run([
-        'python3', '/data/workspace/scripts/update-kelly-state.py'
-    ], capture_output=True, text=True)
-
-    if update_result.returncode != 0:
-        print(f"⚠️ Kelly State update failed: {update_result.stderr}")
-    else:
-        print("✅ Kelly State updated")
 
     cmd = [
         'openclaw', 'message', 'send',
@@ -39,14 +27,14 @@ def send_kelly_aware_message(message, target="+[REDACTED_CLIENT_ID]401", channel
 
     print(f"📤 Sending message to {target}...")
 
-    result = subprocess.run(cmd, capture_output=True, text=True)
+    send_result = subprocess.run(cmd, capture_output=True, text=True)
 
-    if result.returncode == 0:
+    if send_result.returncode == 0:
         print("✅ Message sent successfully")
         return True
-    else:
-        print(f"❌ Message failed: {result.stderr}")
-        return False
+
+    print(f"❌ Message failed: {send_result.stderr}")
+    return False
 
 
 def main():

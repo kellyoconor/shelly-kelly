@@ -12,6 +12,7 @@ import sys
 from datetime import datetime, timedelta
 
 FOLLOWUPS_FILE = os.environ.get('KELLY_FOLLOWUPS_FILE', '/data/workspace/memory/kelly-followups.json')
+MEMORY_FILE = '/data/workspace/MEMORY.md'
 
 def get_running_state():
     """Get Kelly's running state as natural knowledge"""
@@ -365,6 +366,36 @@ def get_open_loops_state(limit=3):
 
     return 'Open loops: ' + ' | '.join(rendered)
 
+
+def get_avoid_topics_state():
+    """Surface known don't-bring-this-up-again topics from MEMORY without overloading context."""
+    try:
+        with open(MEMORY_FILE, 'r') as f:
+            content = f.read()
+    except FileNotFoundError:
+        return ''
+
+    match = re.search(r'### Resolved/Don\'t Ask About\n(.*?)(?:\n\n## |\Z)', content, re.S)
+    if not match:
+        return ''
+
+    topics = []
+    for raw_line in match.group(1).splitlines():
+        line = raw_line.strip()
+        if not line.startswith('- **'):
+            continue
+        end = line.find('**', 4)
+        if end == -1:
+            continue
+        topic = line[4:end].strip()
+        if topic:
+            topics.append(topic)
+
+    if not topics:
+        return ''
+
+    return 'Avoid: ' + ' | '.join(topics[:3])
+
 def generate_kelly_state():
     """Generate Kelly State as natural working memory"""
 
@@ -408,6 +439,12 @@ def generate_kelly_state():
         print("Emotional:")
         print(f"- {emotional_state}")
 
+    avoid_topics_state = get_avoid_topics_state()
+    if avoid_topics_state:
+        print()
+        print("Avoid:")
+        print(f"- {avoid_topics_state.replace('Avoid: ', '', 1)}")
+
 def generate_compact_kelly_state():
     """Generate compact Kelly State for working memory injection"""
 
@@ -417,6 +454,7 @@ def generate_compact_kelly_state():
     focus_state = get_focus_state()
     emotional_state = get_emotional_state()
     open_loops_state = get_open_loops_state()
+    avoid_topics_state = get_avoid_topics_state()
 
     state_lines = [
         f"Physical: {running_state} {health_state}",
@@ -428,6 +466,8 @@ def generate_compact_kelly_state():
         state_lines.append(f"Tone: {emotional_state}")
     if open_loops_state:
         state_lines.append(open_loops_state)
+    if avoid_topics_state:
+        state_lines.append(avoid_topics_state)
 
     return "\n".join(state_lines)
 

@@ -17,6 +17,7 @@ cd "$WORKDIR"
 
 python3 -m py_compile \
   scripts/message_quality_gate.py \
+  scripts/kelly_message_pipeline.py \
   scripts/ai-message-wrapper.py \
   scripts/kelly-aware-message.py \
   scripts/kelly-followups.py \
@@ -31,6 +32,14 @@ pass "literal prompt blocked"
 
 python3 scripts/message_quality_gate.py "You ran 6.02 yesterday and slept well, which suggests the floor is steadier than the vibe. Might help to protect momentum instead of overthinking the day." >/dev/null 2>&1 || fail "substantive prompt should pass"
 pass "substantive prompt allowed"
+
+if python3 scripts/kelly_message_pipeline.py validate "Did you get your usual Starbucks order this morning? ☕" >/dev/null 2>&1; then
+  fail "shared pipeline should block literal prompt"
+fi
+pass "shared pipeline blocks literal prompt"
+
+python3 scripts/kelly_message_pipeline.py validate "You ran 6.02 yesterday and slept well, which suggests the floor is steadier than the vibe. Might help to protect momentum instead of overthinking the day." >/dev/null 2>&1 || fail "shared pipeline should allow substantive prompt"
+pass "shared pipeline allows substantive prompt"
 
 if python3 scripts/message-interceptor.py validate message send --to "+[REDACTED_CLIENT_ID]401" --message "Did you get your usual Starbucks order this morning? ☕" >/dev/null 2>&1; then
   fail "message interceptor should block literal prompt"
@@ -69,6 +78,13 @@ pass "extractor captured follow-up"
 printf '{"updated_at":null,"items":[{"id":"fu-009","topic":"State Test","note":"Check state integration","kind":"general","priority":"medium","status":"open","created_at":"2026-05-26T10:00:00","last_seen":"2026-05-26T10:00:00","last_surfaced":null,"times_surfaced":0,"resolved_at":null,"stale_at":null}]}' > "$TMP_FOLLOWUPS"
 KELLY_FOLLOWUPS_FILE="$TMP_FOLLOWUPS" python3 scripts/kelly-state-check.py compact | grep -q 'Open loops: State Test: Check state integration' || fail "state integration"
 pass "state integration"
+
+KELLY_FOLLOWUPS_FILE="$TMP_FOLLOWUPS" python3 scripts/kelly-state-check.py compact | grep -q 'Avoid: Calendar Auth Issues' || fail "avoid topics surfaced"
+pass "avoid topics surfaced"
+
+printf '{"updated_at":null,"items":[{"id":"fu-011","topic":"Low Priority","note":"older and lower priority","kind":"general","priority":"low","status":"open","created_at":"2026-05-25T10:00:00","last_seen":"2026-05-25T10:00:00","last_surfaced":null,"times_surfaced":0,"resolved_at":null,"stale_at":null},{"id":"fu-012","topic":"High Priority","note":"more urgent and recent","kind":"general","priority":"high","status":"open","created_at":"2026-05-26T11:00:00","last_seen":"2026-05-26T11:30:00","last_surfaced":null,"times_surfaced":0,"resolved_at":null,"stale_at":null}]}' > "$TMP_FOLLOWUPS"
+KELLY_FOLLOWUPS_FILE="$TMP_FOLLOWUPS" python3 scripts/kelly-followups.py next | grep -q '"topic": "High Priority"' || fail "priority ordering"
+pass "priority ordering"
 
 printf '{"updated_at":null,"items":[{"id":"fu-010","topic":"Repeat Test","note":"Should stay hidden while surfaced","kind":"general","priority":"medium","status":"surfaced","created_at":"2026-05-26T10:00:00","last_seen":"2026-05-26T10:00:00","last_surfaced":"2999-05-26T10:00:00","times_surfaced":1,"resolved_at":null,"stale_at":null}]}' > "$TMP_FOLLOWUPS"
 KELLY_FOLLOWUPS_FILE="$TMP_FOLLOWUPS" python3 scripts/kelly-state-check.py compact | grep -q 'Repeat Test' && fail "surfaced follow-up should not appear before reopen window"
