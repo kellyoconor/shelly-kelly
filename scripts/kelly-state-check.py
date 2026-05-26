@@ -11,7 +11,7 @@ import re
 import sys
 from datetime import datetime, timedelta
 
-FOLLOWUPS_FILE = '/data/workspace/memory/kelly-followups.json'
+FOLLOWUPS_FILE = os.environ.get('KELLY_FOLLOWUPS_FILE', '/data/workspace/memory/kelly-followups.json')
 
 def get_running_state():
     """Get Kelly's running state as natural knowledge"""
@@ -320,7 +320,7 @@ def get_emotional_state():
 
 
 def load_open_followups():
-    """Load unresolved follow-ups for active context."""
+    """Load active follow-ups for active context."""
     try:
         with open(FOLLOWUPS_FILE, 'r') as f:
             data = json.load(f)
@@ -328,7 +328,7 @@ def load_open_followups():
         return []
 
     items = data.get('items', []) if isinstance(data, dict) else []
-    return [item for item in items if item.get('status') == 'open']
+    return [item for item in items if item.get('status') in ['open', 'surfaced']]
 
 
 def get_open_loops_state(limit=3):

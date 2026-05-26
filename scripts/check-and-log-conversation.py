@@ -120,16 +120,35 @@ def append_to_activity_log(summary: str) -> bool:
     except:
         return False
 
+def try_capture_followup(summary: str):
+    """Conservatively turn meaningful summaries into follow-ups."""
+    import subprocess
+
+    try:
+        result = subprocess.run(
+            ['python3', '/data/workspace/scripts/followup-extractor.py', summary, '--apply'],
+            capture_output=True,
+            text=True,
+            cwd='/data/workspace',
+        )
+        return result.returncode == 0 and result.stdout.strip() not in ['', '{}']
+    except Exception:
+        return False
+
+
 def log_conversation(summary: str):
     """Log a conversation summary if appropriate"""
     if should_skip_summary(summary):
         return False
 
+    followup_created = try_capture_followup(summary)
+
     if should_log_now():
         if append_to_activity_log(summary):
             save_log_time()
             return True
-    return False
+
+    return followup_created
 
 def main():
     """Log conversation if provided"""
