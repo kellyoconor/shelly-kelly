@@ -227,9 +227,53 @@ def get_recent_daily_context():
     }
 
 
+def parse_obsidian_summary():
+    """Extract useful structured hints from the Obsidian summary output."""
+    try:
+        result = subprocess.run(
+            ['python3', '/data/workspace/scripts/context-obsidian.py'],
+            capture_output=True,
+            text=True,
+            cwd='/data/workspace',
+        )
+    except Exception:
+        return {'active_projects': [], 'recent_focus': [], 'recent_mood': []}
+
+    if result.returncode != 0 or not result.stdout:
+        return {'active_projects': [], 'recent_focus': [], 'recent_mood': []}
+
+    parsed = {'active_projects': [], 'recent_focus': [], 'recent_mood': []}
+    for raw_line in result.stdout.splitlines():
+        line = raw_line.strip()
+        if line.startswith('🎯 Active projects:'):
+            parsed['active_projects'] = [item.strip() for item in line.split(':', 1)[1].split(',') if item.strip()]
+        elif line.startswith('📝 Recent focus:'):
+            parsed['recent_focus'] = [item.strip() for item in line.split(':', 1)[1].split(',') if item.strip()]
+        elif line.startswith('🎭 Recent mood:'):
+            parsed['recent_mood'] = [item.strip() for item in line.split(':', 1)[1].split(',') if item.strip()]
+    return parsed
+
+
 def get_focus_state():
-    """Determine what Kelly is currently focused on from recent notes and activity."""
+    """Determine what Kelly is currently focused on from recent notes, projects, and open loops."""
     context = get_recent_daily_context()
+    obsidian = parse_obsidian_summary()
+    open_loops = load_open_followups()
+
+    if open_loops:
+        top = open_loops[0]
+        topic = top.get('topic', '').strip()
+        kind = top.get('kind', '').strip()
+        if topic:
+            if kind == 'system':
+                return f'Active build thread: {topic} is still live and wants follow-through.'
+            return f'Open loop still in play: {topic}.'
+
+    if obsidian['active_projects']:
+        return f"Active project energy: {obsidian['active_projects'][0]} is live right now."
+
+    if obsidian['recent_focus']:
+        return f"Recent focus: {obsidian['recent_focus'][0]}."
 
     for item in context['day_notes']:
         lowered = item.lower()
@@ -255,6 +299,15 @@ def get_focus_state():
 def get_emotional_state():
     """Get lightweight emotional/rhythm context from recent notes."""
     context = get_recent_daily_context()
+    obsidian = parse_obsidian_summary()
+
+    for mood in obsidian['recent_mood']:
+        lowered = mood.lower()
+        if lowered == 'clear':
+            return 'The recent tone looks clear and relatively grounded.'
+        if lowered in ['frustrated', 'tired', 'overwhelmed', 'stressed', 'anxious', 'unclear']:
+            return f'Recent mood signal: {lowered}.'
+
     for item in context['day_notes'] + context['thoughts']:
         lowered = item.lower()
         if 'quiet' in lowered or 'flat' in lowered:
