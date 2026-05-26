@@ -11,6 +11,8 @@ import re
 import sys
 from datetime import datetime, timedelta
 
+FOLLOWUPS_FILE = '/data/workspace/memory/kelly-followups.json'
+
 def get_running_state():
     """Get Kelly's running state as natural knowledge"""
     try:
@@ -263,12 +265,45 @@ def get_emotional_state():
             return 'Pressure has been part of the backdrop lately.'
     return ''
 
+
+def load_open_followups():
+    """Load unresolved follow-ups for active context."""
+    try:
+        with open(FOLLOWUPS_FILE, 'r') as f:
+            data = json.load(f)
+    except (FileNotFoundError, json.JSONDecodeError):
+        return []
+
+    items = data.get('items', []) if isinstance(data, dict) else []
+    return [item for item in items if item.get('status') == 'open']
+
+
+def get_open_loops_state(limit=3):
+    """Summarize current open loops in plain language."""
+    items = load_open_followups()[:limit]
+    if not items:
+        return ''
+
+    rendered = []
+    for item in items:
+        topic = item.get('topic', '').strip()
+        note = item.get('note', '').strip()
+        if topic and note:
+            rendered.append(f"{topic}: {note}")
+        elif topic:
+            rendered.append(topic)
+
+    if not rendered:
+        return ''
+
+    return 'Open loops: ' + ' | '.join(rendered)
+
 def generate_kelly_state():
     """Generate Kelly State as natural working memory"""
-    
+
     print("Kelly State:")
     print()
-    
+
     # Physical state
     print("Physical:")
     running_state = get_running_state()
@@ -276,27 +311,30 @@ def generate_kelly_state():
     print(f"- {running_state}")
     print(f"- {health_state}")
     print()
-    
+
     # Schedule
     print("Schedule:")
     calendar_state = get_calendar_state()
     print(f"- {calendar_state}")
     print()
-    
+
     # Activity
     print("Focus:")
     focus_state = get_focus_state()
     print(f"- {focus_state}")
-    
+
     vault_state = get_obsidian_state()
     if "not available" not in vault_state:
         print(f"- {vault_state}")
-    
+
     research_state = get_research_state()
     if "idle" not in research_state:
         print(f"- {research_state}")
-    
-    # Emotional context (only if relevant)
+
+    open_loops_state = get_open_loops_state()
+    if open_loops_state:
+        print(f"- {open_loops_state}")
+
     emotional_state = get_emotional_state()
     if emotional_state:
         print()
@@ -311,6 +349,7 @@ def generate_compact_kelly_state():
     calendar_state = get_calendar_state()
     focus_state = get_focus_state()
     emotional_state = get_emotional_state()
+    open_loops_state = get_open_loops_state()
 
     state_lines = [
         f"Physical: {running_state} {health_state}",
@@ -320,6 +359,8 @@ def generate_compact_kelly_state():
 
     if emotional_state:
         state_lines.append(f"Tone: {emotional_state}")
+    if open_loops_state:
+        state_lines.append(open_loops_state)
 
     return "\n".join(state_lines)
 

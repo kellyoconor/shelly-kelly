@@ -22,6 +22,7 @@ def parse_compact_state(kelly_state_text, timestamp):
         'schedule': '',
         'focus': '',
         'tone': '',
+        'open_loops': '',
     }
 
     for line in (kelly_state_text or '').splitlines():
@@ -31,6 +32,8 @@ def parse_compact_state(kelly_state_text, timestamp):
         normalized = key.strip().lower()
         if normalized in snapshot:
             snapshot[normalized] = value.strip()
+        elif normalized == 'open loops':
+            snapshot['open_loops'] = value.strip()
 
     return snapshot
 
