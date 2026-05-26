@@ -9,6 +9,7 @@ Supports --daily-note-mode to auto-append significant events to vault daily note
 
 import fcntl
 import json
+import os
 import subprocess
 import sys
 from contextlib import contextmanager
@@ -54,7 +55,15 @@ def run_command(cmd, cwd=None, timeout=FULL_CONTEXT_TIMEOUT):
 
 
 def run_full_context_check():
-    """Get external data context (Strava, Oura, calendar)"""
+    """Get external data context (Strava, Oura, calendar)."""
+    fixture_path = os.environ.get('COMBINED_CONTEXT_EXTERNAL_FIXTURE')
+    if fixture_path:
+        try:
+            with open(fixture_path, 'r') as f:
+                return json.load(f)
+        except Exception:
+            return {"error": "External fixture load failed"}
+
     result = run_command(
         ['python3', '/data/workspace/scripts/full-context-check.py'],
         cwd='/data/workspace',
@@ -92,7 +101,15 @@ def run_full_context_check():
 
 
 def run_significance_check():
-    """Get memory-based significance analysis"""
+    """Get memory-based significance analysis."""
+    fixture_path = os.environ.get('COMBINED_CONTEXT_SIGNIFICANCE_FIXTURE')
+    if fixture_path:
+        try:
+            with open(fixture_path, 'r') as f:
+                return json.load(f)
+        except Exception:
+            return {"error": "Significance fixture load failed"}
+
     result = run_command(
         ['python3', '/data/workspace/scripts/context-significance-check.py'],
         cwd='/data/workspace',
@@ -109,7 +126,20 @@ def run_significance_check():
 
 
 def check_recent_conversation():
-    """Check if we've recently discussed activities to avoid repetition"""
+    """Check if we've recently discussed activities to avoid repetition."""
+    fixture = os.environ.get('COMBINED_CONTEXT_CONVERSATION_JSON')
+    if fixture:
+        try:
+            return json.loads(fixture)
+        except json.JSONDecodeError:
+            return {
+                'running': False,
+                'health_data': False,
+                'calendar': False,
+                'current_work': False,
+                'morning_routine': False,
+            }
+
     try:
         session_state_file = "/data/workspace/memory/session-discussion-state.json"
 
@@ -362,7 +392,14 @@ def merge_contexts(external_events, significance_result):
 
 
 def check_recent_kelly_messages():
-    """Check Kelly's last 3 messages for timing and sentiment"""
+    """Check Kelly's last 3 messages for timing and sentiment."""
+    fixture = os.environ.get('COMBINED_CONTEXT_RECENT_STATE_JSON')
+    if fixture:
+        try:
+            return json.loads(fixture)
+        except json.JSONDecodeError:
+            return {"recent_activity": False, "negative_sentiment": False}
+
     try:
         vault_daily_path = f"/data/kelly-vault/01-Daily/2026/{datetime.now().strftime('%Y-%m-%d')}.md"
         try:
@@ -459,8 +496,9 @@ def get_combined_context():
     if "error" in external_events:
         if 'significance_message' in significance_result:
             result = significance_result['significance_message']
-            record_heartbeat_message()
-            return result
+            if passes_quality_gate(result):
+                record_heartbeat_message()
+                return result
         return ""
 
     if "error" in significance_result:
