@@ -946,3 +946,35 @@ Use `echo` for plain section headers or `printf '%s\n' '---SMART---'` to avoid o
 - Related Files: /data/workspace/TOOLS.md
 
 ---
+## [ERR-20260526-001] test-script-invocation
+
+**Logged**: 2026-05-26T15:48:10+00:00
+**Priority**: low
+**Status**: pending
+**Area**: tests
+
+### Summary
+A shell test script was accidentally invoked with Python, producing a misleading syntax error.
+
+### Error
+```text
+File "/data/workspace/scripts/test-proactive-presence.sh", line 49
+    python3 scripts/kelly-followups.py surfaced fu-001 >/dev/null || fail "mark surfaced"
+                                                   ^^
+SyntaxError: leading zeros in decimal integer literals are not permitted; use an 0o prefix for octal integers
+```
+
+### Context
+- Operation attempted: test run for proactive presence status check
+- Incorrect invocation used: `python3 /data/workspace/scripts/test-proactive-presence.sh`
+- Correct invocation: `sh /data/workspace/scripts/test-proactive-presence.sh`
+- The underlying test suite passed when run with the proper interpreter
+
+### Suggested Fix
+Match interpreter to script type before execution; `.sh` scripts should be run with `sh`/`bash`, not `python3`.
+
+### Metadata
+- Reproducible: yes
+- Related Files: /data/workspace/scripts/test-proactive-presence.sh, /data/workspace/TOOLS.md
+
+---
