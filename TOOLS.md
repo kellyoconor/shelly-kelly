@@ -72,6 +72,7 @@ Things like:
 - OpenClaw `exec` uses `/bin/sh` by default, not bash
 - Do **not** use bash-only options like `set -o pipefail` unless explicitly running `bash -lc '...'`
 - For portable shell snippets, prefer `set -eu` and avoid bashisms unless needed
+- Match the interpreter to the file type: run `.py` with `python3`, `.cjs` with `node`, and other scripts with their proper runtime instead of assuming Python
 
 ### Git Push Strategy (Updated Mar 12, 2026)
 - **Commit and push immediately** after each logical unit of work (feature, fix, config change)

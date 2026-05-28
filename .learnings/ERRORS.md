@@ -978,3 +978,127 @@ Match interpreter to script type before execution; `.sh` scripts should be run w
 - Related Files: /data/workspace/scripts/test-proactive-presence.sh, /data/workspace/TOOLS.md
 
 ---
+## [ERR-20260527-001] heartbeat-exec-sigterm
+
+**Logged**: 2026-05-27T11:56:32Z
+**Priority**: medium
+**Status**: pending
+**Area**: infra
+
+### Summary
+Scheduled heartbeat reported an exec session terminated with SIGTERM before completion.
+
+### Error
+```text
+System: [2026-05-27 07:56:32 EDT] Exec failed (brisk-nu, signal SIGTERM)
+```
+
+### Context
+- Operation attempted: scheduled heartbeat workflow
+- Follow-up heartbeat checks were rerun manually in a fresh turn
+- `smart-context-check.py` and `alert-retry-processor.cjs` completed; bounded rerun of `combined-context-check.py` exited cleanly
+- Likely a runner interruption or overlap rather than a confirmed user-facing issue
+
+### Suggested Fix
+Inspect whether overlapping heartbeat jobs or long-running follow-up commands are causing the runner to terminate prior exec sessions.
+
+### Metadata
+- Reproducible: unknown
+- Related Files: /data/workspace/HEARTBEAT.md
+- See Also: ERR-20260422-001, ERR-20260422-002, ERR-20260422-003
+
+---
+## [ERR-20260527-001] check-and-log-conversation.py
+
+**Logged**: 2026-05-27T08:05:00-04:00
+**Priority**: medium
+**Status**: pending
+**Area**: infra
+
+### Summary
+Heartbeat session summary script appeared to hang with no output during routine heartbeat processing
+
+### Error
+```
+python3 /data/workspace/scripts/check-and-log-conversation.py "Heartbeat ran: alert retry processor completed; combined context check produced no actionable output."
+Process remained running with no output until manually killed.
+```
+
+### Context
+- Operation attempted during mandatory heartbeat flow from HEARTBEAT.md
+- alert-retry-processor completed successfully
+- combined-context-check.py returned no actionable output
+- summary script was launched via exec and required manual kill after poll/log showed no output
+
+### Suggested Fix
+Inspect check-and-log-conversation.py for blocking waits or dependencies that stall in non-interactive heartbeat runs; consider adding timeout-safe logging or a heartbeat mode.
+
+### Metadata
+- Reproducible: unknown
+- Related Files: /data/workspace/scripts/check-and-log-conversation.py, /data/workspace/HEARTBEAT.md
+
+---
+## [ERR-20260527-002] heartbeat-command-runtime
+
+**Logged**: 2026-05-27T12:08:30Z
+**Priority**: low
+**Status**: pending
+**Area**: infra
+
+### Summary
+I initially invoked the heartbeat alert processor with Python instead of Node, causing an avoidable syntax error.
+
+### Error
+```text
+python3 /data/workspace/alert-retry-processor.cjs heartbeat
+File "/data/workspace/alert-retry-processor.cjs", line 53
+    * Check for Kelly's recent activity and auto-mark alerts as seen
+                     ^
+SyntaxError: unterminated string literal (detected at line 53)
+```
+
+### Context
+- Operation attempted: required heartbeat alert retry processor from /data/workspace/HEARTBEAT.md
+- The documented command uses `node`, but I used `python3` by mistake
+- Follow-up: reran with `node /data/workspace/alert-retry-processor.cjs heartbeat` and the heartbeat pipeline completed successfully
+
+### Suggested Fix
+Follow HEARTBEAT.md command runtimes exactly; `.cjs` heartbeat scripts should be run with Node, not Python.
+
+### Metadata
+- Reproducible: yes
+- Related Files: /data/workspace/HEARTBEAT.md, /data/workspace/alert-retry-processor.cjs
+- See Also: ERR-20260512-001, ERR-20260417-001
+
+---
+## [ERR-20260528-001] heartbeat-alert-retry-processor
+
+**Logged**: 2026-05-28T06:54:00Z
+**Priority**: medium
+**Status**: pending
+**Area**: infra
+
+### Summary
+Tried to run a `.cjs` heartbeat script with `python3`, causing an immediate syntax error.
+
+### Error
+```
+File "/data/workspace/alert-retry-processor.cjs", line 53
+    * Check for Kelly's recent activity and auto-mark alerts as seen
+                     ^
+SyntaxError: unterminated string literal (detected at line 53)
+```
+
+### Context
+- Command attempted: `python3 /data/workspace/alert-retry-processor.cjs heartbeat`
+- The target file is a CommonJS `.cjs` script and should be run with `node`, not `python3`.
+- This happened during a scheduled heartbeat check.
+
+### Suggested Fix
+Run `.cjs` scripts with `node` and keep Python invocations only for `.py` scripts.
+
+### Metadata
+- Reproducible: yes
+- Related Files: /data/workspace/alert-retry-processor.cjs, /data/workspace/HEARTBEAT.md
+
+---

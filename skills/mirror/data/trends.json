@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-05-26",
+  "last_updated": "2026-05-27",
   "day_count": 57,
   "weekly": [
     {
@@ -21,7 +21,7 @@
     {
       "metric": "hrv",
       "direction": "declining",
-      "early_avg": 81.3,
+      "early_avg": 82.6,
       "recent_avg": 77.2
     }
   ],

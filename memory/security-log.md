@@ -966,7 +966,7 @@
 - `/data`: 55%
 
 **SUMMARY:** Security review passed — all clear.
-\n2026-05-26T06:00:12.[REDACTED_CLIENT_ID]: Auto-redacted 5 exposed credentials from files\n\n## 2026-05-26 — Nightly Security Review (02:00 America/New_York)\n- Auto-redaction ran first and removed 5 exposed credentials (`memory/security-log.md` and `.git/logs/HEAD`)\n- Markdown/text/json secret scans in `/data/workspace` found no remaining live hardcoded credentials\n- Git review (last 24h): only expected `87aea96` (`Auto git push`)\n- `/data/.clawdbot/openclaw.json` permissions verified: `600 root:root`\n- WhatsApp allowlist verified for both `custom-1` and `default`: `+[REDACTED_CLIENT_ID]401` only\n- Process list reviewed; only expected core services observed\n- Disk usage normal (`/` 53%, `/data` 55%)\n- Security review passed — all clear\n\n2026-05-27T06:00:11.244822: Auto-redacted 35 exposed credentials from files\n
+\n2026-05-26T06:00:12.[REDACTED_CLIENT_ID]: Auto-redacted 5 exposed credentials from files\n\n## 2026-05-26 — Nightly Security Review (02:00 America/New_York)\n- Auto-redaction ran first and removed 5 exposed credentials (`memory/security-log.md` and `.git/logs/HEAD`)\n- Markdown/text/json secret scans in `/data/workspace` found no remaining live hardcoded credentials\n- Git review (last 24h): only expected `87aea96` (`Auto git push`)\n- `/data/.clawdbot/openclaw.json` permissions verified: `600 root:root`\n- WhatsApp allowlist verified for both `custom-1` and `default`: `+[REDACTED_CLIENT_ID]401` only\n- Process list reviewed; only expected core services observed\n- Disk usage normal (`/` 53%, `/data` 55%)\n- Security review passed — all clear\n\n2026-05-27T06:00:11.[REDACTED_CLIENT_ID]: Auto-redacted 35 exposed credentials from files\n
 ## 2026-05-27 02:00 AM - Nightly Security Review
 
 **AUTO-REDACTION:** ✅ Ran first and fixed exposed credentials immediately
@@ -997,5 +997,37 @@
 - `openclaw security audit --deep`: `0 critical · 0 warn · 1 info`
 - Informational note only: top-level WhatsApp group allowlist is empty, so non-allowlisted group messages are silently dropped
 - `openclaw update status`: update available (`2026.5.22`), but this is maintenance, not an active security incident
+
+**SUMMARY:** Security review passed — all clear.
+\n2026-05-28T06:00:24.[REDACTED_CLIENT_ID]: Auto-redacted 5 exposed credentials from files\n\n2026-05-28T06:00:39.092765: Auto-redacted 1 exposed credentials from files\n
+## 2026-05-28 02:00 AM - Nightly Security Review
+
+**AUTO-REDACTION:** ✅ Ran first and fixed exposed credentials immediately
+- `auto-redact-credentials.py` redacted 1 exposed credential from `memory/security-log.md` before review continued
+- Credential exposure was auto-remediated and is **not** being escalated per policy
+
+**API Key / Secret Scan:** ✅ Clean after auto-fix
+- Broad `grep 'sk-'` hits in workspace markdown/text/json were prior security-log notes, redacted placeholders, dependency text, or code artifacts
+- Focused hardcoded-credential review only surfaced placeholders, env-var names, documentation examples, or normal code references; no live hardcoded credentials remained in reviewed `/data/workspace` files
+- Reviewed workspace memory/log paths showed no live env-var secret exposures
+
+**Git History (last 24h):** ✅ No unexpected commits
+- Visible recent commit: `53e4b70` — `Auto git push workspace repo`
+
+**System Config / Permissions:** ✅ OK
+- `/data/.clawdbot/openclaw.json` permissions remain `600 root:root`
+- WhatsApp allowlist verified on both `custom-1` and `default` accounts: `allowFrom = ["+[REDACTED_CLIENT_ID]401"]`
+
+**Process Check:** ✅ No suspicious processes observed
+- Expected core services only, plus the review commands themselves
+
+**Disk Usage:** ✅ Normal
+- `/`: 51%
+- `/data`: 55%
+
+**OpenClaw Audit / Update Status:** ✅ No alertable security findings
+- `openclaw security audit --deep`: `0 critical · 0 warn · 1 info`
+- Informational note only: top-level WhatsApp group allowlist is empty, so non-allowlisted group messages are silently dropped
+- `openclaw update status`: update available (`2026.5.26`), but this is maintenance, not an active security incident
 
 **SUMMARY:** Security review passed — all clear.
