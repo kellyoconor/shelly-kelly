@@ -1102,3 +1102,33 @@ Run `.cjs` scripts with `node` and keep Python invocations only for `.py` script
 - Related Files: /data/workspace/alert-retry-processor.cjs, /data/workspace/HEARTBEAT.md
 
 ---
+## [ERR-20260528-002] morning-briefing-cron-reminder-instead-of-execution
+
+**Logged**: 2026-05-28T10:35:00Z
+**Priority**: high
+**Status**: pending
+**Area**: config
+
+### Summary
+The 6:30 AM morning briefing schedule delivered reminder text into chat instead of actually running the morning briefing script and sending its output.
+
+### Error
+```
+System: [2026-05-28 06:30:00 EDT] Run the morning briefing: `python3 /data/workspace/scripts/morning-briefing.py` — send the exact output to Kelly via WhatsApp (accountId: custom-1, target: +13018302401). Then run `python3 /data/workspace/scripts/morning-briefing.py --append-daily-note` to update the vault. Keep it fast — no extra commentary, just send the briefing output as-is.
+```
+
+### Context
+- A scheduled reminder fired at 6:30 AM.
+- Instead of executing the briefing workflow, the system surfaced the reminder text back into the chat.
+- Manual verification showed `python3 /data/workspace/scripts/morning-briefing.py` itself works and returns a valid briefing.
+- This indicates the scheduled job/reminder wiring is broken or configured as a reminder relay instead of an execution path.
+
+### Suggested Fix
+Inspect the cron/job configuration for the 6:30 AM morning briefing and convert it from a reminder-style payload to an execution path that actually runs the script, sends the output via `message`, and appends to the daily note.
+
+### Metadata
+- Reproducible: yes
+- Related Files: /data/workspace/scripts/morning-briefing.py, cron job config
+- Source: user_feedback
+
+---

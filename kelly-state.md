@@ -1,8 +1,8 @@
 # Kelly State - Working Memory
 
-*Updated: 2026-05-26 16:52:02*
+*Updated: 2026-05-28 21:53:41*
 
-Physical: Kelly ran 6.02 miles yesterday. Kelly's readiness is moderate at 73% and her sleep quality was excellent last night (90%).
+Physical: Kelly hasn't logged any recent runs. Kelly's readiness is low at 66% and her sleep quality was excellent last night (86%).
 Schedule: Kelly's calendar authentication has expired.
 Focus: Active project energy: Shelly Proactive Presence Plan is live right now.
 Tone: The recent tone looks clear and relatively grounded.
