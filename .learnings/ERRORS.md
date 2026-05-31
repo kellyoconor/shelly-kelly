@@ -74,7 +74,38 @@ Install agentmail package or update skill to use different email access method
 - Related Files: /data/workspace/skills/agentmail/scripts/client.py
 - Impact: Can't read emails sent to agent inbox
 
----## [ERR-20260409-001] openclaw-update-run
+---
+
+## [ERR-20260531-001] exec-heredoc-shell-script
+
+**Logged**: 2026-05-31T02:05:00-04:00
+**Priority**: low
+**Status**: pending
+**Area**: infra
+
+### Summary
+A follow-up review command failed because the inline /bin/sh script had mismatched block quoting/braces.
+
+### Error
+```
+sh: 44: Syntax error: end of file unexpected (expecting "}")
+```
+
+### Context
+- Operation attempted: run a second-pass nightly security review summary command via `exec`
+- Environment: OpenClaw `exec` using `/bin/sh`
+- Likely cause: malformed heredoc / grouping in a long inline shell command
+
+### Suggested Fix
+Prefer shorter commands or write the inspection script to a temp file before execution when combining shell groups and Python heredocs under `/bin/sh`.
+
+### Metadata
+- Reproducible: unknown
+- Related Files: /data/workspace/TOOLS.md
+
+---
+
+## [ERR-20260409-001] openclaw-update-run
 
 **Logged**: 2026-04-09T22:23:30Z
 **Priority**: medium
