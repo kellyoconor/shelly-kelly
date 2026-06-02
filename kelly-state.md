@@ -1,11 +1,11 @@
 # Kelly State - Working Memory
 
-*Updated: 2026-05-28 21:53:41*
+*Updated: 2026-06-02 06:32:00*
 
-Physical: Kelly hasn't logged any recent runs. Kelly's readiness is low at 66% and her sleep quality was excellent last night (86%).
+Physical: Kelly hasn't logged any recent runs. Kelly's readiness is moderate at 73% and her sleep was restless last night (58%).
 Schedule: Kelly's calendar authentication has expired.
-Focus: Active project energy: Shelly Proactive Presence Plan is live right now.
-Tone: The recent tone looks clear and relatively grounded.
+Focus: Recent theme: Tiny mirror thought: You're in a resilient state right now. What's one thing you've been avoiding that you could face today?
+Tone: There is a resilient undertone in the recent notes.
 Avoid: Calendar Auth Issues (Mar 30, 2026) | NWSL Interview
 
 ---

@@ -1,12 +1,12 @@
 {
-  "last_oura_poll": "2026-06-01T07:02:47.016455",
-  "last_strava_poll": "2026-06-01T07:02:47.056637",
+  "last_oura_poll": "2026-06-02T01:32:19.342028",
+  "last_strava_poll": "2026-06-02T04:32:29.642944",
   "last_oura_data_hash": null,
   "last_strava_data_hash": null,
-  "oura_poll_count": 302,
-  "strava_poll_count": 600,
+  "oura_poll_count": 305,
+  "strava_poll_count": 607,
   "oura_consecutive_failures": 0,
-  "strava_consecutive_failures": 600,
+  "strava_consecutive_failures": 607,
   "polling_since": "2026-03-16T01:28:29.189633",
-  "last_oura_readiness_hash": "7497608e75307ddc7a7837e11c0bd893"
+  "last_oura_readiness_hash": "564435f3d1675386d1118b0ba5de2605"
 }
