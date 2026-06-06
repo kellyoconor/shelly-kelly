@@ -1056,4 +1056,15 @@
 - Process list reviewed; only expected core services observed (`node src/server.js`, `openclaw`, `openclaw-gateway`, `python3 welly-daemon.py start`)
 - Disk usage normal (`/` 50%, `/data` 55%)
 - Security review passed — all clear
-\n2026-06-05T06:00:15.[REDACTED_CLIENT_ID]: Auto-redacted 6 exposed credentials from files\n\n2026-06-05T06:01:36.721002: Auto-redacted 1 exposed credentials from files\n
+\n2026-06-05T06:00:15.[REDACTED_CLIENT_ID]: Auto-redacted 6 exposed credentials from files\n\n2026-06-05T06:01:36.[REDACTED_CLIENT_ID]: Auto-redacted 1 exposed credentials from files\n\n2026-06-06T06:00:31.[REDACTED_CLIENT_ID]: Auto-redacted 4 exposed credentials from files\n\n2026-06-06T06:01:04.088929: Auto-redacted 1 exposed credentials from files\n
+## 2026-06-06 — Nightly Security Review (02:00 America/New_York)
+- Auto-redaction ran first and removed 1 exposed credential from `memory/security-log.md`; exposure was auto-remediated and not escalated per policy
+- Markdown/text/json `sk-` scan in `/data/workspace` found no remaining live secret exposures after redaction; remaining hits were prior redacted security-log notes, one learning-log mention, dependency text, and one Playwright prompt artifact
+- Focused hardcoded-credential scan across `/data/workspace` found no live hardcoded credentials; remaining matches were the just-redacted `memory/security-log.md` entry and a Slack placeholder (`xoxb-...`) in `src/server.js`
+- Git review (last 24h): expected commit activity only — `203a326` (`Auto git push 2026-06-05T07:30:20Z`)
+- `/data/.clawdbot/openclaw.json` permissions verified: `600 root:root`
+- Reviewed workspace memory/log paths showed no live env-var secret exposures; one generic historical code match in `skills/google-calendar/scripts/calendar.py` was a normal variable assignment (`token = get_access_token()`), not a secret
+- WhatsApp allowlist verified on both `custom-1` and `default`: `+[REDACTED_CLIENT_ID]401` only
+- Process list reviewed; only expected core services observed (`node src/server.js`, `openclaw`, `openclaw-gateway`, `python3 welly-daemon.py start`) plus the review command itself
+- Disk usage normal (`/` 49%, `/data` 55%)
+- Security review passed — all clear

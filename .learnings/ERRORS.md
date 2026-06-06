@@ -1163,3 +1163,31 @@ Inspect the cron/job configuration for the 6:30 AM morning briefing and convert 
 - Source: user_feedback
 
 ---
+## [ERR-20260606-001] exec-shell-summary-redirection
+
+**Logged**: 2026-06-06T06:01:45Z
+**Priority**: medium
+**Status**: pending
+**Area**: infra
+
+### Summary
+A /bin/sh summary step failed because input-redirection paths were over-escaped inside command substitution.
+
+### Error
+```
+sh: cannot open "/tmp/security-review-.../auto_redact.txt": No such file
+```
+
+### Context
+- Command/operation attempted: nightly security review summary generation via `exec`
+- Used `wc -l < \"$TMPDIR/file\"` inside a shell block
+- OpenClaw `exec` runs under `/bin/sh`
+
+### Suggested Fix
+Use portable forms like `wc -l "$file" | awk '{print $1}'` or unescaped redirection paths.
+
+### Metadata
+- Reproducible: yes
+- Related Files: /data/workspace/TOOLS.md
+
+---
