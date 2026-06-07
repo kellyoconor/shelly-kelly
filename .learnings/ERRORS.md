@@ -1191,3 +1191,32 @@ Use portable forms like `wc -l "$file" | awk '{print $1}'` or unescaped redirect
 - Related Files: /data/workspace/TOOLS.md
 
 ---
+
+## [ERR-20260607-001] smart-context-check-strava
+
+**Logged**: 2026-06-07T07:13:38Z
+**Priority**: medium
+**Status**: pending
+**Area**: infra
+
+### Summary
+Strava check failed during smart-context-check heartbeat runs
+
+### Error
+```
+smart-context-check reported: Running: ❌ Don't ask - ❌ Strava check failed
+```
+
+### Context
+- Command attempted: `python3 /data/workspace/scripts/smart-context-check.py`
+- Trigger: scheduled heartbeat context validation
+- Impact: running context became unavailable, so avoid run-related prompts
+
+### Suggested Fix
+Inspect the underlying Strava check used by smart-context-check and harden failure handling/logging so the root cause is visible.
+
+### Metadata
+- Reproducible: unknown
+- Related Files: /data/workspace/scripts/smart-context-check.py
+
+---

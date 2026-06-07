@@ -1056,7 +1056,7 @@
 - Process list reviewed; only expected core services observed (`node src/server.js`, `openclaw`, `openclaw-gateway`, `python3 welly-daemon.py start`)
 - Disk usage normal (`/` 50%, `/data` 55%)
 - Security review passed — all clear
-\n2026-06-05T06:00:15.[REDACTED_CLIENT_ID]: Auto-redacted 6 exposed credentials from files\n\n2026-06-05T06:01:36.[REDACTED_CLIENT_ID]: Auto-redacted 1 exposed credentials from files\n\n2026-06-06T06:00:31.[REDACTED_CLIENT_ID]: Auto-redacted 4 exposed credentials from files\n\n2026-06-06T06:01:04.088929: Auto-redacted 1 exposed credentials from files\n
+\n2026-06-05T06:00:15.[REDACTED_CLIENT_ID]: Auto-redacted 6 exposed credentials from files\n\n2026-06-05T06:01:36.[REDACTED_CLIENT_ID]: Auto-redacted 1 exposed credentials from files\n\n2026-06-06T06:00:31.[REDACTED_CLIENT_ID]: Auto-redacted 4 exposed credentials from files\n\n2026-06-06T06:01:04.[REDACTED_CLIENT_ID]: Auto-redacted 1 exposed credentials from files\n
 ## 2026-06-06 — Nightly Security Review (02:00 America/New_York)
 - Auto-redaction ran first and removed 1 exposed credential from `memory/security-log.md`; exposure was auto-remediated and not escalated per policy
 - Markdown/text/json `sk-` scan in `/data/workspace` found no remaining live secret exposures after redaction; remaining hits were prior redacted security-log notes, one learning-log mention, dependency text, and one Playwright prompt artifact
@@ -1067,4 +1067,18 @@
 - WhatsApp allowlist verified on both `custom-1` and `default`: `+[REDACTED_CLIENT_ID]401` only
 - Process list reviewed; only expected core services observed (`node src/server.js`, `openclaw`, `openclaw-gateway`, `python3 welly-daemon.py start`) plus the review command itself
 - Disk usage normal (`/` 49%, `/data` 55%)
+- Security review passed — all clear
+\n2026-06-07T06:00:09.034914: Auto-redacted 8 exposed credentials from files\n
+## 2026-06-07 — Nightly Security Review (02:00 America/New_York)
+- Auto-redaction ran first and removed 8 exposed credentials (`memory/security-log.md`, `memory/2026-06-06.md`, and `.git/logs/HEAD`); exposure was auto-remediated and not escalated per policy
+- Markdown/text/json `sk-` scan in `/data/workspace` found no remaining live secret exposures after redaction; remaining hits were prior redacted security-log notes, one learning-log mention, dependency text, and one Playwright prompt artifact
+- Focused hardcoded-credential scan across `/data/workspace` found no live hardcoded credentials; remaining matches were documentation examples in `skills/spoticlaw/SKILL.md` and `skills/kalshi/SKILL.md`, not secrets
+- Git review (last 24h): expected commit activity only — `e86f3a2` (`Auto git push 2026-06-06T07:30:10Z`)
+- `/data/.clawdbot/openclaw.json` permissions verified: `600 root:root`
+- Reviewed workspace memory/log paths showed no live env-var secret exposures
+- WhatsApp allowlist verified on both `custom-1` and `default`: `+[REDACTED_CLIENT_ID]401` only, with `dmPolicy=allowlist` and `groupPolicy=allowlist`
+- Process list reviewed; only expected core services observed (`node src/server.js`, `openclaw`, `openclaw-gateway`, `python3 welly-daemon.py start`) plus the review commands themselves
+- Disk usage normal (`/` 47%, `/data` 55%); no storage pressure observed
+- `openclaw security audit --deep`: `0 critical · 0 warn · 1 info` (informational only: top-level WhatsApp group allowlist empty, so non-allowlisted group messages are dropped)
+- `openclaw update status`: update available (`2026.6.1`), treated as maintenance, not an active security issue
 - Security review passed — all clear
