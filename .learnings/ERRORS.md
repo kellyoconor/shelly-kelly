@@ -1220,3 +1220,35 @@ Inspect the underlying Strava check used by smart-context-check and harden failu
 - Related Files: /data/workspace/scripts/smart-context-check.py
 
 ---
+
+## [ERR-20260608-001] alert-retry-processor
+
+**Logged**: 2026-06-08T00:54:00-04:00
+**Priority**: high
+**Status**: pending
+**Area**: infra
+
+### Summary
+Heartbeat alert retry processor failed with a JavaScript syntax error instead of running normally.
+
+### Error
+```
+File "/data/workspace/alert-retry-processor.cjs", line 53
+    * Check for Kelly's recent activity and auto-mark alerts as seen
+                     ^
+SyntaxError: unterminated string literal (detected at line 53)
+```
+
+### Context
+- Command/operation attempted: `python3 /data/workspace/alert-retry-processor.cjs heartbeat`
+- Trigger: scheduled heartbeat reminder after WhatsApp gateway connected
+- Environment: OpenClaw main session on host Linux
+
+### Suggested Fix
+Inspect `/data/workspace/alert-retry-processor.cjs` around line 53 for malformed quoting or a broken comment/string; use the correct runtime if the file is intended for Node instead of Python.
+
+### Metadata
+- Reproducible: yes
+- Related Files: /data/workspace/alert-retry-processor.cjs
+
+---
