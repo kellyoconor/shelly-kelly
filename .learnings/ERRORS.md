@@ -1252,3 +1252,31 @@ Inspect `/data/workspace/alert-retry-processor.cjs` around line 53 for malformed
 - Related Files: /data/workspace/alert-retry-processor.cjs
 
 ---
+## [ERR-20260608-001] openclaw-logs-cli
+
+**Logged**: 2026-06-08T12:27:00Z
+**Priority**: medium
+**Status**: pending
+**Area**: infra
+
+### Summary
+Attempted to use unsupported `--lines` flag with `openclaw logs`
+
+### Error
+```
+error: unknown option '--lines'
+```
+
+### Context
+- Command attempted: `openclaw logs --lines 120`
+- Goal: inspect recent runtime logs while diagnosing a Railway downtime alert
+- Environment: OpenClaw v2026.3.8 on Linux
+
+### Suggested Fix
+Use `openclaw logs --help` first when log CLI flags are uncertain; avoid assuming common flag names.
+
+### Metadata
+- Reproducible: yes
+- Related Files: /data/workspace/TOOLS.md
+
+---
