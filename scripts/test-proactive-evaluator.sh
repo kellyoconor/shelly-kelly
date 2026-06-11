@@ -6,6 +6,9 @@ TMPDIR=$(mktemp -d)
 cleanup() {
   rm -rf "$TMPDIR"
 }
+export PROACTIVE_LOG_FILE="$TMPDIR/proactive-log.jsonl"
+export PROACTIVE_STATE_FILE="$TMPDIR/proactive-state.json"
+: > "$PROACTIVE_LOG_FILE"
 trap cleanup EXIT INT TERM
 
 pass() { echo "PASS: $1"; }

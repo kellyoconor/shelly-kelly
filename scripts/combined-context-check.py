@@ -15,8 +15,15 @@ import sys
 from contextlib import contextmanager
 from datetime import datetime, timedelta, timezone
 
-from message_quality_gate import validate_proactive_message
-from proactive_presence import build_snapshot, evaluate_snapshot, log_decision
+try:
+    from message_quality_gate import validate_proactive_message
+except ModuleNotFoundError:  # pragma: no cover - import path differs in module tests
+    from scripts.message_quality_gate import validate_proactive_message
+
+try:
+    from proactive_presence import build_snapshot, evaluate_snapshot, log_decision
+except ModuleNotFoundError:  # pragma: no cover - import path differs in module tests
+    from scripts.proactive_presence import build_snapshot, evaluate_snapshot, log_decision
 
 LOCK_PATH = "/tmp/combined-context-check.lock"
 FULL_CONTEXT_TIMEOUT = 8
@@ -365,9 +372,67 @@ def build_health_message(health_msg, running_context):
     return ''
 
 
-def build_proactive_candidates(external_events, significance_result, conversation_check):
+def parse_kelly_state_sections(kelly_state_text):
+    sections = {
+        'physical': '',
+        'schedule': '',
+        'focus': '',
+        'tone': '',
+        'open_loops': '',
+        'avoid': '',
+    }
+    for line in (kelly_state_text or '').splitlines():
+        if ': ' not in line:
+            continue
+        key, value = line.split(': ', 1)
+        normalized = key.strip().lower().replace(' ', '_')
+        if normalized in sections:
+            sections[normalized] = value.strip()
+    return sections
+
+
+def build_followup_message(open_loops_text, tone_text):
+    if not open_loops_text:
+        return ''
+    loop_text = open_loops_text.replace('Open loops: ', '').strip()
+    if not loop_text:
+        return ''
+    tone_clause = ''
+    if tone_text:
+        tone_clause = f" {tone_text}"
+    return (
+        f"You still have an open loop around {loop_text}.{tone_clause} "
+        "Feels like this might be a good moment to close the gap instead of letting it keep humming in the background. Want me to help you force a next step?"
+    )
+
+
+def build_relational_silence_message(state_sections):
+    tone = state_sections.get('tone', '')
+    physical = state_sections.get('physical', '')
+    focus = state_sections.get('focus', '')
+    if not tone and not physical:
+        return ''
+    return (
+        f"Quick read: {physical} {tone} {focus}".strip() +
+        " I don't think this needs a big intervention — just a useful nudge to keep the day from getting away from you. Want me to turn that into a low-lift next step?"
+    )
+
+
+def build_project_assist_message(state_sections):
+    focus = state_sections.get('focus', '')
+    if 'Active project energy:' not in focus:
+        return ''
+    project = focus.replace('Active project energy:', '').strip()
+    return (
+        f"{project} still looks live right now. That usually means the hard part is not ideas, it's choosing the next clean move. "
+        "If you want, I can turn the current project energy into a tiny concrete next-step list."
+    )
+
+
+def build_proactive_candidates(external_events, significance_result, conversation_check, kelly_state_text, hours_since_last_send=None):
     """Build ordered proactive candidates for the evaluator."""
     candidates = []
+    state_sections = parse_kelly_state_sections(kelly_state_text)
 
     if 'significance_message' in significance_result:
         significance_message = significance_result['significance_message']
@@ -378,6 +443,7 @@ def build_proactive_candidates(external_events, significance_result, conversatio
                 'message': significance_message,
                 'why_now': 'Recent memory/context significance produced a message with actual substance.',
                 'confidence': 0.86,
+                'min_gap_hours': 1,
             })
 
     if 'run_today' in external_events and not conversation_check.get('running', False):
@@ -389,6 +455,7 @@ def build_proactive_candidates(external_events, significance_result, conversatio
                 'message': run_message,
                 'why_now': 'A recent run creates a clear momentum/protection angle right now.',
                 'confidence': 0.8,
+                'min_gap_hours': 4,
             })
 
     if 'health' in external_events and not conversation_check.get('health_data', False):
@@ -403,7 +470,44 @@ def build_proactive_candidates(external_events, significance_result, conversatio
                 'message': health_message,
                 'why_now': 'Body signal + recent rhythm created a useful synthesis rather than a metric dump.',
                 'confidence': 0.78,
+                'min_gap_hours': 4,
             })
+
+    followup_message = build_followup_message(
+        state_sections.get('open_loops', ''),
+        state_sections.get('tone', ''),
+    )
+    if followup_message:
+        candidates.append({
+            'source': 'followup',
+            'message_mode': 'emotional_follow_up',
+            'message': followup_message,
+            'why_now': 'An open loop is still live and deserves proactive follow-through.',
+            'confidence': 0.84,
+            'min_gap_hours': 1,
+        })
+
+    project_assist = build_project_assist_message(state_sections)
+    if project_assist and (hours_since_last_send is not None and hours_since_last_send >= 8):
+        candidates.append({
+            'source': 'assist',
+            'message_mode': 'practical_assist',
+            'message': project_assist,
+            'why_now': 'Active project energy can be turned into immediate practical help.',
+            'confidence': 0.72,
+            'min_gap_hours': 8,
+        })
+
+    relational_silence = build_relational_silence_message(state_sections)
+    if relational_silence and (hours_since_last_send is not None and hours_since_last_send >= 12):
+        candidates.append({
+            'source': 'pattern',
+            'message_mode': 'pattern_notice',
+            'message': relational_silence,
+            'why_now': 'Enough time has passed that a grounded read with substance is appropriate.',
+            'confidence': 0.68,
+            'min_gap_hours': 12,
+        })
 
     return candidates
 
@@ -529,7 +633,21 @@ def get_combined_context():
         log_decision(snapshot, decision)
         return ""
 
-    candidates = build_proactive_candidates(external_events, significance_result, conversation_check)
+    snapshot_seed = build_snapshot(
+        external_events=external_events,
+        significance_result=significance_result,
+        conversation_check=conversation_check,
+        kelly_state_text=kelly_state_text,
+        recent_activity=recent_activity,
+        candidates=[],
+    )
+    candidates = build_proactive_candidates(
+        external_events,
+        significance_result,
+        conversation_check,
+        kelly_state_text,
+        snapshot_seed.get('hours_since_last_meaningful_send'),
+    )
     snapshot = build_snapshot(
         external_events=external_events,
         significance_result=significance_result,

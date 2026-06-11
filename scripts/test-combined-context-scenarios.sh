@@ -6,6 +6,9 @@ TMPDIR=$(mktemp -d)
 cleanup() {
   rm -rf "$TMPDIR"
 }
+export PROACTIVE_LOG_FILE="$TMPDIR/proactive-log.jsonl"
+export PROACTIVE_STATE_FILE="$TMPDIR/proactive-state.json"
+: > "$PROACTIVE_LOG_FILE"
 trap cleanup EXIT INT TERM
 
 pass() { echo "PASS: $1"; }
@@ -22,8 +25,8 @@ printf '{"health": "⚖️ 73%% ready 😴 90%% sleep", "running": "⏳ Yesterda
 printf '{"health": "💪 91%% ready", "running": "⏳ Earlier this week: 2026-05-23, 5.00mi"}' > "$TMPDIR/external-health-strong.json"
 printf '{"run_today": "✅ Ran today: 7.03mi at 8:42/mi"}' > "$TMPDIR/external-run.json"
 
+: > "$PROACTIVE_LOG_FILE"
 rm -f /data/workspace/memory/heartbeat-state.json
-
 COMBINED_CONTEXT_EXTERNAL_FIXTURE="$TMPDIR/external-error.json" \
 COMBINED_CONTEXT_SIGNIFICANCE_FIXTURE="$TMPDIR/significance-none.json" \
 COMBINED_CONTEXT_RECENT_STATE_JSON='{"recent_activity": false, "negative_sentiment": false}' \
@@ -32,6 +35,7 @@ python3 scripts/combined-context-check.py > "$TMPDIR/out1.txt"
 [ ! -s "$TMPDIR/out1.txt" ] || fail "combined context should stay quiet with no meaningful signal"
 pass "combined context stays quiet with no meaningful signal"
 
+: > "$PROACTIVE_LOG_FILE"
 rm -f /data/workspace/memory/heartbeat-state.json
 COMBINED_CONTEXT_EXTERNAL_FIXTURE="$TMPDIR/external-error.json" \
 COMBINED_CONTEXT_SIGNIFICANCE_FIXTURE="$TMPDIR/significance-bad.json" \
@@ -41,6 +45,7 @@ python3 scripts/combined-context-check.py > "$TMPDIR/out2.txt"
 [ ! -s "$TMPDIR/out2.txt" ] || fail "bad significance message should be blocked"
 pass "bad significance message blocked"
 
+: > "$PROACTIVE_LOG_FILE"
 rm -f /data/workspace/memory/heartbeat-state.json
 COMBINED_CONTEXT_EXTERNAL_FIXTURE="$TMPDIR/external-error.json" \
 COMBINED_CONTEXT_SIGNIFICANCE_FIXTURE="$TMPDIR/significance-good.json" \
@@ -50,6 +55,7 @@ python3 scripts/combined-context-check.py > "$TMPDIR/out3.txt"
 grep -q 'protect momentum instead of overthinking the day' "$TMPDIR/out3.txt" || fail "good significance message should pass"
 pass "good significance message allowed"
 
+: > "$PROACTIVE_LOG_FILE"
 rm -f /data/workspace/memory/heartbeat-state.json
 COMBINED_CONTEXT_EXTERNAL_FIXTURE="$TMPDIR/external-health-mixed.json" \
 COMBINED_CONTEXT_SIGNIFICANCE_FIXTURE="$TMPDIR/significance-none.json" \
@@ -59,6 +65,7 @@ python3 scripts/combined-context-check.py > "$TMPDIR/out4.txt"
 grep -q 'protect-your-energy day than a prove-something day' "$TMPDIR/out4.txt" || fail "mixed health synthesis should pass"
 pass "mixed health synthesis allowed"
 
+: > "$PROACTIVE_LOG_FILE"
 rm -f /data/workspace/memory/heartbeat-state.json
 COMBINED_CONTEXT_EXTERNAL_FIXTURE="$TMPDIR/external-health-strong.json" \
 COMBINED_CONTEXT_SIGNIFICANCE_FIXTURE="$TMPDIR/significance-none.json" \
@@ -68,6 +75,7 @@ python3 scripts/combined-context-check.py > "$TMPDIR/out5.txt"
 grep -q 'structure will probably work better than hesitation' "$TMPDIR/out5.txt" || fail "strong health synthesis should pass"
 pass "strong health synthesis allowed"
 
+: > "$PROACTIVE_LOG_FILE"
 rm -f /data/workspace/memory/heartbeat-state.json
 COMBINED_CONTEXT_EXTERNAL_FIXTURE="$TMPDIR/external-run.json" \
 COMBINED_CONTEXT_SIGNIFICANCE_FIXTURE="$TMPDIR/significance-none.json" \
@@ -77,6 +85,7 @@ python3 scripts/combined-context-check.py > "$TMPDIR/out6.txt"
 grep -q 'protect that instead of negotiating with it' "$TMPDIR/out6.txt" || fail "run synthesis should pass"
 pass "run synthesis allowed"
 
+: > "$PROACTIVE_LOG_FILE"
 rm -f /data/workspace/memory/heartbeat-state.json
 COMBINED_CONTEXT_EXTERNAL_FIXTURE="$TMPDIR/external-run.json" \
 COMBINED_CONTEXT_SIGNIFICANCE_FIXTURE="$TMPDIR/significance-none.json" \

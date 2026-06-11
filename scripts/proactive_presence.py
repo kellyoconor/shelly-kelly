@@ -10,6 +10,7 @@ This is the small decision layer for Shelly's Telegram-first proactive behavior:
 
 import json
 import os
+import re
 from datetime import datetime, timedelta
 from typing import Dict, List, Optional, Tuple
 
@@ -18,8 +19,9 @@ try:
 except ModuleNotFoundError:  # pragma: no cover - import path differs in module tests
     from scripts.message_quality_gate import validate_proactive_message
 
-PROACTIVE_STATE_FILE = "/data/workspace/memory/proactive_state.json"
-PROACTIVE_LOG_FILE = "/data/workspace/memory/proactive_message_log.jsonl"
+PROACTIVE_STATE_FILE = os.environ.get('PROACTIVE_STATE_FILE', "/data/workspace/memory/proactive_state.json")
+PROACTIVE_LOG_FILE = os.environ.get('PROACTIVE_LOG_FILE', "/data/workspace/memory/proactive_message_log.jsonl")
+PROACTIVE_MIN_GAP_HOURS = float(os.environ.get('PROACTIVE_MIN_GAP_HOURS', '3'))
 
 
 def _ensure_parent(path: str) -> None:
@@ -85,6 +87,11 @@ def last_meaningful_send_hours(recent_log: List[Dict[str, object]]) -> Optional[
     return round((datetime.now() - when).total_seconds() / 3600, 2)
 
 
+def summarize_recent_send_modes(recent_log: List[Dict[str, object]]) -> List[str]:
+    sent = [item.get('message_mode') for item in recent_log if item.get('decision') == 'send' and item.get('message_mode')]
+    return sent[-5:]
+
+
 def build_snapshot(
     *,
     external_events: Dict[str, object],
@@ -107,6 +114,7 @@ def build_snapshot(
         'candidate_messages': candidates,
         'recent_log_count_72h': len(recent_log),
         'hours_since_last_meaningful_send': last_meaningful_send_hours(recent_log),
+        'recent_send_modes': summarize_recent_send_modes(recent_log),
     }
     _ensure_parent(PROACTIVE_STATE_FILE)
     with open(PROACTIVE_STATE_FILE, 'w') as f:
@@ -125,6 +133,30 @@ def _message_mode_from_source(source: str) -> str:
     return mapping.get(source, 'pattern_notice')
 
 
+def _normalize_words(text: str) -> List[str]:
+    return [token for token in re.split(r'[^a-z0-9]+', (text or '').lower()) if token]
+
+
+def _looks_like_repeat(candidate: Dict[str, object], recent_log: List[Dict[str, object]]) -> bool:
+    message = (candidate.get('message') or '').strip().lower()
+    if not message:
+        return False
+    message_words = set(_normalize_words(message))
+    if not message_words:
+        return False
+    for item in recent_log[-5:]:
+        if item.get('decision') != 'send':
+            continue
+        prior_message = (item.get('message') or '').strip().lower()
+        prior_words = set(_normalize_words(prior_message))
+        if not prior_words:
+            continue
+        overlap = len(message_words & prior_words) / max(1, len(message_words | prior_words))
+        if overlap >= 0.6 and item.get('message_mode') == candidate.get('message_mode'):
+            return True
+    return False
+
+
 def evaluate_snapshot(snapshot: Dict[str, object]) -> Dict[str, object]:
     recent_activity = snapshot.get('recent_activity', {}) or {}
     if recent_activity.get('recent_activity'):
@@ -138,7 +170,9 @@ def evaluate_snapshot(snapshot: Dict[str, object]) -> Dict[str, object]:
             'quality_gate': 'not-run',
         }
 
-    if recent_activity.get('negative_sentiment'):
+    candidates = snapshot.get('candidate_messages', []) or []
+     
+    if recent_activity.get('negative_sentiment') and not any(c.get('source') in {'followup', 'significance'} for c in candidates):
         return {
             'decision': 'suppress',
             'reason': 'recent-negative-sentiment',
@@ -149,16 +183,24 @@ def evaluate_snapshot(snapshot: Dict[str, object]) -> Dict[str, object]:
             'quality_gate': 'not-run',
         }
 
-    candidates = snapshot.get('candidate_messages', []) or []
+    recent_log = load_recent_proactive_log()
+    hours_since_last_send = snapshot.get('hours_since_last_meaningful_send')
     for candidate in candidates:
         message = (candidate.get('message') or '').strip()
         if not message:
             continue
+
+        source = candidate.get('source', 'pattern')
+        min_gap = float(candidate.get('min_gap_hours', PROACTIVE_MIN_GAP_HOURS))
+        if hours_since_last_send is not None and hours_since_last_send < min_gap and source not in {'followup', 'significance'}:
+            continue
+        if _looks_like_repeat(candidate, recent_log):
+            continue
+
         allowed, reason = validate_proactive_message(message)
         if not allowed:
             continue
 
-        source = candidate.get('source', 'pattern')
         return {
             'decision': 'send',
             'reason': source,
