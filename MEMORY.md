@@ -32,6 +32,7 @@
 - Telegram is now Kelly's primary lane for everything.
 - WhatsApp stays available as backup, not default.
 - Morning briefings, proactive updates, and other outbound nudges should target Telegram first.
+- Success metric: Kelly should receive useful messages from Shelly in Telegram **without prompting**; proactive help is the goal, not just reactive replies.
 
 ### Sports
 - Sports matter a lot to Kelly; treat game/score questions as important, especially these teams in this rough order: Villanova basketball #1, then Liverpool, then Eagles, then Phillies, then Flyers

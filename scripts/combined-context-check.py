@@ -16,6 +16,7 @@ from contextlib import contextmanager
 from datetime import datetime, timedelta, timezone
 
 from message_quality_gate import validate_proactive_message
+from proactive_presence import build_snapshot, evaluate_snapshot, log_decision
 
 LOCK_PATH = "/tmp/combined-context-check.lock"
 FULL_CONTEXT_TIMEOUT = 8
@@ -364,31 +365,47 @@ def build_health_message(health_msg, running_context):
     return ''
 
 
-def merge_contexts(external_events, significance_result):
-    """Prioritize non-literal, useful proactive messages — otherwise stay quiet."""
-    conversation_check = check_recent_conversation()
+def build_proactive_candidates(external_events, significance_result, conversation_check):
+    """Build ordered proactive candidates for the evaluator."""
+    candidates = []
 
     if 'significance_message' in significance_result:
         significance_message = significance_result['significance_message']
-        if passes_quality_gate(significance_message):
-            return significance_message
+        if significance_message and significance_message.strip():
+            candidates.append({
+                'source': 'significance',
+                'message_mode': 'emotional_follow_up',
+                'message': significance_message,
+                'why_now': 'Recent memory/context significance produced a message with actual substance.',
+                'confidence': 0.86,
+            })
 
     if 'run_today' in external_events and not conversation_check.get('running', False):
         run_message = build_run_message(external_events['run_today'])
-        if passes_quality_gate(run_message):
-            record_run_checkin()
-            return run_message
+        if run_message:
+            candidates.append({
+                'source': 'run',
+                'message_mode': 'body_training_read',
+                'message': run_message,
+                'why_now': 'A recent run creates a clear momentum/protection angle right now.',
+                'confidence': 0.8,
+            })
 
     if 'health' in external_events and not conversation_check.get('health_data', False):
         health_message = build_health_message(
             external_events['health'],
             external_events.get('running', ''),
         )
-        if passes_quality_gate(health_message):
-            record_discussion_topic('health_data')
-            return health_message
+        if health_message:
+            candidates.append({
+                'source': 'health',
+                'message_mode': 'body_training_read',
+                'message': health_message,
+                'why_now': 'Body signal + recent rhythm created a useful synthesis rather than a metric dump.',
+                'confidence': 0.78,
+            })
 
-    return ''
+    return candidates
 
 
 def check_recent_kelly_messages():
@@ -476,44 +493,67 @@ def record_heartbeat_message():
         pass
 
 
+def get_kelly_state_compact():
+    """Load compact Kelly state so the proactive snapshot uses the same active context layer."""
+    result = run_command(
+        ['python3', '/data/workspace/scripts/kelly-state-check.py', 'compact'],
+        cwd='/data/workspace',
+        timeout=6,
+    )
+    if result is None or result.returncode != 0:
+        return ''
+    return result.stdout.strip()
+
+
 def get_combined_context():
-    """Run both checks and return the most appropriate message"""
+    """Run both checks, evaluate proactive candidates, and return the best message if any."""
     if check_last_heartbeat_time():
         return ""
 
-    kelly_state = check_recent_kelly_messages()
-    if kelly_state.get("recent_activity", False):
-        return ""
-    if kelly_state.get("negative_sentiment", False):
-        return ""
-
+    recent_activity = check_recent_kelly_messages()
     external_events = run_full_context_check()
     significance_result = run_significance_check()
+    conversation_check = check_recent_conversation()
+    kelly_state_text = get_kelly_state_compact()
 
     if "error" in external_events and "error" in significance_result:
+        snapshot = build_snapshot(
+            external_events=external_events,
+            significance_result=significance_result,
+            conversation_check=conversation_check,
+            kelly_state_text=kelly_state_text,
+            recent_activity=recent_activity,
+            candidates=[],
+        )
+        decision = evaluate_snapshot(snapshot)
+        log_decision(snapshot, decision)
         return ""
 
-    if "error" in external_events:
-        if 'significance_message' in significance_result:
-            result = significance_result['significance_message']
-            if passes_quality_gate(result):
-                record_heartbeat_message()
-                return result
+    candidates = build_proactive_candidates(external_events, significance_result, conversation_check)
+    snapshot = build_snapshot(
+        external_events=external_events,
+        significance_result=significance_result,
+        conversation_check=conversation_check,
+        kelly_state_text=kelly_state_text,
+        recent_activity=recent_activity,
+        candidates=candidates,
+    )
+    decision = evaluate_snapshot(snapshot)
+    log_decision(snapshot, decision)
+
+    if decision.get('decision') != 'send':
         return ""
 
-    if "error" in significance_result:
-        conversation_check = check_recent_conversation()
-        if 'run_today' in external_events and not conversation_check.get('running', False):
-            result = build_run_message(external_events['run_today'])
-            if passes_quality_gate(result):
-                record_run_checkin()
-                record_heartbeat_message()
-                return result
+    result = (decision.get('message') or '').strip()
+    if not result:
         return ""
 
-    result = merge_contexts(external_events, significance_result)
-    if result and result.strip():
-        record_heartbeat_message()
+    if decision.get('reason') == 'run':
+        record_run_checkin()
+    if decision.get('reason') == 'health':
+        record_discussion_topic('health_data')
+
+    record_heartbeat_message()
     return result
 
 

@@ -6,6 +6,7 @@
 1. Send to Telegram: channel: telegram, target: [REDACTED_CLIENT_ID]02
 2. AND respond in UI chat with same message
 3. WhatsApp is backup only unless Telegram delivery fails or Kelly explicitly asks for both
+4. Measure of success: Kelly gets genuinely useful messages from Shelly in Telegram **without prompting**
 Never use "Kelly" as target.
 
 🔇 **Noise suppression:** If the WhatsApp gateway is connected for two heartbeat checks in a row, do **not** send another "gateway connected" update. Also do **not** surface every tiny auto-recovered disconnect/reconnect pair. Stay quiet unless the gateway stays down, multiple blips accumulate into a real flap, message delivery is failing, or something else meaningfully changed.
@@ -41,6 +42,14 @@ python3 /data/workspace/scripts/combined-context-check.py
   - materially useful
   - more than a generic question or remembered fact
 - Personal connection only counts if the message contains actual noticing, synthesis, or help.
+- Strong preference: send fewer, better proactive messages in Telegram rather than filler, infra chatter, or weak check-ins.
+- **Enforcement checklist before send:**
+  1. What am I noticing?
+  2. Why now?
+  3. Why is this worth interrupting Kelly for?
+  4. Does the message contain at least two of: observation, interpretation, action?
+  5. Is it better than silence?
+- If any answer is weak, do not send.
 - If it fails that bar, stay quiet and continue to other checks.
 
 **Never send heartbeat messages like:**
@@ -48,6 +57,8 @@ python3 /data/workspace/scripts/combined-context-check.py
 - generic "how are you" or "how was your day" check-ins
 - obvious activity questions the system can answer itself
 - repetitive "saw your run" loops unless there is a genuinely new angle
+- cron / cleanup / gateway / transport housekeeping
+- message-shaped objects with no clear point
 
 **If no significant events detected:**
 - Continue to system checks below
