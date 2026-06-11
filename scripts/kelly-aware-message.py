@@ -10,7 +10,7 @@ import sys
 from kelly_message_pipeline import prepare_message
 
 
-def send_kelly_aware_message(message, target="+[REDACTED_CLIENT_ID]401", channel="whatsapp", accountId="custom-1"):
+def send_kelly_aware_message(message, target="[REDACTED_CLIENT_ID]02", channel="telegram", accountId=None):
     """Send message to Kelly with shared state update + quality validation first."""
 
     result = prepare_message(message_text=message, proactive=True)
@@ -21,9 +21,10 @@ def send_kelly_aware_message(message, target="+[REDACTED_CLIENT_ID]401", channel
         'openclaw', 'message', 'send',
         '--channel', channel,
         '--to', target,
-        '--account-id', accountId,
         '--message', message
     ]
+    if accountId:
+        cmd.extend(['--account-id', accountId])
 
     print(f"📤 Sending message to {target}...")
 
@@ -43,9 +44,9 @@ def main():
         return 1
 
     message = sys.argv[1]
-    target = sys.argv[2] if len(sys.argv) > 2 else "+[REDACTED_CLIENT_ID]401"
-    channel = sys.argv[3] if len(sys.argv) > 3 else "whatsapp"
-    accountId = sys.argv[4] if len(sys.argv) > 4 else "custom-1"
+    target = sys.argv[2] if len(sys.argv) > 2 else "[REDACTED_CLIENT_ID]02"
+    channel = sys.argv[3] if len(sys.argv) > 3 else "telegram"
+    accountId = sys.argv[4] if len(sys.argv) > 4 else None
 
     success = send_kelly_aware_message(message, target, channel, accountId)
     return 0 if success else 1

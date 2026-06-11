@@ -18,9 +18,8 @@ python3 /data/workspace/scripts/kelly_message_pipeline.py prepare "$MESSAGE" >/d
 
 echo "📤 [$(date)] Sending proactive message to Kelly..."
 openclaw message send \
-    --channel whatsapp \
-    --to "+13018302401" \
-    --account-id custom-1 \
+    --channel telegram \
+    --to "8619914002" \
     --message "$MESSAGE" \
     "$@"
 

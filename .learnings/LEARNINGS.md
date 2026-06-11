@@ -177,3 +177,48 @@ Default proactive behavior to noticing + synthesis + useful suggestion. Retire c
 - Last-Seen: 2026-05-26
 
 ---
+## [LRN-20260610-001] correction
+
+**Logged**: 2026-06-10T10:55:00Z
+**Priority**: high
+**Status**: pending
+**Area**: docs
+
+### Summary
+When using smart-context-check for a morning message, reference the latest run status directly instead of falling back to yesterday's run.
+
+### Details
+Kelly corrected me after I said she ran yesterday when the current context check already showed she had run today. For activity-aware replies, I need to use the freshest context output and avoid stale summaries that sound like I half-checked.
+
+### Suggested Action
+Before sending activity-related replies, explicitly ground the message in the latest smart-context-check result and prefer today's activity over yesterday's if both are available.
+
+### Metadata
+- Source: user_feedback
+- Related Files: /data/workspace/AGENTS.md
+- Tags: correction, context-check, activity-awareness
+
+---
+
+## [LRN-20260611-001] correction
+
+**Logged**: 2026-06-11T05:05:58.627248+00:00
+**Priority**: high
+**Status**: pending
+**Area**: docs
+
+### Summary
+Do not call Kelly "babe" or use pet names unless she explicitly initiates that tone.
+
+### Details
+During late-night chat, I jokingly started a sentence with "babe" and Kelly immediately reacted negatively ("Ew ew. Ew. Ew."). This matches the standing tone preference in MEMORY.md: pet names read cringe/forced unless she initiates them first. Even playful self-correction in the same message is still a miss.
+
+### Suggested Action
+Keep warmth casual without pet names. If tone gets loose/tired late at night, default simpler rather than flirtier.
+
+### Metadata
+- Source: user_feedback
+- Related Files: /data/workspace/MEMORY.md, /data/workspace/SOUL.md
+- Tags: tone, correction, pet-names, kelly-preferences
+
+---

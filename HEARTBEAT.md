@@ -3,9 +3,10 @@
 **ROLE:** Urgent alerts & system monitoring only. **Morning briefing (6:30 AM) handles weather/health/personal check-ins.**
 
 📱 **Proactive Message Delivery:** For all proactive heartbeat messages:
-1. Send to WhatsApp: accountId: custom-1, target: +[REDACTED_CLIENT_ID]401
+1. Send to Telegram: channel: telegram, target: [REDACTED_CLIENT_ID]02
 2. AND respond in UI chat with same message
-Never use 'default' accountId or "Kelly" as target.
+3. WhatsApp is backup only unless Telegram delivery fails or Kelly explicitly asks for both
+Never use "Kelly" as target.
 
 🔇 **Noise suppression:** If the WhatsApp gateway is connected for two heartbeat checks in a row, do **not** send another "gateway connected" update. Also do **not** surface every tiny auto-recovered disconnect/reconnect pair. Stay quiet unless the gateway stays down, multiple blips accumulate into a real flap, message delivery is failing, or something else meaningfully changed.
 
@@ -101,13 +102,14 @@ python3 /data/workspace/skills/agentmail/scripts/agentmail_cli.py threads --limi
 
 ## 🚨 MANDATORY KELLY STATE PIPELINE (AUTOMATIC ENFORCEMENT)
 
-**PIPELINE-LEVEL ENFORCEMENT:** Kelly State update is now **automatic** before any message to Kelly (+[REDACTED_CLIENT_ID]401)
+**PIPELINE-LEVEL ENFORCEMENT:** Kelly State update is now **automatic** before any message to Kelly on Telegram (`[REDACTED_CLIENT_ID]02`)
 
 **📱 PROACTIVE MESSAGE DELIVERY:**
 1. **Auto-update Kelly State:** `exec: python3 /data/workspace/scripts/update-kelly-state.py`
-2. **Send to WhatsApp:** `message: accountId: custom-1, target: +[REDACTED_CLIENT_ID]401` 
+2. **Send to Telegram:** `message: channel: telegram, target: [REDACTED_CLIENT_ID]02`
 3. **AND respond in UI:** Same message content
-Never use 'default' accountId or "Kelly" as target.
+4. **Use WhatsApp only as backup** if Telegram delivery fails or Kelly explicitly asks for it
+Never use "Kelly" as target.
 
 **FRESHNESS RULES:**
 - **Proactive messages:** Always refresh Kelly State (no exceptions)
