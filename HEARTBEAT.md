@@ -11,6 +11,8 @@ Never use "Kelly" as target.
 
 🔇 **Noise suppression:** If the WhatsApp gateway is connected for two heartbeat checks in a row, do **not** send another "gateway connected" update. Also do **not** surface every tiny auto-recovered disconnect/reconnect pair. Stay quiet unless the gateway stays down, multiple blips accumulate into a real flap, message delivery is failing, or something else meaningfully changed.
 
+🚫 **User-facing reminder suppression:** If a scheduled reminder contains only the default heartbeat prompt and/or a routine transport status like "WhatsApp gateway connected," do **not** turn that into a chat update for Kelly. Run the heartbeat checks internally, but if there is nothing meaningful to surface, stay silent. Do **not** paraphrase the silence into "quick heartbeat pass" or similar status chatter.
+
 ## 🚨 CRITICAL ALERT SYSTEM (EVERY HEARTBEAT - HIGHEST PRIORITY)
 **Always check first - never skip:**
 ```bash
@@ -62,9 +64,22 @@ python3 /data/workspace/scripts/combined-context-check.py
 
 **If no significant events detected:**
 - Continue to system checks below
-- **All hours**: Only reach out if urgent alerts or significant issues
+- **All hours**: Only reach out if urgent alerts, strong body/context signals, or genuinely useful follow-through
 - Default: HEARTBEAT_OK unless something needs attention
 - **No special morning behavior** - heartbeat operates consistently all day
+- **No blanket silence rule:** do not suppress all proactive messages for half a day just because one message was sent earlier. Use candidate-specific spacing instead.
+
+**What *should* break through in Telegram:**
+- a workout/run/ride signal with an actual read, not just "saw your workout"
+- a clear recovery/readiness pattern that changes how today should feel or be handled
+- an important open loop that deserves follow-through
+- an actually useful practical assist tied to what Kelly is actively doing
+
+**What should *not* break through:**
+- heartbeat ran
+- system is connected
+- transport recovered
+- generic check-ins with no point
 
 ## 📝 SESSION SUMMARY (AUTOMATIC - EVERY HEARTBEAT)
 **Always run after context checks - auto-log conversation:**

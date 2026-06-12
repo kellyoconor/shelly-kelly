@@ -563,24 +563,13 @@ def check_recent_kelly_messages():
 
 
 def check_last_heartbeat_time():
-    """Check if we sent a heartbeat message in the last 6 hours"""
-    try:
-        heartbeat_state_file = "/data/workspace/memory/heartbeat-state.json"
-        try:
-            with open(heartbeat_state_file, 'r') as f:
-                state = json.load(f)
-        except (FileNotFoundError, json.JSONDecodeError):
-            return False
+    """Legacy hook retained for compatibility.
 
-        last_heartbeat = state.get('last_heartbeat_message_time')
-        if not last_heartbeat:
-            return False
-
-        last_time = datetime.fromisoformat(last_heartbeat)
-        hours_since = (datetime.now() - last_time).total_seconds() / 3600
-        return hours_since < 6
-    except Exception:
-        return False
+    Blanket heartbeat cooldowns are intentionally disabled here.
+    Proactive spacing is now enforced per-candidate inside proactive_presence.py
+    so strong signals can still break through without reopening update-channel noise.
+    """
+    return False
 
 
 def record_heartbeat_message():
