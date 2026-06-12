@@ -222,3 +222,26 @@ Keep warmth casual without pet names. If tone gets loose/tired late at night, de
 - Tags: tone, correction, pet-names, kelly-preferences
 
 ---
+
+## [LRN-20260611-001] correction
+
+**Logged**: 2026-06-11T10:09:00Z
+**Priority**: high
+**Status**: pending
+**Area**: docs
+
+### Summary
+Do not relay routine \"WhatsApp gateway connected\" heartbeat reminders to Kelly; they feel bot-like and add noise.
+
+### Details
+Kelly pushed back on a forwarded heartbeat-style message about the WhatsApp gateway being connected and said this is what makes the system feel bot-like. Internal operational confirmations should stay internal unless there is a meaningful problem, persistent outage, or delivery failure.
+
+### Suggested Action
+Keep routine gateway-connected notices silent. Only surface messaging status when there is a real issue, meaningful change, or user-facing impact.
+
+### Metadata
+- Source: user_feedback
+- Related Files: /data/workspace/HEARTBEAT.md, /data/workspace/MEMORY.md
+- Tags: heartbeat, whatsapp, noise, tone
+
+---

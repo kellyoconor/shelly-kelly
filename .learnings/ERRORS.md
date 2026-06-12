@@ -1280,3 +1280,91 @@ Use `openclaw logs --help` first when log CLI flags are uncertain; avoid assumin
 - Related Files: /data/workspace/TOOLS.md
 
 ---
+
+## [ERR-20260611-001] git_commit_identity_missing
+
+**Logged**: 2026-06-11T11:53:00Z
+**Priority**: medium
+**Status**: pending
+**Area**: config
+
+### Summary
+Git commit in /openclaw failed because user.name/user.email were not configured in this environment.
+
+### Error
+```
+Author identity unknown
+fatal: unable to auto-detect email address
+```
+
+### Context
+- Command attempted: git commit -m "Suppress WhatsApp gateway status reminders"
+- Repo: /openclaw
+- Fix: set repo-local git user.name and user.email before retrying
+
+### Suggested Fix
+Configure repo-local git identity for automated commits in this environment.
+
+### Metadata
+- Reproducible: yes
+- Related Files: /openclaw/.git/config
+
+---
+
+## [ERR-20260611-003] openclaw_cron_config_invalid
+
+**Logged**: 2026-06-12T03:02:00Z
+**Priority**: high
+**Status**: pending
+**Area**: config
+
+### Summary
+OpenClaw cron job creation failed because local CLI config referenced a missing plugin manifest at /openclaw/extensions/openclaw.plugin.json.
+
+### Error
+```
+Invalid config at /data/.clawdbot/openclaw.json
+- plugins: plugin: plugin manifest not found: /openclaw/extensions/openclaw.plugin.json
+```
+
+### Context
+- Command attempted: openclaw cron add --json ...
+- Goal: create 4-day follow-up reminder/check-in
+- User explicitly wants reminder scheduling to work reliably
+
+### Suggested Fix
+Repair /data/.clawdbot/openclaw.json plugin path(s) or run openclaw doctor --fix, then retry cron creation.
+
+### Metadata
+- Reproducible: yes
+- Related Files: /data/.clawdbot/openclaw.json
+
+---
+## [ERR-20260612-001] message.whatsapp_send_no_listener
+
+**Logged**: 2026-06-12T06:01:17Z
+**Priority**: high
+**Status**: pending
+**Area**: infra
+
+### Summary
+WhatsApp alert delivery failed during nightly security review because account `custom-1` had no active WhatsApp Web listener.
+
+### Error
+```
+Error: No active WhatsApp Web listener (account: custom-1). Start the gateway, then link WhatsApp with: openclaw channels login --channel whatsapp --account custom-1.
+```
+
+### Context
+- Operation attempted: `message.send` to WhatsApp account `custom-1`
+- Purpose: alert Kelly about non-workspace secret-bearing files found during the 2026-06-12 nightly security review
+- Environment: gateway running, but WhatsApp listener for `custom-1` unavailable
+
+### Suggested Fix
+Verify WhatsApp account linkage/listener health before relying on `message.send` for security alerts, or add a fallback channel when WhatsApp is disconnected.
+
+### Metadata
+- Reproducible: unknown
+- Related Files: /data/workspace/memory/security-log.md
+
+---
