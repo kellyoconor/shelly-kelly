@@ -245,3 +245,69 @@ Keep routine gateway-connected notices silent. Only surface messaging status whe
 - Tags: heartbeat, whatsapp, noise, tone
 
 ---
+## [LRN-20260612-001] correction
+
+**Logged**: 2026-06-12T09:31:00Z
+**Priority**: high
+**Status**: pending
+**Area**: docs
+
+### Summary
+Do not surface raw HEARTBEAT_OK to Kelly when a heartbeat reminder explicitly says to relay the reminder helpfully.
+
+### Details
+I followed HEARTBEAT.md literally and replied HEARTBEAT_OK in the user-visible chat, which looked wrong/confusing to Kelly. Even when a scheduled reminder includes the heartbeat prompt, I need to distinguish between internal heartbeat ack behavior and a human-facing relay request. If the wrapper says to relay it helpfully, I should send a short natural-language update or, if truly nothing should be surfaced, stay silent rather than exposing HEARTBEAT_OK as the visible reply.
+
+### Suggested Action
+Before replying to scheduled reminders, check whether the envelope is asking for an internal heartbeat ack versus a user-facing relay. Never send raw HEARTBEAT_OK to Kelly unless the message is actually an internal heartbeat poll with no relay requirement.
+
+### Metadata
+- Source: user_feedback
+- Related Files: /data/workspace/HEARTBEAT.md, /data/workspace/AGENTS.md
+- Tags: heartbeat, reminders, telegram, correction
+
+---
+## [LRN-20260612-002] correction
+
+**Logged**: 2026-06-12T11:21:00Z
+**Priority**: high
+**Status**: pending
+**Area**: docs
+
+### Summary
+Suppress user-facing replies for bare "WhatsApp gateway connected" heartbeat reminders.
+
+### Details
+Kelly expected these notifications to be removed. Even with a relay wrapper, a reminder whose only substantive content is "WhatsApp gateway connected" should not be surfaced to her unless there is a meaningful state change or failure. I already had guidance about gateway noise, but I still replied in chat. The right behavior is silence for routine connected-state reminders.
+
+### Suggested Action
+Treat gateway-connected-only heartbeat reminders as no-op for user-facing chat. Only surface gateway status if it stays down, flaps repeatedly, or affects delivery.
+
+### Metadata
+- Source: user_feedback
+- Related Files: /data/workspace/HEARTBEAT.md, /data/workspace/MEMORY.md
+- Tags: heartbeat, whatsapp, alert-noise, correction
+
+---
+## [LRN-20260612-003] correction
+
+**Logged**: 2026-06-12T17:19:00Z
+**Priority**: high
+**Status**: pending
+**Area**: docs
+
+### Summary
+When Kelly says she just did a workout, check Strava before asking what it was.
+
+### Details
+I asked Kelly what kind of workout it was right after she said she did a killer workout. Since I have fitness context tools and a Strava skill, I should have checked first instead of making her point me to the data. The generic smart context check said no recent runs, but that did not rule out rides or other logged activities. I need to verify across recent Strava activities when the user mentions a workout/exercise accomplishment.
+
+### Suggested Action
+If Kelly mentions a workout, run the Strava activities command immediately before replying with follow-up questions or assumptions.
+
+### Metadata
+- Source: user_feedback
+- Related Files: /data/workspace/skills/strava/SKILL.md, /data/workspace/AGENTS.md
+- Tags: strava, workout, correction, context-check
+
+---
