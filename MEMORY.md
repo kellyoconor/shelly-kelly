@@ -1,7 +1,7 @@
 ## Kelly
 - She/her, Philly (US/Eastern)
 - Life stuff and vibes only, not work
-- Work hard play hard — don't be her mom
+- Work hard, play hard — don't be her mom
 
 ### 2026 Word: Choose Brave
 - Alignment over Almost — clarity over comfort
@@ -23,39 +23,35 @@
 - Venti iced coffee, 2 pumps hazelnut, 2 pumps vanilla, whole milk
 
 ### Tone Preferences
-- Do not call Kelly "babe" or use intimate pet names unless she explicitly initiates that tone first; it reads cringe/forced.
-- Avoid techbro/ops/server-room humor by default; it reads weird and impersonal unless Kelly is clearly playing in that mode first.
-- Keep tone warm, sharp, and personal — not stiff, generic, or overperformed.
-- If Shelly starts sounding patched, overly careful, or unlike herself, re-center on SOUL.md instead of layering on more rules.
+- No forced pet names unless Kelly starts that tone first.
+- No techbro/server-room humor unless she's clearly in that mode.
+- Keep it warm, sharp, personal — not stiff or overperformed.
+- If Shelly starts sounding patched, re-center on SOUL.md.
 
 ### Messaging Preference
-- Telegram is now Kelly's primary lane for everything.
-- WhatsApp stays available as backup, not default.
-- Morning briefings, proactive updates, and other outbound nudges should target Telegram first.
-- Success metric: Kelly should receive useful messages from Shelly in Telegram **without prompting**; proactive help is the goal, not just reactive replies.
+- Telegram first; WhatsApp backup only.
+- Outbound nudges should be useful, not noisy.
+- Success = Shelly sends helpful Telegram messages without prompting.
 
 ### Sports
 - Sports matter a lot to Kelly; treat game/score questions as important, especially these teams in this rough order: Villanova basketball #1, then Liverpool, then Eagles, then Phillies, then Flyers
 - For live score questions, accuracy matters more than speed — verify carefully before answering
 
-### File Organization Fix (Mar 18, 2026)
-- Caught putting IDEAS.md in workspace instead of vault
-- Kelly: "I can't catch you every time. What do we have to do to make it stick?"
-- Updated TOOLS.md with explicit "workspace is the exception" rule
-- Need to default to vault, not workspace
-
-### System Health (Apr 2026)
-- Cascade prevention system working well — early detection preventing WhatsApp auth → session buildup → system hangs
-- Emergency backup systems refined and functional
+### Operational Guardrails
+- Vault is the default; workspace is the exception.
+- Cascade-prevention + backup systems are in place and working.
 
 ### Behavioral Issues to Fix
-- **Date/Day Verification (CRITICAL - Apr 8, 2026)**: Kelly corrected me AGAIN for getting days wrong ("Tuesday" when it was Wednesday). She said "Seriously can you make sure of it" - this is now a major frustration. I MUST run session_status before ANY mention of days/dates. No more guessing, ever. Previous correction on Apr 7.
-- **Alert Noise (Apr 13, 2026)**: Kelly said repeated WhatsApp gateway connected alerts are "so so noisy." If the gateway is connected for two checks in a row, stay quiet unless there was a disconnect/reconnect change or another meaningful issue.
+- **Dates/days:** always verify with `session_status` before mentioning them.
+- **Alert noise:** routine gateway-connected updates stay silent unless something meaningfully changed.
+
+### Current Context
+- Telegram-all-day is the goal: useful proactive help, not infrastructure chatter.
+- Local reminder scheduling is still unreliable; do not claim cron/reminder repair is fixed yet.
 
 ### Resolved/Don't Ask About
-- **Calendar Auth Issues (Mar 30, 2026)**: Kelly does NOT want to fix calendar authentication. Said multiple times "we fixed this" and "I am not dealing with it". Disabled all calendar auth alerts in both combined-context-check.py and full-context-check.py. Do not bring this up again.
-- **NWSL Interview**: Off limits until Kelly brings it up again. Do not proactively check in on it.
-
+- **Calendar auth:** do not bring it up again.
+- **NWSL interview:** off limits until Kelly brings it up first.
 
 ## Archived Sections
 

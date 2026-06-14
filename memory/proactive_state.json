@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-06-13T07:24:44",
+  "timestamp": "2026-06-14T07:24:49",
   "telegram_first": true,
   "kelly_state": {
     "physical": "Kelly hasn't logged any recent runs. Kelly's health metrics are available.",
@@ -7,7 +7,7 @@
     "focus": "Active project energy: Shelly Proactive Presence Spec - Telegram First is live right now.",
     "tone": "The recent tone looks clear and relatively grounded.",
     "open_loops": "",
-    "avoid": "Calendar Auth Issues (Mar 30, 2026) | NWSL Interview"
+    "avoid": "Calendar auth: | NWSL interview:"
   },
   "external_events": {
     "health": "\ud83d\udc8d Health data available",
@@ -46,8 +46,8 @@
       "min_gap_hours": 12
     }
   ],
-  "recent_log_count_72h": 101,
-  "hours_since_last_meaningful_send": 14.0,
+  "recent_log_count_72h": 172,
+  "hours_since_last_meaningful_send": 38.0,
   "recent_send_modes": [
     "body_training_read",
     "body_training_read",

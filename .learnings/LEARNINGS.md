@@ -311,3 +311,26 @@ If Kelly mentions a workout, run the Strava activities command immediately befor
 - Tags: strava, workout, correction, context-check
 
 ---
+
+## [LRN-20260613-001] correction
+
+**Logged**: 2026-06-13T12:40:00Z
+**Priority**: high
+**Status**: pending
+**Area**: infra
+
+### Summary
+User should not receive daily alert cleanup result messages; maintenance cron was still delivering user-facing success output.
+
+### Details
+Kelly reported continued delivery of daily cleanup results. Root cause: active OpenClaw cron job `alert-cleanup-daily` (ID 68852a33-047e-4887-bf45-48bfdcba3c41) remained enabled, and `/data/workspace/scripts/alert-cleanup-cron.py` prints success text that gets surfaced as a message.
+
+### Suggested Action
+Disable or remove the cron job and/or make cleanup scripts silent on success unless there is an actual issue.
+
+### Metadata
+- Source: user_feedback
+- Related Files: /data/workspace/scripts/alert-cleanup-cron.py
+- Tags: cron, notifications, noise, cleanup
+
+---
