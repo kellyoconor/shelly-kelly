@@ -334,3 +334,25 @@ Disable or remove the cron job and/or make cleanup scripts silent on success unl
 - Tags: cron, notifications, noise, cleanup
 
 ---
+## [LRN-20260615-001] correction
+
+**Logged**: 2026-06-15T00:25:12Z
+**Priority**: high
+**Status**: pending
+**Area**: docs
+
+### Summary
+Do not send pre-tool narration like “Quick context check...” in user-visible replies; on Telegram it can leak as actual chat text.
+
+### Details
+During a direct Telegram conversation, brief narration intended to accompany routine context-check tool calls was surfaced to Kelly as visible messages. She asked why Shelly kept sending that text. The correct behavior is to keep routine tool-call narration out of user-visible messages entirely unless explicitly helpful and safe to show.
+
+### Suggested Action
+For routine context checks and similar low-risk tool calls, do not send any prefacing assistant text. Reserve narration for genuinely helpful multi-step or sensitive actions, and keep that narration in commentary/tool channels only.
+
+### Metadata
+- Source: user_feedback
+- Related Files: /data/workspace/AGENTS.md, /data/workspace/TOOLS.md
+- Tags: telegram, narration, routing, correction
+
+---

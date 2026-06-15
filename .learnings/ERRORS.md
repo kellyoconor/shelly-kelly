@@ -1368,3 +1368,35 @@ Verify WhatsApp account linkage/listener health before relying on `message.send`
 - Related Files: /data/workspace/memory/security-log.md
 
 ---
+## [ERR-20260615-001] whatsapp_message_send
+
+**Logged**: 2026-06-15T01:01:35Z
+**Priority**: high
+**Status**: pending
+**Area**: infra
+
+### Summary
+Weekly Kelly OS Report could not be delivered via WhatsApp because account `custom-1` had no active WhatsApp Web listener.
+
+### Error
+```
+Error: No active WhatsApp Web listener (account: custom-1). Start the gateway, then link WhatsApp with: openclaw channels login --channel whatsapp --account custom-1.
+```
+
+### Context
+- Operation attempted: `message.send` to WhatsApp
+- Account: `custom-1`
+- Target: `+13018302401`
+- Payload: weekly Kelly OS report for 2026-06-08 through 2026-06-14
+- Report was successfully written to `/data/workspace/tracking/reports/2026-06-14.md`
+- A related listener failure had already been noted on 2026-06-14 in workspace memory.
+
+### Suggested Fix
+Re-link or restore the WhatsApp listener for `custom-1` before relying on WhatsApp delivery from cron jobs. If weekly reports must remain reliable, consider a Telegram-first fallback or a preflight listener check before long message sends.
+
+### Metadata
+- Reproducible: yes
+- Related Files: /data/workspace/tracking/reports/2026-06-14.md, /data/workspace/memory/2026-06-14.md
+- See Also: none
+
+---

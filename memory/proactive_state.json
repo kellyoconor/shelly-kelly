@@ -1,17 +1,17 @@
 {
-  "timestamp": "2026-06-14T07:24:49",
+  "timestamp": "2026-06-15T07:24:44",
   "telegram_first": true,
   "kelly_state": {
-    "physical": "Kelly hasn't logged any recent runs. Kelly's health metrics are available.",
+    "physical": "Kelly hasn't logged any recent runs. Kelly's readiness is low at 45% and her sleep was restless last night (24%).",
     "schedule": "Kelly's calendar authentication has expired.",
-    "focus": "Active project energy: Shelly Proactive Presence Spec - Telegram First is live right now.",
+    "focus": "Kelly has been in a training/body-awareness rhythm over the last couple of days.",
     "tone": "The recent tone looks clear and relatively grounded.",
     "open_loops": "",
     "avoid": "Calendar auth: | NWSL interview:"
   },
   "external_events": {
-    "health": "\ud83d\udc8d Health data available",
-    "obsidian": "\ud83c\udfaf Active projects: Shelly Proactive Presence Spec - Telegram...",
+    "health": "\ud83d\ude34 45% ready \ud83e\udd71 24% sleep",
+    "obsidian": "\ud83c\udfad Recent mood: clear",
     "running": "\u274c No recent runs"
   },
   "significance_result": {
@@ -28,30 +28,11 @@
     "recent_activity": false,
     "negative_sentiment": false
   },
-  "candidate_messages": [
-    {
-      "source": "assist",
-      "message_mode": "practical_assist",
-      "message": "Shelly Proactive Presence Spec - Telegram First is live right now. still looks live right now. That usually means the hard part is not ideas, it's choosing the next clean move. If you want, I can turn the current project energy into a tiny concrete next-step list.",
-      "why_now": "Active project energy can be turned into immediate practical help.",
-      "confidence": 0.72,
-      "min_gap_hours": 8
-    },
-    {
-      "source": "pattern",
-      "message_mode": "pattern_notice",
-      "message": "Quick read: Kelly hasn't logged any recent runs. Kelly's health metrics are available. The recent tone looks clear and relatively grounded. Active project energy: Shelly Proactive Presence Spec - Telegram First is live right now. I don't think this needs a big intervention \u2014 just a useful nudge to keep the day from getting away from you. Want me to turn that into a low-lift next step?",
-      "why_now": "Enough time has passed that a grounded read with substance is appropriate.",
-      "confidence": 0.68,
-      "min_gap_hours": 12
-    }
-  ],
-  "recent_log_count_72h": 172,
-  "hours_since_last_meaningful_send": 38.0,
+  "candidate_messages": [],
+  "recent_log_count_72h": 193,
+  "hours_since_last_meaningful_send": 3.4,
   "recent_send_modes": [
-    "body_training_read",
-    "body_training_read",
-    "emotional_follow_up",
+    "pattern_notice",
     "pattern_notice",
     "pattern_notice"
   ]
