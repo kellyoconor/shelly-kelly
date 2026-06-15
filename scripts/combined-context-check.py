@@ -391,41 +391,62 @@ def parse_kelly_state_sections(kelly_state_text):
     return sections
 
 
+def _clean_state_value(value):
+    if not value:
+        return ''
+    cleaned = value.strip()
+    generic_values = {
+        '', 'none', 'n/a', 'unknown', 'unclear', 'normal', 'steady', 'fine',
+        'good', 'okay', 'ok', 'clear', 'no major shifts'
+    }
+    return '' if cleaned.lower() in generic_values else cleaned
+
+
 def build_followup_message(open_loops_text, tone_text):
-    if not open_loops_text:
+    loop_text = _clean_state_value(open_loops_text.replace('Open loops: ', '').strip() if open_loops_text else '')
+    if not loop_text or len(loop_text) < 12:
         return ''
-    loop_text = open_loops_text.replace('Open loops: ', '').strip()
-    if not loop_text:
-        return ''
+
+    tone_text = _clean_state_value(tone_text)
     tone_clause = ''
-    if tone_text:
+    if tone_text and len(tone_text) >= 10:
         tone_clause = f" {tone_text}"
+
     return (
         f"You still have an open loop around {loop_text}.{tone_clause} "
-        "Feels like this might be a good moment to close the gap instead of letting it keep humming in the background. Want me to help you force a next step?"
+        "That feels like the kind of thing that quietly burns energy until you name the next move. "
+        "If you want, I can help turn it into one clean next step right now."
     )
 
 
 def build_relational_silence_message(state_sections):
-    tone = state_sections.get('tone', '')
-    physical = state_sections.get('physical', '')
-    focus = state_sections.get('focus', '')
-    if not tone and not physical:
+    tone = _clean_state_value(state_sections.get('tone', ''))
+    physical = _clean_state_value(state_sections.get('physical', ''))
+    focus = _clean_state_value(state_sections.get('focus', ''))
+
+    active_signals = [item for item in [physical, tone, focus] if item]
+    if len(active_signals) < 2:
         return ''
+
+    joined = ' '.join(active_signals)
     return (
-        f"Quick read: {physical} {tone} {focus}".strip() +
-        " I don't think this needs a big intervention — just a useful nudge to keep the day from getting away from you. Want me to turn that into a low-lift next step?"
+        f"Quick read: {joined} "
+        "This doesn't look like a crisis, but it does look like one of those moments where a small deliberate move would help more than drifting. "
+        "Worth protecting the next hour instead of letting the day get mushy."
     )
 
 
 def build_project_assist_message(state_sections):
-    focus = state_sections.get('focus', '')
+    focus = _clean_state_value(state_sections.get('focus', ''))
     if 'Active project energy:' not in focus:
         return ''
-    project = focus.replace('Active project energy:', '').strip()
+    project = _clean_state_value(focus.replace('Active project energy:', '').strip())
+    if not project or len(project) < 10:
+        return ''
     return (
-        f"{project} still looks live right now. That usually means the hard part is not ideas, it's choosing the next clean move. "
-        "If you want, I can turn the current project energy into a tiny concrete next-step list."
+        f"{project} still looks live right now. "
+        "That usually means the bottleneck is choosing the next clean move, not having more ideas. "
+        "If helpful, I can turn that into a tight three-step next move list."
     )
 
 
@@ -493,20 +514,20 @@ def build_proactive_candidates(external_events, significance_result, conversatio
             'source': 'assist',
             'message_mode': 'practical_assist',
             'message': project_assist,
-            'why_now': 'Active project energy can be turned into immediate practical help.',
-            'confidence': 0.72,
+            'why_now': 'Active project energy has enough specificity to justify immediate practical help.',
+            'confidence': 0.8,
             'min_gap_hours': 8,
         })
 
     relational_silence = build_relational_silence_message(state_sections)
-    if relational_silence and (hours_since_last_send is not None and hours_since_last_send >= 12):
+    if relational_silence and (hours_since_last_send is not None and hours_since_last_send >= 16):
         candidates.append({
             'source': 'pattern',
             'message_mode': 'pattern_notice',
             'message': relational_silence,
-            'why_now': 'Enough time has passed that a grounded read with substance is appropriate.',
-            'confidence': 0.68,
-            'min_gap_hours': 12,
+            'why_now': 'Multiple real signals lined up, and enough quiet time has passed that a grounded nudge is justified.',
+            'confidence': 0.62,
+            'min_gap_hours': 16,
         })
 
     return candidates
