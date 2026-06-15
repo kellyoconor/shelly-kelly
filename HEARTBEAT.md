@@ -6,8 +6,7 @@
 1. Send to Telegram: channel: telegram, target: [REDACTED_CLIENT_ID]02
 2. AND respond in UI chat with same message
 3. Telegram is the only normal proactive delivery channel
-4. Use WhatsApp only if Kelly explicitly asks for it
-5. Measure of success: Kelly gets genuinely useful messages from Shelly in Telegram **without prompting**
+4. Measure of success: Kelly gets genuinely useful messages from Shelly in Telegram **without prompting**
 Never use "Kelly" as target.
 
 🔇 **Noise suppression:** Do **not** surface routine transport-status updates to Kelly. If a channel reconnects or auto-recovers, stay quiet unless delivery is actually failing, multiple blips accumulate into a real flap, or something else meaningfully changed.
@@ -136,7 +135,6 @@ python3 /data/workspace/skills/agentmail/scripts/agentmail_cli.py threads --limi
 2. **Send to Telegram:** `message: channel: telegram, target: [REDACTED_CLIENT_ID]02`
 3. **AND respond in UI:** Same message content
 4. **Use Telegram as the only normal delivery path**
-5. **Use WhatsApp only if Kelly explicitly asks for it**
 Never use "Kelly" as target.
 
 **FRESHNESS RULES:**
