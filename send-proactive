@@ -1,20 +1,25 @@
-#!/bin/bash
-# Helper script for sending proactive messages with automatic tracking
+#!/bin/sh
+# Helper script for sending proactive Telegram messages with automatic tracking
 # Usage: ./send-proactive "message content" [category] [target]
+
+set -eu
 
 if [ $# -lt 1 ]; then
     echo "Usage: ./send-proactive \"message content\" [category] [target]"
     echo ""
     echo "Examples:"
-    echo "  ./send-proactive \"Hey! How are you feeling about tonight's NWSL game?\" nwsl kelly"
-    echo "  ./send-proactive \"Quick wellness check - how's your energy today?\" wellness"
-    echo "  ./send-proactive \"Any thoughts on Atlanta plans for this weekend?\" atlanta"
+    echo "  ./send-proactive \"Quick body read: readiness looks decent, but sleep was only okay — maybe keep today lighter if your energy feels weird.\" wellness"
+    echo "  ./send-proactive \"Worth closing the loop on that thing you were circling earlier if it's still on your mind tonight.\" followup"
     exit 1
 fi
 
 MESSAGE="$1"
 CATEGORY="${2:-check-in}"
-TARGET="${3:-kelly}"
+TARGET="${3:-8619914002}"
+
+case "$TARGET" in
+    kelly|Kelly|'') TARGET="8619914002" ;;
+esac
 
 echo "📱 Sending proactive message..."
 echo "📝 Content: $MESSAGE"
@@ -30,22 +35,17 @@ if [ -z "$MESSAGE_ID" ]; then
     exit 1
 fi
 
-# Send the actual WhatsApp message
-echo "🚀 Sending via WhatsApp..."
-node -e "
-const { message } = require('./index.js'); // Assuming this exposes the message function
-message({ 
-    action: 'send', 
-    channel: 'whatsapp', 
-    target: '$TARGET', 
-    message: '$MESSAGE' 
-}).then(() => {
-    console.log('✅ Message sent! Tracking ID: $MESSAGE_ID');
-}).catch(err => {
-    console.log('❌ Send failed:', err);
-    process.exit(1);
-});
-"
+# Send through the shared Telegram-first Kelly message pipeline
+if [ "$TARGET" = "8619914002" ]; then
+    echo "🚀 Sending via Telegram through Kelly pipeline..."
+    /data/workspace/scripts/proactive-kelly-message.sh "$MESSAGE"
+else
+    echo "🚀 Sending via Telegram..."
+    openclaw message send \
+        --channel telegram \
+        --to "$TARGET" \
+        --message "$MESSAGE"
+fi
 
 echo ""
 echo "📋 Tracking ID: $MESSAGE_ID"
