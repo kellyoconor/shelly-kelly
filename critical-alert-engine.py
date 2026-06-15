@@ -3,7 +3,7 @@
 Critical Alert Safeguard Engine
 
 Bulletproof system to ensure Kelly gets urgent health alerts and gap detection findings
-even when WhatsApp is unreliable.
+even when Telegram delivery needs backup handling.
 """
 
 import json
@@ -111,8 +111,8 @@ class CriticalAlertEngine:
         
         return "NORMAL"
     
-    def send_whatsapp(self, message: str, urgent_prefix: str = None) -> bool:
-        """Send WhatsApp message with optional urgency prefix"""
+    def send_telegram(self, message: str, urgent_prefix: str = None) -> bool:
+        """Send Telegram message with optional urgency prefix"""
         try:
             full_message = message
             if urgent_prefix:
@@ -122,14 +122,14 @@ class CriticalAlertEngine:
             result = subprocess.run([
                 "openclaw", "tool", "message", 
                 "action=send", 
-                "channel=whatsapp",
+                "channel=telegram",
                 f"message={full_message}",
-                "target=Kelly"
+                "target=8619914002"
             ], capture_output=True, text=True, timeout=30)
             
             return result.returncode == 0
         except Exception as e:
-            self.log(f"WhatsApp send failed: {e}")
+            self.log(f"Telegram send failed: {e}")
             return False
     
     def send_email(self, subject: str, content: str) -> bool:
@@ -209,13 +209,13 @@ class CriticalAlertEngine:
         # Prepare urgency prefix
         urgency_prefix = "🚨 CRITICAL" if urgency == "CRITICAL" else "⚠️ URGENT"
         
-        # Attempt WhatsApp delivery
-        success = self.send_whatsapp(alert["content"], urgency_prefix)
+        # Attempt Telegram delivery
+        success = self.send_telegram(alert["content"], urgency_prefix)
         
         # Record delivery attempt
         attempt = {
             "timestamp": datetime.utcnow().isoformat(),
-            "method": "whatsapp",
+            "method": "telegram",
             "success": success,
             "urgency_level": urgency
         }
@@ -225,14 +225,14 @@ class CriticalAlertEngine:
         
         # Schedule retries if needed
         if success:
-            self.log(f"Alert {alert_id} delivered successfully via WhatsApp")
+            self.log(f"Alert {alert_id} delivered successfully via Telegram")
         else:
-            self.log(f"Alert {alert_id} WhatsApp delivery failed - scheduling retries")
+            self.log(f"Alert {alert_id} Telegram delivery failed - scheduling retries")
             alert["status"] = "RETRYING"
         
         # CRITICAL FIX: Don't auto-mark as delivered - wait for actual user response
         if not success:
-            self.log(f"Alert {alert_id} WhatsApp delivery failed - will retry")
+            self.log(f"Alert {alert_id} Telegram delivery failed - will retry")
         
         # Save updated alert
         self.save_alerts(alerts)
@@ -256,7 +256,7 @@ class CriticalAlertEngine:
             alert_time = datetime.fromisoformat(alert["timestamp"])
             
             # Check if we need to send retries
-            retry_count = len([a for a in alert["delivery_attempts"] if a["method"] == "whatsapp"])
+            retry_count = len([a for a in alert["delivery_attempts"] if a["method"] == "telegram"])
             max_retries = len(config["retry_intervals"])
             
             if retry_count <= max_retries:
@@ -291,16 +291,16 @@ class CriticalAlertEngine:
     
     def send_retry(self, alert: Dict):
         """Send retry attempt for alert"""
-        retry_count = len([a for a in alert["delivery_attempts"] if a["method"] == "whatsapp"])
+        retry_count = len([a for a in alert["delivery_attempts"] if a["method"] == "telegram"])
         
         urgency_prefix = "🚨 CRITICAL" if alert["urgency"] == "CRITICAL" else "⚠️ URGENT"
         retry_message = f"{alert['content']}\n\n(Retry #{retry_count} - please confirm you got this! 📱)"
         
-        success = self.send_whatsapp(retry_message, urgency_prefix)
+        success = self.send_telegram(retry_message, urgency_prefix)
         
         attempt = {
             "timestamp": datetime.utcnow().isoformat(),
-            "method": "whatsapp",
+            "method": "telegram",
             "success": success,
             "retry_number": retry_count,
             "urgency_level": alert["urgency"]
@@ -324,7 +324,7 @@ Created: {alert['timestamp']}
 Message:
 {alert['content']}
 
-This alert was sent via WhatsApp but no response was received.
+This alert was sent via Telegram but no response was received.
 Please respond to confirm you received this.
 
 --
@@ -448,7 +448,7 @@ Kelly's Critical Alert System
                 continue
                 
             config = self.config["urgency_levels"][urgency]
-            retry_count = len([a for a in alert["delivery_attempts"] if a["method"] == "whatsapp"])
+            retry_count = len([a for a in alert["delivery_attempts"] if a["method"] == "telegram"])
             
             if retry_count < len(config["retry_intervals"]):
                 status["pending_retries"] += 1
@@ -569,9 +569,9 @@ Kelly's Critical Alert System
         
         for alert in alerts:
             if not alert["resolved"] and alert["urgency"] in ["CRITICAL", "URGENT"]:
-                # Check if all WhatsApp attempts actually failed
-                whatsapp_attempts = [a for a in alert["delivery_attempts"] if a["method"] == "whatsapp"]
-                all_failed = all(not attempt["success"] for attempt in whatsapp_attempts)
+                # Check if all Telegram attempts actually failed
+                telegram_attempts = [a for a in alert["delivery_attempts"] if a["method"] == "telegram"]
+                all_failed = all(not attempt["success"] for attempt in telegram_attempts)
                 
                 if all_failed and not alert["response_received"]:
                     unconfirmed.append(alert)

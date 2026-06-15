@@ -118,7 +118,7 @@ class AlertRetryProcessor {
     }
     
     /**
-     * Send email backup for failed WhatsApp alerts
+     * Send email backup for failed Telegram alerts
      */
     async sendEmailBackup(alertContent, urgency, alertId) {
         if (!this.emailConfig.enabled) {
@@ -139,7 +139,7 @@ Timestamp: ${new Date().toISOString()}
 Message:
 ${alertContent}
 
-This alert was sent via WhatsApp but no response was received.
+This alert was sent via Telegram but no response was received.
 Please respond to confirm you received this message.
 
 --

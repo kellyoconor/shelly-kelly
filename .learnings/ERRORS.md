@@ -1400,3 +1400,56 @@ Re-link or restore the WhatsApp listener for `custom-1` before relying on WhatsA
 - See Also: none
 
 ---
+
+## [ERR-20260615-001] missing-rg-command
+
+**Logged**: 2026-06-15T14:33:00Z
+**Priority**: low
+**Status**: pending
+**Area**: infra
+
+### Summary
+Tried to use ripgrep for workspace search, but  is not installed in this environment.
+
+### Error
+
+
+### Context
+- Command attempted: 
+- Goal: map messaging-channel touchpoints before planning Telegram-only migration
+
+### Suggested Fix
+Use portable fallback commands like  unless ripgrep availability is confirmed first.
+
+### Metadata
+- Reproducible: yes
+- Related Files: /data/workspace/TOOLS.md
+
+---
+## [ERR-20260615-002] shell-chain-syntax-slip
+
+**Logged**: 2026-06-15T17:21:00Z
+**Priority**: low
+**Status**: pending
+**Area**: infra
+
+### Summary
+A verification command used an invalid shell chaining layout, causing the diff step not to run in the same command.
+
+### Error
+```
+sh: 16: Syntax error: "&&" unexpected
+```
+
+### Context
+- Verification command mixed a heredoc block and `&&` chaining in `/bin/sh`
+- Earlier syntax and grep checks had already succeeded; only the final diff display step was interrupted
+
+### Suggested Fix
+Run the diff commands separately after heredoc-based checks, or wrap the whole command in a clearer shell structure.
+
+### Metadata
+- Reproducible: yes
+- Related Files: /data/workspace/.learnings/ERRORS.md
+
+---
