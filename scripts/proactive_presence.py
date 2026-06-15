@@ -157,6 +157,21 @@ def _looks_like_repeat(candidate: Dict[str, object], recent_log: List[Dict[str, 
     return False
 
 
+def _candidate_priority(candidate: Dict[str, object]) -> tuple:
+    source = candidate.get('source', 'pattern')
+    priority_map = {
+        'significance': 0,
+        'followup': 1,
+        'run': 2,
+        'health': 3,
+        'assist': 4,
+        'pattern': 5,
+    }
+    confidence = float(candidate.get('confidence', 0.0) or 0.0)
+    return (priority_map.get(source, 9), -confidence)
+
+
+
 def evaluate_snapshot(snapshot: Dict[str, object]) -> Dict[str, object]:
     recent_activity = snapshot.get('recent_activity', {}) or {}
     if recent_activity.get('recent_activity'):
@@ -171,7 +186,7 @@ def evaluate_snapshot(snapshot: Dict[str, object]) -> Dict[str, object]:
         }
 
     candidates = snapshot.get('candidate_messages', []) or []
-     
+
     if recent_activity.get('negative_sentiment') and not any(c.get('source') in {'followup', 'significance'} for c in candidates):
         return {
             'decision': 'suppress',
@@ -185,7 +200,9 @@ def evaluate_snapshot(snapshot: Dict[str, object]) -> Dict[str, object]:
 
     recent_log = load_recent_proactive_log()
     hours_since_last_send = snapshot.get('hours_since_last_meaningful_send')
-    for candidate in candidates:
+    sorted_candidates = sorted(candidates, key=_candidate_priority)
+
+    for candidate in sorted_candidates:
         message = (candidate.get('message') or '').strip()
         if not message:
             continue
