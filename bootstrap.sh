@@ -45,12 +45,12 @@ echo "[bootstrap] Ensuring critical cron jobs exist..."
 
 # Morning briefings
 if ! openclaw cron list | grep -q "Kelly's morning briefing"; then
-    openclaw cron add --name "Kelly's morning briefing" --cron "30 6 * * *" --session isolated --message "Generate Kelly's morning briefing with weather, health, calendar, and mirror question. Send via WhatsApp." --timeout-seconds 120 > /dev/null 2>&1
+    openclaw cron add --name "Kelly's morning briefing" --cron "30 6 * * *" --session isolated --message "Generate Kelly's morning briefing with weather, health, calendar, and mirror question. Send via Telegram." --timeout-seconds 120 > /dev/null 2>&1
     echo "[bootstrap] Morning briefing restored"
 fi
 
 if ! openclaw cron list | grep -q "Emergency Morning Briefing"; then
-    openclaw cron add --name "Emergency Morning Briefing" --cron "0 7 * * *" --session isolated --message "Emergency backup briefing if main 6:30 AM briefing failed. Check and send via WhatsApp." --timeout-seconds 60 > /dev/null 2>&1
+    openclaw cron add --name "Emergency Morning Briefing" --cron "0 7 * * *" --session isolated --message "Emergency backup briefing if main 6:30 AM briefing failed. Check and send via Telegram." --timeout-seconds 60 > /dev/null 2>&1
     echo "[bootstrap] Emergency briefing restored"
 fi
 
@@ -81,11 +81,6 @@ if ! openclaw cron list | grep -q "Auto Git Push"; then
     echo "[bootstrap] Auto git push restored"
 fi
 
-if ! openclaw cron list | grep -q "WhatsApp Health Check"; then
-    openclaw cron add --name "WhatsApp Health Check" --cron "25 6 * * *" --session isolated --message "Check WhatsApp connectivity before morning briefing." --timeout-seconds 30 > /dev/null 2>&1
-    echo "[bootstrap] WhatsApp health check restored"
-fi
-
 echo "[bootstrap] Critical automation protected"
 
 # ── Daily Note Health Check ─────────────────────────────────
@@ -101,7 +96,7 @@ fi
 MORNING_BRIEFING_CHECK=$(openclaw cron list | jq -r '.jobs[] | select(.name == "Kelly'\''s morning briefing") | .payload.message // ""')
 if [[ ! "$MORNING_BRIEFING_CHECK" =~ "daily-note-append.py" ]]; then
     echo "[bootstrap] FIXING: Morning briefing missing daily note integration"
-    openclaw cron update --name "Kelly's morning briefing" --patch '{"payload": {"message": "📱 Generate Kelly'\''s morning briefing and send via WhatsApp (accountId: custom-1):\n\n1. Check day, weather, calendar events\n2. Pull Oura data (sleep, readiness, HRV from last night)\n3. Generate Mirror question\n4. Personal check-in: Based on recent context\n5. Check packages/alerts\n6. Send concise 4-line WhatsApp update to +13018302401\n\n**THEN append to daily note:**\n7. python3 /data/workspace/scripts/daily-note-append.py \"Weather: [today'\''s weather]\" \"Weather\"\n8. python3 /data/workspace/scripts/daily-note-append.py \"Health: Sleep [score], Readiness [score], [key insight]\" \"Health\"\n\n**RETRY LOGIC:** If WhatsApp send fails, wait 5 minutes and retry up to 3 times."}}' > /dev/null 2>&1
+    openclaw cron update --name "Kelly's morning briefing" --patch '{"payload": {"message": "📱 Generate Kelly'\''s morning briefing and send via Telegram:\n\n1. Check day, weather, calendar events\n2. Pull Oura data (sleep, readiness, HRV from last night)\n3. Generate Mirror question\n4. Personal check-in: Based on recent context\n5. Check packages/alerts\n6. Send concise Telegram update to Kelly\n\n**THEN append to daily note:**\n7. python3 /data/workspace/scripts/daily-note-append.py \"Weather: [today'\''s weather]\" \"Weather\"\n8. python3 /data/workspace/scripts/daily-note-append.py \"Health: Sleep [score], Readiness [score], [key insight]\" \"Health\""}}' > /dev/null 2>&1
     echo "[bootstrap] Morning briefing daily note integration restored"
 fi
 
@@ -126,53 +121,5 @@ echo "[bootstrap] Daily note health check complete"
 CONFIG="${OPENCLAW_STATE_DIR:-/data/.clawdbot}/openclaw.json"
 
 if [ -f "$CONFIG" ]; then
-  # Re-enable WhatsApp plugin if doctor disabled it
-  if python3 -c "
-import json, sys
-with open('$CONFIG') as f:
-    c = json.load(f)
-p = c.get('plugins',{}).get('entries',{}).get('whatsapp',{})
-if p.get('enabled') == False:
-    p['enabled'] = True
-    c.setdefault('plugins',{}).setdefault('entries',{})['whatsapp'] = p
-    with open('$CONFIG','w') as f:
-        json.dump(c, f, indent=2)
-    print('WhatsApp plugin re-enabled')
-else:
-    print('WhatsApp plugin already enabled (or not configured)')
-" 2>&1; then
-    echo "[bootstrap] WhatsApp check complete"
-  fi
-
-  # Ensure WhatsApp channel config exists
-  if ! python3 -c "
-import json
-with open('$CONFIG') as f:
-    c = json.load(f)
-wa = c.get('channels',{}).get('whatsapp',{})
-if not wa.get('selfChatMode'):
-    raise SystemExit(1)
-" 2>/dev/null; then
-    python3 -c "
-import json
-with open('$CONFIG') as f:
-    c = json.load(f)
-c.setdefault('channels',{})['whatsapp'] = {
-    'selfChatMode': True,
-    'dmPolicy': 'allowlist',
-    'allowFrom': ['+13018302401'],
-    'accounts': {
-        'custom-1': {
-            'dmPolicy': 'allowlist',
-            'groupPolicy': 'allowlist',
-            'debounceMs': 0
-        }
-    }
-}
-with open('$CONFIG','w') as f:
-    json.dump(c, f, indent=2)
-print('WhatsApp channel config restored')
-"
-    echo "[bootstrap] WhatsApp config check complete"
-  fi
+  echo "[bootstrap] Config check complete"
 fi
