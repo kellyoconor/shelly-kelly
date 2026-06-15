@@ -5,13 +5,14 @@
 📱 **Proactive Message Delivery:** For all proactive heartbeat messages:
 1. Send to Telegram: channel: telegram, target: [REDACTED_CLIENT_ID]02
 2. AND respond in UI chat with same message
-3. WhatsApp is backup only unless Telegram delivery fails or Kelly explicitly asks for both
-4. Measure of success: Kelly gets genuinely useful messages from Shelly in Telegram **without prompting**
+3. Telegram is the only normal proactive delivery channel
+4. Use WhatsApp only if Kelly explicitly asks for it
+5. Measure of success: Kelly gets genuinely useful messages from Shelly in Telegram **without prompting**
 Never use "Kelly" as target.
 
-🔇 **Noise suppression:** If the WhatsApp gateway is connected for two heartbeat checks in a row, do **not** send another "gateway connected" update. Also do **not** surface every tiny auto-recovered disconnect/reconnect pair. Stay quiet unless the gateway stays down, multiple blips accumulate into a real flap, message delivery is failing, or something else meaningfully changed.
+🔇 **Noise suppression:** Do **not** surface routine transport-status updates to Kelly. If a channel reconnects or auto-recovers, stay quiet unless delivery is actually failing, multiple blips accumulate into a real flap, or something else meaningfully changed.
 
-🚫 **User-facing reminder suppression:** If a scheduled reminder contains only the default heartbeat prompt and/or a routine transport status like "WhatsApp gateway connected," do **not** turn that into a chat update for Kelly. Run the heartbeat checks internally, but if there is nothing meaningful to surface, stay silent. Do **not** paraphrase the silence into "quick heartbeat pass" or similar status chatter.
+🚫 **User-facing reminder suppression:** If a scheduled reminder contains only the default heartbeat prompt and/or a routine transport status update, do **not** turn that into a chat update for Kelly. Run the heartbeat checks internally, but if there is nothing meaningful to surface, stay silent. Do **not** paraphrase the silence into "quick heartbeat pass" or similar status chatter.
 
 ## 🚨 CRITICAL ALERT SYSTEM (EVERY HEARTBEAT - HIGHEST PRIORITY)
 **Always check first - never skip:**
@@ -21,7 +22,7 @@ node /data/workspace/alert-retry-processor.cjs heartbeat
 This handles:
 - Processing urgent alert retries (5-15min intervals for CRITICAL, 10-20min for URGENT)
 - Auto-marking alerts when Kelly is active
-- Escalating to email backup if WhatsApp fails
+- Escalating to email backup if Telegram delivery fails or urgent delivery is not confirmed
 - Checking for manual review items
 
 **Always continue to other checks below.** Only report if NEW urgent alerts are detected (not existing escalated ones).
@@ -134,7 +135,8 @@ python3 /data/workspace/skills/agentmail/scripts/agentmail_cli.py threads --limi
 1. **Auto-update Kelly State:** `exec: python3 /data/workspace/scripts/update-kelly-state.py`
 2. **Send to Telegram:** `message: channel: telegram, target: [REDACTED_CLIENT_ID]02`
 3. **AND respond in UI:** Same message content
-4. **Use WhatsApp only as backup** if Telegram delivery fails or Kelly explicitly asks for it
+4. **Use Telegram as the only normal delivery path**
+5. **Use WhatsApp only if Kelly explicitly asks for it**
 Never use "Kelly" as target.
 
 **FRESHNESS RULES:**
