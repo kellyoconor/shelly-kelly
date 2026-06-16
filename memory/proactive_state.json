@@ -1,21 +1,21 @@
 {
-  "timestamp": "2026-06-15T07:24:44",
+  "timestamp": "2026-06-16T07:24:44",
   "telegram_first": true,
   "kelly_state": {
-    "physical": "Kelly hasn't logged any recent runs. Kelly's readiness is low at 45% and her sleep was restless last night (24%).",
+    "physical": "Kelly hasn't logged any recent runs. Kelly's readiness is moderate at 76% and her sleep was restless last night (68%).",
     "schedule": "Kelly's calendar authentication has expired.",
-    "focus": "Kelly has been in a training/body-awareness rhythm over the last couple of days.",
+    "focus": "Active project energy: Shelly Telegram Migration Execution Checklist is live right now.",
     "tone": "The recent tone looks clear and relatively grounded.",
     "open_loops": "",
     "avoid": "Calendar auth: | NWSL interview:"
   },
   "external_events": {
-    "health": "\ud83d\ude34 45% ready \ud83e\udd71 24% sleep",
-    "obsidian": "\ud83c\udfad Recent mood: clear",
+    "health": "\u2696\ufe0f 76% ready \ud83e\udd71 68% sleep",
+    "obsidian": "\ud83c\udfaf Active projects: Shelly Telegram Migration Execution Check...",
     "running": "\u274c No recent runs"
   },
   "significance_result": {
-    "no_significance": true
+    "significance_message": "Noticed you did some organizing and cleanup work. Feel more grounded with things tidied up?"
   },
   "conversation_check": {
     "running": true,
@@ -28,9 +28,26 @@
     "recent_activity": false,
     "negative_sentiment": false
   },
-  "candidate_messages": [],
-  "recent_log_count_72h": 193,
-  "hours_since_last_meaningful_send": 3.4,
+  "candidate_messages": [
+    {
+      "source": "significance",
+      "message_mode": "emotional_follow_up",
+      "message": "Noticed you did some organizing and cleanup work. Feel more grounded with things tidied up?",
+      "why_now": "Recent memory/context significance produced a message with actual substance.",
+      "confidence": 0.86,
+      "min_gap_hours": 1
+    },
+    {
+      "source": "assist",
+      "message_mode": "practical_assist",
+      "message": "Shelly Telegram Migration Execution Checklist is live right now. still looks live right now. That usually means the bottleneck is choosing the next clean move, not having more ideas. If helpful, I can turn that into a tight three-step next move list.",
+      "why_now": "Active project energy has enough specificity to justify immediate practical help.",
+      "confidence": 0.8,
+      "min_gap_hours": 8
+    }
+  ],
+  "recent_log_count_72h": 215,
+  "hours_since_last_meaningful_send": 15.0,
   "recent_send_modes": [
     "pattern_notice",
     "pattern_notice",

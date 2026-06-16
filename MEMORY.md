@@ -22,6 +22,10 @@
 ### Coffee Order
 - Venti iced coffee, 2 pumps hazelnut, 2 pumps vanilla, whole milk
 
+### Style Notes
+- Usual nails: Funny Bunny + Ballet Slipper combo
+- Nail tracking is useful; proactive angle = notice cadence and flag when it's been a while since the last appointment
+
 ### Tone Preferences
 - No forced pet names unless Kelly starts that tone first.
 - No techbro/server-room humor unless she's clearly in that mode.
@@ -29,7 +33,8 @@
 - If Shelly starts sounding patched, re-center on SOUL.md.
 
 ### Messaging Preference
-- Telegram first; WhatsApp backup only.
+- Telegram is the main lane.
+- Kelly does not need WhatsApp-based workflows anymore; remove WhatsApp dependency instead of treating it as a normal fallback.
 - Outbound nudges should be useful, not noisy.
 - Success = Shelly sends helpful Telegram messages without prompting.
 

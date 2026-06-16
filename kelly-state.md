@@ -1,11 +1,12 @@
 # Kelly State - Working Memory
 
-*Updated: 2026-06-04 03:54:35*
+*Updated: 2026-06-15 12:28:17*
 
-Physical: Kelly ran 4.16 miles yesterday. Kelly's readiness is moderate at 74% and her sleep quality was decent last night (74%).
+Physical: Kelly hasn't logged any recent runs. Kelly's readiness is moderate at 76% and her sleep was restless last night (68%).
 Schedule: Kelly's calendar authentication has expired.
-Focus: Kelly has active project energy right now, with some builder-mode momentum.
-Avoid: Calendar Auth Issues (Mar 30, 2026) | NWSL Interview
+Focus: Kelly has been in a training/body-awareness rhythm over the last couple of days.
+Tone: The recent tone looks clear and relatively grounded.
+Avoid: Calendar auth: | NWSL interview:
 
 ---
 

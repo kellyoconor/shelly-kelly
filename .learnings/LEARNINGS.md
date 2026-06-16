@@ -356,3 +356,26 @@ For routine context checks and similar low-risk tool calls, do not send any pref
 - Tags: telegram, narration, routing, correction
 
 ---
+
+## [LRN-20260615-001] correction
+
+**Logged**: 2026-06-15T12:26:00Z
+**Priority**: medium
+**Status**: pending
+**Area**: docs
+
+### Summary
+Do not use "babe" with Kelly unless she starts that tone first.
+
+### Details
+Kelly reacted with "…. No you didn’t just say that" and then clarified "Hahahaha no omg I mean the BABE" after I replied "You too babe." That landed as off-tone and too familiar. Her standing preference already says no forced pet names unless she starts that tone first, and this was a direct example of why.
+
+### Suggested Action
+Stick to warm, casual language without pet names by default. Only mirror terms like "babe" if Kelly initiates that specific tone first in the current conversation.
+
+### Metadata
+- Source: user_feedback
+- Related Files: /data/workspace/SOUL.md, /data/workspace/MEMORY.md
+- Tags: tone, pet-names, correction, telegram
+
+---
