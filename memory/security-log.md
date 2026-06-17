@@ -1135,12 +1135,12 @@
 - `openclaw security audit --deep`: no critical or warning findings; informational note only
 - `openclaw update status`: update available (`2026.6.1`); maintenance item, not treated as an active security incident
 - Follow-up note: live secrets still exist outside `/data/workspace` in `/data/.clawdbot/openclaw.env` and multiple `openclaw.json` backup files; recorded for cleanup follow-up, but not escalated via WhatsApp because this remains credential-related rather than a separate security issue
-\n2026-06-16T06:00:10.654899: Auto-redacted 36 exposed credentials from files\n
+\n2026-06-16T06:00:10.[REDACTED_CLIENT_ID]: Auto-redacted 36 exposed credentials from files\n
 ## 2026-06-16 — Nightly Security Review (02:00 America/New_York)
 - Auto-redaction ran first and removed 36 exposed credentials from files; those fixes were auto-remediated and not escalated per policy
 - Markdown/text/json `sk-` scan in `/data/workspace` found no remaining live workspace secret exposures after redaction; remaining hits were prior redacted security-log notes, historical notes, documentation/setup examples, env-var names, or placeholder text only
 - Focused hardcoded-credential scan across `/data/workspace` found no live hardcoded credentials; no active secret-pattern matches remained in reviewed workspace files after exclusions for config/cache files
-- Git review (last 24h): expected commit activity only — `133599f` (`Prioritize stronger proactive message types`), `a69b74f` (`Tighten proactive message candidate quality`), `127c17b` (`Make proactive messaging Telegram-first`), `d442d82` (`Remove remaining WhatsApp fallback wording`), `e5063dd` (`Switch critical alerts to Telegram delivery`), `a78eb63` (`Remove WhatsApp restoration from bootstrap`), `9663382` (`Make heartbeat messaging Telegram-only by default`), plus routine auto-push commit `4d734fe`
+- Git review (last 24h): expected commit activity only — `[REDACTED_CLIENT_ID]f` (`Prioritize stronger proactive message types`), `a69b74f` (`Tighten proactive message candidate quality`), `127c17b` (`Make proactive messaging Telegram-first`), `d442d82` (`Remove remaining WhatsApp fallback wording`), `e5063dd` (`Switch critical alerts to Telegram delivery`), `a78eb63` (`Remove WhatsApp restoration from bootstrap`), `[REDACTED_CLIENT_ID]` (`Make heartbeat messaging Telegram-only by default`), plus routine auto-push commit `4d734fe`
 - `/data/.clawdbot/openclaw.json` permissions verified: `600 root:root`
 - Reviewed workspace memory/log paths showed no live env-var secret exposures after redaction; remaining matches were redacted values, examples, or variable names only
 - Process list reviewed; only expected core services observed (`node src/server.js`, `openclaw-gateway`, `python3 welly-daemon.py start`) plus the review commands themselves
@@ -1150,4 +1150,18 @@
 - `openclaw security audit --deep`: no critical or warning findings; informational note only
 - `openclaw update status`: update available (`2026.6.6`); treated as maintenance, not an active security incident
 - Note: secret-pattern matches still exist outside `/data/workspace` in `/data/.clawdbot/openclaw.env` and multiple `openclaw.json*` backup files; this is a credential-storage issue, not an additional non-credential alert, so it was logged here and not escalated under tonight's rule
+- Security review passed — all clear
+\n2026-06-17T06:00:12.733532: Auto-redacted 8 exposed credentials from files\n
+## 2026-06-17 — Nightly Security Review (02:00 America/New_York)
+- Auto-redaction ran first and removed 8 exposed credentials from `memory/security-log.md`, `memory/2026-06-16.md`, and `.git/logs/HEAD`; those fixes were auto-remediated and not escalated per policy
+- Markdown/text/json `sk-` scan in `/data/workspace` found no remaining live workspace secret exposures after redaction; remaining hits were prior redacted security-log notes, one learning-log mention, dependency text, and one Playwright prompt artifact
+- Focused hardcoded-credential scans across `/data/workspace` found no live hardcoded credentials; remaining matches were env-var names, documentation/setup examples, normal code references, or placeholders rather than embedded secrets
+- Git review (last 24h): expected workspace activity only — `3f3af1a` (`Auto git push workspace repo`)
+- `/data/.clawdbot/openclaw.json` permissions verified: `600 root:root`
+- Reviewed workspace memory/log paths showed no live env-var secret exposures after redaction; remaining matches were examples, variable names, or redacted values only
+- Telegram delivery remains stable (`status --deep`: enabled + OK with token configured); workspace package manifests do not show `telegraf`, `node-telegram-bot-api`, `whatsapp-web.js`, or `baileys` reintroduced as direct dependencies
+- Process list reviewed; only expected core services observed (`node src/server.js`, `openclaw`, `openclaw-gateway`, `python3 welly-daemon.py start`) plus the review commands themselves
+- Disk usage normal (`/` 50%, `/data` 56%); no storage pressure observed
+- `openclaw security audit --deep`: `0 critical · 0 warn · 1 info` (informational only: Telegram and WhatsApp group policies are allowlist with empty group allowlists, so non-allowlisted group messages are silently dropped)
+- `openclaw update status`: update available (`2026.6.8`), treated as maintenance rather than an active security issue
 - Security review passed — all clear

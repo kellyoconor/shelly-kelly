@@ -24,3 +24,27 @@ Investigate whether WHOOP offers an accessible API, export path, or webhook/auth
 - Related Features: oura,strava
 
 ---
+## [FEAT-20260616-001] whoop-integration
+
+**Logged**: 2026-06-16T12:27:30Z
+**Priority**: medium
+**Status**: pending
+**Area**: infra
+
+### Requested Capability
+Integrate Kelly's WHOOP data into Shelly/OpenClaw so WHOOP becomes a first-class data source alongside Oura and Strava.
+
+### User Context
+Kelly considers WHOOP an important data source and wants help using it for recovery/load interpretation instead of relying on screenshots.
+
+### Complexity Estimate
+medium
+
+### Suggested Implementation
+Prefer official WHOOP Developer Platform OAuth integration if feasible for a single-user app; fallback to WHOOP data export CSV ingestion if OAuth setup is too heavy. Avoid collecting raw credentials in chat.
+
+### Metadata
+- Frequency: first_time
+- Related Features: oura,strava,context-check
+
+---

@@ -379,3 +379,25 @@ Stick to warm, casual language without pet names by default. Only mirror terms l
 - Tags: tone, pet-names, correction, telegram
 
 ---
+## [LRN-20260616-001] correction
+
+**Logged**: 2026-06-16T12:36:30Z
+**Priority**: medium
+**Status**: pending
+**Area**: docs
+
+### Summary
+WHOOP redirect URLs on the developer dashboard require https or whoop:// style URIs, not localhost http URLs.
+
+### Details
+I suggested `http://localhost:8000/callback`, but the WHOOP dashboard UI explicitly indicates valid redirect URLs should look like `https://whoop.com` or `whoop://example`. Future guidance should prefer an https redirect or custom scheme and avoid assuming localhost is accepted.
+
+### Suggested Action
+When helping set up WHOOP OAuth, use an https redirect URL first and adapt local tooling around that, or verify localhost support before suggesting it.
+
+### Metadata
+- Source: user_feedback
+- Related Files: .learnings/LEARNINGS.md
+- Tags: whoop, oauth, redirect-uri
+
+---
