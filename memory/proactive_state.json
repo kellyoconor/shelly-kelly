@@ -1,18 +1,18 @@
 {
-  "timestamp": "2026-06-17T07:24:54",
+  "timestamp": "2026-06-18T07:24:49",
   "telegram_first": true,
   "kelly_state": {
-    "physical": "Kelly ran 6.12 miles yesterday. Kelly's readiness is low at 64% and her sleep was restless last night (66%).",
+    "physical": "Kelly ran 5.01 miles yesterday. Kelly's readiness is low at 63% and her sleep was restless last night (69%).",
     "schedule": "Kelly's calendar authentication has expired.",
-    "focus": "Active project energy: Shelly Telegram Migration Execution Checklist is live right now.",
+    "focus": "Active project energy: Shelly Eval Spec v1 is live right now.",
     "tone": "",
     "open_loops": "",
     "avoid": "Calendar auth: | NWSL interview:"
   },
   "external_events": {
-    "health": "\ud83d\ude34 64% ready \ud83e\udd71 66% sleep",
-    "obsidian": "\ud83c\udfaf Active projects: Shelly Telegram Migration Execution Check...",
-    "running": "\u23f3 Yesterday: 2026-06-16, 6.12mi"
+    "health": "\ud83d\ude34 63% ready \ud83e\udd71 69% sleep",
+    "obsidian": "\ud83c\udfaf Active projects: Shelly Eval Spec v1, Shelly Telegram Migr...",
+    "running": "\u23f3 Yesterday: 2026-06-17, 5.01mi"
   },
   "significance_result": {
     "no_significance": true
@@ -28,11 +28,19 @@
     "recent_activity": false,
     "negative_sentiment": false
   },
-  "candidate_messages": [],
-  "recent_log_count_72h": 214,
-  "hours_since_last_meaningful_send": 3.0,
+  "candidate_messages": [
+    {
+      "source": "assist",
+      "message_mode": "practical_assist",
+      "message": "Shelly Eval Spec v1 is live right now. still looks live right now. That usually means the bottleneck is choosing the next clean move, not having more ideas. If helpful, I can turn that into a tight three-step next move list.",
+      "why_now": "Active project energy has enough specificity to justify immediate practical help.",
+      "confidence": 0.8,
+      "min_gap_hours": 8
+    }
+  ],
+  "recent_log_count_72h": 207,
+  "hours_since_last_meaningful_send": 11.0,
   "recent_send_modes": [
-    "pattern_notice",
     "pattern_notice",
     "pattern_notice",
     "pattern_notice",

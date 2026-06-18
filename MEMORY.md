@@ -37,6 +37,8 @@
 - Kelly does not need WhatsApp-based workflows anymore; remove WhatsApp dependency instead of treating it as a normal fallback.
 - Outbound nudges should be useful, not noisy.
 - Success = Shelly sends helpful Telegram messages without prompting.
+- The actual bar for proactive support is useful synthesis: signal → meaning → recommendation → memory.
+- Kelly wants fewer generic notices and more interpretation, pattern recognition, clearer opinions, and less friction/process chatter.
 
 ### Sports
 - Sports matter a lot to Kelly; treat game/score questions as important, especially these teams in this rough order: Villanova basketball #1, then Liverpool, then Eagles, then Phillies, then Flyers
@@ -53,6 +55,8 @@
 ### Current Context
 - Telegram-all-day is the goal: useful proactive help, not infrastructure chatter.
 - Local reminder scheduling is still unreliable; do not claim cron/reminder repair is fixed yet.
+- Kelly's anxiety about being single is not about low confidence or inability to be alone; it is about how deeply she wants partnership/family and how hard the uncertainty feels when the future she wants most is the part she can control least.
+- Dating disappointments often land as future-threat, not just person-specific hurt; do not flatten this into generic "you won't be alone" reassurance.
 
 ### Resolved/Don't Ask About
 - **Calendar auth:** do not bring it up again.

@@ -401,3 +401,30 @@ When helping set up WHOOP OAuth, use an https redirect URL first and adapt local
 - Tags: whoop, oauth, redirect-uri
 
 ---
+## [LRN-20260617-001] best_practice
+
+**Logged**: 2026-06-17T10:25:00Z
+**Priority**: high
+**Status**: pending
+**Area**: docs
+
+### Summary
+Kelly wants proactive support to run on a tight loop of signal → meaning → recommendation → memory, not generic noticing or process chatter.
+
+### Details
+The recurring gap is not lack of warmth or number of messages; it's failure to turn context into judgment. Useful proactive support should convert data points like runs, readiness, sleep, app disagreement, and recent conversations into a read, a practical recommendation, and a memory update. Process-heavy detours (like setup mechanics or transport chatter) create friction and reduce trust. This matches her stated goal that success means meaningful Telegram help without prompting, with more interpretation, pattern recognition, and less management overhead from her.
+
+### Suggested Action
+Use a default operating loop for proactive support: (1) notice a real signal, (2) state what it likely means, (3) give one clear recommendation or frame, and (4) capture the outcome in memory if it teaches something about Kelly's patterns. If a candidate message cannot clear those four steps, prefer silence.
+
+### Metadata
+- Source: user_feedback
+- Related Files: /data/workspace/HEARTBEAT.md, /data/workspace/MEMORY.md, /data/workspace/AGENTS.md
+- Tags: proactive, interpretation, pattern-recognition, best-practice
+- See Also: LRN-20260526-003, LRN-20260526-004
+- Pattern-Key: proactive.signal-meaning-recommendation-memory
+- Recurrence-Count: 1
+- First-Seen: 2026-06-17
+- Last-Seen: 2026-06-17
+
+---

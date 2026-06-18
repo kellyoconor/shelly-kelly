@@ -1453,3 +1453,34 @@ Run the diff commands separately after heredoc-based checks, or wrap the whole c
 - Related Files: /data/workspace/.learnings/ERRORS.md
 
 ---
+## [ERR-20260618-001] alert-retry-processor
+
+**Logged**: 2026-06-18T07:01:00Z
+**Priority**: high
+**Status**: pending
+**Area**: infra
+
+### Summary
+Heartbeat urgent alert processor failed with a JavaScript syntax error, preventing the normal alert check from running.
+
+### Error
+```
+File "/data/workspace/alert-retry-processor.cjs", line 53
+    * Check for Kelly's recent activity and auto-mark alerts as seen
+                     ^
+SyntaxError: unterminated string literal (detected at line 53)
+```
+
+### Context
+- Command attempted: `python3 /data/workspace/alert-retry-processor.cjs heartbeat`
+- Trigger: required heartbeat critical alert check
+- Result: command exited before any alert processing
+
+### Suggested Fix
+Inspect `/data/workspace/alert-retry-processor.cjs` around line 53 for malformed quoting or an unclosed string/comment, then re-run the heartbeat alert processor.
+
+### Metadata
+- Reproducible: yes
+- Related Files: /data/workspace/alert-retry-processor.cjs
+
+---

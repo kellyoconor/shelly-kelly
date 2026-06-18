@@ -1,0 +1,228 @@
+{
+  "run_label": "baseline-v1",
+  "created_at": "2026-06-18T00:14:14.992693+00:00",
+  "dataset": "Shelly Eval Set v1",
+  "dataset_version": "1.0",
+  "results": [
+    {
+      "eval_id": "EVAL-01",
+      "title": "Post-run bed trap",
+      "response": "Get out of the bed before your brain turns this into a whole vibe. Shoes back on, water, kitchen. That's the move.",
+      "scores": {
+        "context_use": 4,
+        "interpretation": 4,
+        "recommendation": 5,
+        "tone_fit": 4,
+        "restraint": 5,
+        "memory_alignment": 4
+      },
+      "binary_checks": {
+        "contradiction": false,
+        "hallucination": false,
+        "noise": false,
+        "better_than_silence": true
+      },
+      "fail_tags": [],
+      "notes": "Strong immediate inertia-break. Slightly generic in voice, but it notices the real problem and gives one clean move.",
+      "overall": 4
+    },
+    {
+      "eval_id": "EVAL-02",
+      "title": "Proactive heartbeat silence test",
+      "response": null,
+      "scores": {
+        "context_use": 5,
+        "interpretation": 4,
+        "recommendation": 5,
+        "tone_fit": 5,
+        "restraint": 5,
+        "memory_alignment": 5
+      },
+      "binary_checks": {
+        "contradiction": false,
+        "hallucination": false,
+        "noise": false,
+        "better_than_silence": true
+      },
+      "fail_tags": [],
+      "notes": "Correct behavior is silence. No user-facing operational chatter.",
+      "overall": 5
+    },
+    {
+      "eval_id": "EVAL-03",
+      "title": "Wearable disagreement interpretation",
+      "response": "I\u2019d trust your body first, then use the wearables as color commentary. If you ran fine on a middling day, that usually means Oura caught some recovery drag but not a full no-go signal. I\u2019d treat today as: decent engine, maybe just don\u2019t spend the rest of it like you\u2019re invincible.",
+      "scores": {
+        "context_use": 4,
+        "interpretation": 5,
+        "recommendation": 4,
+        "tone_fit": 4,
+        "restraint": 4,
+        "memory_alignment": 4
+      },
+      "binary_checks": {
+        "contradiction": false,
+        "hallucination": false,
+        "noise": false,
+        "better_than_silence": true
+      },
+      "fail_tags": [],
+      "notes": "Takes a position and reduces confusion. Could be a touch sharper on the specific day plan.",
+      "overall": 4
+    },
+    {
+      "eval_id": "EVAL-04",
+      "title": "Stop asking what you should already know",
+      "response": "Love that. And I\u2019m not gonna make you do the obvious data-entry version of this if I should already know. If that was the workout I think it was, strong day. If not, give me the one-line version: run, lift, class, or something else?",
+      "scores": {
+        "context_use": 4,
+        "interpretation": 4,
+        "recommendation": 4,
+        "tone_fit": 4,
+        "restraint": 4,
+        "memory_alignment": 5
+      },
+      "binary_checks": {
+        "contradiction": false,
+        "hallucination": false,
+        "noise": false,
+        "better_than_silence": true
+      },
+      "fail_tags": [],
+      "notes": "Shows awareness of the repeated correction and narrows the follow-up. Still slightly meta instead of just leading with known context.",
+      "overall": 4
+    },
+    {
+      "eval_id": "EVAL-05",
+      "title": "Tone down over-indexing",
+      "response": "Lol fair. Dialing it down. Normal day, noted.",
+      "scores": {
+        "context_use": 4,
+        "interpretation": 5,
+        "recommendation": 3,
+        "tone_fit": 5,
+        "restraint": 5,
+        "memory_alignment": 4
+      },
+      "binary_checks": {
+        "contradiction": false,
+        "hallucination": false,
+        "noise": false,
+        "better_than_silence": true
+      },
+      "fail_tags": [],
+      "notes": "Good quick downshift. Not much recommendation needed here; the main job is tone repair.",
+      "overall": 4
+    },
+    {
+      "eval_id": "EVAL-06",
+      "title": "Useful proactive body read",
+      "response": "Useful data point: 63 readiness / 69 sleep didn\u2019t stop you from running 5.01 at 8:59, so for you, middling recovery doesn\u2019t automatically mean low-capacity day. It usually means be selective, not shut down. I\u2019d use the good window for one or two focused things and keep the rest of the day clean.",
+      "scores": {
+        "context_use": 5,
+        "interpretation": 5,
+        "recommendation": 5,
+        "tone_fit": 4,
+        "restraint": 4,
+        "memory_alignment": 4
+      },
+      "binary_checks": {
+        "contradiction": false,
+        "hallucination": false,
+        "noise": false,
+        "better_than_silence": true
+      },
+      "fail_tags": [],
+      "notes": "This is genuinely useful proactive synthesis. Slight risk of being a bit too neatly packaged, but it earns the interruption.",
+      "overall": 5
+    },
+    {
+      "eval_id": "EVAL-07",
+      "title": "Demo-day support without melodrama",
+      "response": "Yep, that tracks. You already got the run done and got yourself moving \u2014 now just go land the demo. Then you can exhale.",
+      "scores": {
+        "context_use": 5,
+        "interpretation": 4,
+        "recommendation": 4,
+        "tone_fit": 4,
+        "restraint": 5,
+        "memory_alignment": 4
+      },
+      "binary_checks": {
+        "contradiction": false,
+        "hallucination": false,
+        "noise": false,
+        "better_than_silence": true
+      },
+      "fail_tags": [],
+      "notes": "Grounded and brief. Could maybe be a little more distinctive in voice, but it fits the moment.",
+      "overall": 4
+    },
+    {
+      "eval_id": "EVAL-08",
+      "title": "Repeated correction becomes system rule",
+      "response": "Yeah \u2014 and honestly that means the issue is structural, not that you\u2019re failing to explain it. If the same correction keeps happening, it shouldn\u2019t live as a vibe or a memory I might miss later. It needs to become a rule, an eval, or a written behavior spec so the pattern actually changes.",
+      "scores": {
+        "context_use": 5,
+        "interpretation": 5,
+        "recommendation": 5,
+        "tone_fit": 4,
+        "restraint": 4,
+        "memory_alignment": 5
+      },
+      "binary_checks": {
+        "contradiction": false,
+        "hallucination": false,
+        "noise": false,
+        "better_than_silence": true
+      },
+      "fail_tags": [],
+      "notes": "Names the product implication clearly and moves toward process. Slightly formal, but solid.",
+      "overall": 5
+    },
+    {
+      "eval_id": "EVAL-09",
+      "title": "Quiet affection, no cringe",
+      "response": "\u263a\ufe0f",
+      "scores": {
+        "context_use": 4,
+        "interpretation": 4,
+        "recommendation": 3,
+        "tone_fit": 5,
+        "restraint": 5,
+        "memory_alignment": 5
+      },
+      "binary_checks": {
+        "contradiction": false,
+        "hallucination": false,
+        "noise": false,
+        "better_than_silence": true
+      },
+      "fail_tags": [],
+      "notes": "Right-sized and warm. Minimal, but that is the point here.",
+      "overall": 4
+    },
+    {
+      "eval_id": "EVAL-10",
+      "title": "Build the eval instinct into product thinking",
+      "response": "You probably should be, honestly. The failure mode here isn\u2019t lack of intelligence \u2014 it\u2019s fuzzy repeated misses around tone, initiative, and what I should infer vs ask. Evals help turn \u2018I know it when I see it\u2019 into an actual spec, so the same annoyance doesn\u2019t keep costing you energy. Basically: if this matters like a product, it deserves product discipline.",
+      "scores": {
+        "context_use": 5,
+        "interpretation": 5,
+        "recommendation": 4,
+        "tone_fit": 4,
+        "restraint": 4,
+        "memory_alignment": 5
+      },
+      "binary_checks": {
+        "contradiction": false,
+        "hallucination": false,
+        "noise": false,
+        "better_than_silence": true
+      },
+      "fail_tags": [],
+      "notes": "Strong framing and clear rationale for evals. Slightly abstract by the end, but still grounded.",
+      "overall": 5
+    }
+  ]
+}
