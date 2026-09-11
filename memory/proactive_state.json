@@ -1,18 +1,19 @@
 {
-  "timestamp": "2026-06-18T07:24:49",
+  "timestamp": "2026-09-11T17:19:23",
   "telegram_first": true,
   "kelly_state": {
-    "physical": "Kelly ran 5.01 miles yesterday. Kelly's readiness is low at 63% and her sleep was restless last night (69%).",
+    "physical": "Kelly ran 6.02 miles today at a 8:43/mi pace. Kelly's health metrics are available.",
     "schedule": "Kelly's calendar authentication has expired.",
-    "focus": "Active project energy: Shelly Eval Spec v1 is live right now.",
+    "focus": "Kelly\u2019s current focus is not fully clear from the latest context yet.",
     "tone": "",
     "open_loops": "",
     "avoid": "Calendar auth: | NWSL interview:"
   },
   "external_events": {
-    "health": "\ud83d\ude34 63% ready \ud83e\udd71 69% sleep",
-    "obsidian": "\ud83c\udfaf Active projects: Shelly Eval Spec v1, Shelly Telegram Migr...",
-    "running": "\u23f3 Yesterday: 2026-06-17, 5.01mi"
+    "run_today": "\u2705 Ran today: 6.02mi at 8:43/mi",
+    "health": "\ud83d\udc8d Health data available",
+    "obsidian": "\ud83d\udcdd No recent Obsidian activity",
+    "running": "\u2705 Ran today: 6.02mi at 8:43/mi"
   },
   "significance_result": {
     "no_significance": true
@@ -25,25 +26,11 @@
     "morning_routine": false
   },
   "recent_activity": {
-    "recent_activity": false,
-    "negative_sentiment": false
+    "recent_activity": true,
+    "negative_sentiment": true
   },
-  "candidate_messages": [
-    {
-      "source": "assist",
-      "message_mode": "practical_assist",
-      "message": "Shelly Eval Spec v1 is live right now. still looks live right now. That usually means the bottleneck is choosing the next clean move, not having more ideas. If helpful, I can turn that into a tight three-step next move list.",
-      "why_now": "Active project energy has enough specificity to justify immediate practical help.",
-      "confidence": 0.8,
-      "min_gap_hours": 8
-    }
-  ],
-  "recent_log_count_72h": 207,
-  "hours_since_last_meaningful_send": 11.0,
-  "recent_send_modes": [
-    "pattern_notice",
-    "pattern_notice",
-    "pattern_notice",
-    "pattern_notice"
-  ]
+  "candidate_messages": [],
+  "recent_log_count_72h": 0,
+  "hours_since_last_meaningful_send": null,
+  "recent_send_modes": []
 }

@@ -1484,3 +1484,60 @@ Inspect `/data/workspace/alert-retry-processor.cjs` around line 53 for malformed
 - Related Files: /data/workspace/alert-retry-processor.cjs
 
 ---
+## [ERR-20260911-001] oura-api-brief-empty
+
+**Logged**: 2026-09-11T17:22:00Z
+**Priority**: medium
+**Status**: pending
+**Area**: infra
+
+### Summary
+Oura brief command returned only the date with no sleep/readiness/activity payload for 2026-09-07 through 2026-09-11.
+
+### Error
+```
+Output examples: {"date": "2026-09-11"}
+```
+
+### Context
+- Command attempted: python3 skills/oura/scripts/oura.py brief 2026-09-07..2026-09-11
+- Weekly Kelly OS report needed actual Oura numbers for sleep/readiness/HRV trends
+- Strava command worked normally in same session
+
+### Suggested Fix
+Check Oura auth/token validity and whether API endpoints are returning empty data; add explicit warning when brief has no payload so downstream reports can fail loudly.
+
+### Metadata
+- Reproducible: unknown
+- Related Files: skills/oura/scripts/oura.py, .learnings/ERRORS.md
+
+---
+
+## [ERR-20260911-002] telegram-message-too-long
+
+**Logged**: 2026-09-11T17:23:00Z
+**Priority**: low
+**Status**: pending
+**Area**: infra
+
+### Summary
+Telegram send failed because the Kelly OS report exceeded message length limits.
+
+### Error
+```
+400: Bad Request: message is too long
+```
+
+### Context
+- Operation attempted: message.send channel=telegram target=8619914002 with full weekly report text
+- Follow-up action: split report into multiple messages
+
+### Suggested Fix
+Add chunking logic for long narrative reports before Telegram delivery.
+
+### Metadata
+- Reproducible: yes
+- Related Files: tracking/reports/2026-09-11.md, .learnings/ERRORS.md
+
+---
+
