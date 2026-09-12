@@ -60,7 +60,7 @@
 
 2026-09-11T17:20:18.[REDACTED_CLIENT_ID]: Auto-redacted 4 exposed credentials from files
 
-2026-09-11T17:20:46.965063: Auto-redacted 1 exposed credentials from files
+2026-09-11T17:20:46.[REDACTED_CLIENT_ID]: Auto-redacted 1 exposed credentials from files
 
 ## 2026-09-11 — Nightly Security Review (13:20 America/New_York)
 - Auto-redaction ran first and removed 1 exposed credential from `memory/security-log.md`; auto-remediated and not escalated per policy
@@ -75,3 +75,20 @@
 - `openclaw security audit --deep`: `0 critical · 0 warn · 1 info`
 - `openclaw update status`: update available (`stable v2026.3.8` -> `2026.9.4`); treated as maintenance, not an active incident
 - Non-credential issue found: residual WhatsApp-specific operational references remain in active automation despite Telegram being the primary lane; escalated to Kelly on Telegram per policy
+
+2026-09-12T06:00:15.984213: Auto-redacted 6 exposed credentials from files
+
+## 2026-09-12 — Nightly Security Review (02:00 America/New_York)
+- Auto-redaction ran first and removed 6 exposed credentials from `memory/security-log.md` and `.git/logs/HEAD`; auto-remediated and not escalated per policy
+- Workspace `sk-` scan found no live secret exposures after redaction; remaining hits were redacted security-log notes, one learning-log command artifact, dependency text in `node_modules`, and a Playwright prompt artifact rather than active keys
+- Focused hardcoded-credential scan found no live hardcoded credentials in reviewed workspace files; remaining matches were placeholders, env-var names, or normal code references rather than embedded secrets
+- Git review (last 24h): expected workspace activity only — `11821b5` (`Auto git push 2026-09-11T17:24:31Z`)
+- `/data/.clawdbot/openclaw.json` permissions verified: `600 root:root`
+- Reviewed config/log surfaces showed no unredacted env-var or token values in checked output; config inspection was kept redacted
+- Process list reviewed; only expected core services observed (`node src/server.js`, `openclaw`, `openclaw-gateway`, `python3 welly-daemon.py start`) plus the review commands themselves
+- Disk usage normal (`/` 54%, `/data` 56%); no storage pressure observed
+- Telegram delivery remains stable (`openclaw status --deep`: `Telegram OK`; config still `enabled=true` with `dmPolicy=pairing` and `groupPolicy=allowlist`); audit/info note remains only the expected empty group allowlist behavior
+- No unwanted transport-specific dependencies were reintroduced in checked workspace package/source paths (`node-telegram-bot-api`, `whatsapp-web.js`, `baileys`, and `venom` absent as direct workspace dependencies)
+- `openclaw security audit --deep`: `0 critical · 0 warn · 1 info` (informational-only allowlist note)
+- `openclaw status --deep` shows update available (`stable v2026.3.8` -> `2026.9.4`); treated as maintenance, not an active security incident
+- Security review passed — all clear

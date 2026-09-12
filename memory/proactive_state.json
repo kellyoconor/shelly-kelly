@@ -1,19 +1,18 @@
 {
-  "timestamp": "2026-09-11T17:19:23",
+  "timestamp": "2026-09-12T07:19:16",
   "telegram_first": true,
   "kelly_state": {
-    "physical": "Kelly ran 6.02 miles today at a 8:43/mi pace. Kelly's health metrics are available.",
+    "physical": "Kelly ran 6.02 miles yesterday. Kelly's health metrics are available.",
     "schedule": "Kelly's calendar authentication has expired.",
-    "focus": "Kelly\u2019s current focus is not fully clear from the latest context yet.",
+    "focus": "Recent theme: Tiny mirror thought: The week is almost done. What surprised you about yourself this week?",
     "tone": "",
     "open_loops": "",
     "avoid": "Calendar auth: | NWSL interview:"
   },
   "external_events": {
-    "run_today": "\u2705 Ran today: 6.02mi at 8:43/mi",
     "health": "\ud83d\udc8d Health data available",
-    "obsidian": "\ud83d\udcdd No recent Obsidian activity",
-    "running": "\u2705 Ran today: 6.02mi at 8:43/mi"
+    "obsidian": "\ud83c\udfad Recent mood: focused",
+    "running": "\u23f3 Yesterday: 2026-09-11, 6.02mi"
   },
   "significance_result": {
     "no_significance": true
@@ -26,11 +25,11 @@
     "morning_routine": false
   },
   "recent_activity": {
-    "recent_activity": true,
-    "negative_sentiment": true
+    "recent_activity": false,
+    "negative_sentiment": false
   },
   "candidate_messages": [],
-  "recent_log_count_72h": 0,
+  "recent_log_count_72h": 43,
   "hours_since_last_meaningful_send": null,
   "recent_send_modes": []
 }
