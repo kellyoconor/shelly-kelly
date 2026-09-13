@@ -1,10 +1,10 @@
 {
-  "timestamp": "2026-09-12T07:19:16",
+  "timestamp": "2026-09-13T07:19:21",
   "telegram_first": true,
   "kelly_state": {
-    "physical": "Kelly ran 6.02 miles yesterday. Kelly's health metrics are available.",
+    "physical": "Kelly ran 8.02 miles yesterday. Kelly's health metrics are available.",
     "schedule": "Kelly's calendar authentication has expired.",
-    "focus": "Recent theme: Tiny mirror thought: The week is almost done. What surprised you about yourself this week?",
+    "focus": "Recent theme: Tiny mirror thought: It's the weekend. What part of your weekday self are you relieved to set down?",
     "tone": "",
     "open_loops": "",
     "avoid": "Calendar auth: | NWSL interview:"
@@ -12,7 +12,7 @@
   "external_events": {
     "health": "\ud83d\udc8d Health data available",
     "obsidian": "\ud83c\udfad Recent mood: focused",
-    "running": "\u23f3 Yesterday: 2026-09-11, 6.02mi"
+    "running": "\u23f3 Yesterday: 2026-09-12, 8.02mi"
   },
   "significance_result": {
     "no_significance": true
@@ -29,7 +29,7 @@
     "negative_sentiment": false
   },
   "candidate_messages": [],
-  "recent_log_count_72h": 43,
+  "recent_log_count_72h": 114,
   "hours_since_last_meaningful_send": null,
   "recent_send_modes": []
 }

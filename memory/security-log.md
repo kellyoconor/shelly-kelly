@@ -76,13 +76,13 @@
 - `openclaw update status`: update available (`stable v2026.3.8` -> `2026.9.4`); treated as maintenance, not an active incident
 - Non-credential issue found: residual WhatsApp-specific operational references remain in active automation despite Telegram being the primary lane; escalated to Kelly on Telegram per policy
 
-2026-09-12T06:00:15.984213: Auto-redacted 6 exposed credentials from files
+2026-09-12T06:00:15.[REDACTED_CLIENT_ID]: Auto-redacted 6 exposed credentials from files
 
 ## 2026-09-12 — Nightly Security Review (02:00 America/New_York)
 - Auto-redaction ran first and removed 6 exposed credentials from `memory/security-log.md` and `.git/logs/HEAD`; auto-remediated and not escalated per policy
 - Workspace `sk-` scan found no live secret exposures after redaction; remaining hits were redacted security-log notes, one learning-log command artifact, dependency text in `node_modules`, and a Playwright prompt artifact rather than active keys
 - Focused hardcoded-credential scan found no live hardcoded credentials in reviewed workspace files; remaining matches were placeholders, env-var names, or normal code references rather than embedded secrets
-- Git review (last 24h): expected workspace activity only — `11821b5` (`Auto git push 2026-09-11T17:24:31Z`)
+- Git review (last 24h): expected workspace activity only — `[REDACTED_CLIENT_ID]b5` (`Auto git push 2026-09-11T17:24:31Z`)
 - `/data/.clawdbot/openclaw.json` permissions verified: `600 root:root`
 - Reviewed config/log surfaces showed no unredacted env-var or token values in checked output; config inspection was kept redacted
 - Process list reviewed; only expected core services observed (`node src/server.js`, `openclaw`, `openclaw-gateway`, `python3 welly-daemon.py start`) plus the review commands themselves
@@ -92,3 +92,15 @@
 - `openclaw security audit --deep`: `0 critical · 0 warn · 1 info` (informational-only allowlist note)
 - `openclaw status --deep` shows update available (`stable v2026.3.8` -> `2026.9.4`); treated as maintenance, not an active security incident
 - Security review passed — all clear
+\n2026-09-13T06:00:12.664317: Auto-redacted 8 exposed credentials from files\n## 2026-09-13 Nightly security review
+- Auto-redaction ran first and redacted 8 exposed credentials (2 in `memory/security-log.md`, 6 in `.git/logs/HEAD`); continued review afterward per policy
+- Workspace markdown/text/json `sk-` scan found no remaining live workspace secret exposures after redaction; remaining hits were redacted notes, dependency text, or harmless command/log artifacts
+- Git review for last 24h showed one expected repo update (`08d0d58` `Auto git push`); nothing unexpected stood out
+- `/data/.clawdbot/openclaw.json` permissions are `600 root:root`
+- Reviewed workspace memory/log paths for env-var leakage; no live unredacted env-var secret values found in checked logs
+- Process list showed expected core services only (`openclaw`, `openclaw-gateway`, `welly-daemon`, node server, and the review shell)
+- Disk usage healthy: `/` 54%, `/data` 56%
+- `openclaw status --deep` shows Telegram delivery stable (`Telegram OK`) and WhatsApp linked; no unwanted transport-specific dependencies were reintroduced in direct workspace manifests (`node-telegram-bot-api`, `telegraf`, `whatsapp-web.js`, `baileys`, `venom` absent)
+- Focused hardcoded-credential scan found no live hardcoded credentials in `/data/workspace`; remaining matches were redacted git history lines, placeholder UI text, or secret-scanner source patterns
+- Security review passed — all clear
+
