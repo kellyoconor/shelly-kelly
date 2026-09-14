@@ -1,0 +1,12 @@
+{
+  "date": "2026-09-13",
+  "day_of_week": "Sunday",
+  "oura": null,
+  "strava": {
+    "weekly_activity_count": 4,
+    "weekly_miles": 27.24,
+    "recent_count": 20,
+    "trained_today": false
+  },
+  "calendar": null
+}

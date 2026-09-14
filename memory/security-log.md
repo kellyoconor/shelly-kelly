@@ -92,7 +92,7 @@
 - `openclaw security audit --deep`: `0 critical · 0 warn · 1 info` (informational-only allowlist note)
 - `openclaw status --deep` shows update available (`stable v2026.3.8` -> `2026.9.4`); treated as maintenance, not an active security incident
 - Security review passed — all clear
-\n2026-09-13T06:00:12.664317: Auto-redacted 8 exposed credentials from files\n## 2026-09-13 Nightly security review
+\n2026-09-13T06:00:12.[REDACTED_CLIENT_ID]: Auto-redacted 8 exposed credentials from files\n## 2026-09-13 Nightly security review
 - Auto-redaction ran first and redacted 8 exposed credentials (2 in `memory/security-log.md`, 6 in `.git/logs/HEAD`); continued review afterward per policy
 - Workspace markdown/text/json `sk-` scan found no remaining live workspace secret exposures after redaction; remaining hits were redacted notes, dependency text, or harmless command/log artifacts
 - Git review for last 24h showed one expected repo update (`08d0d58` `Auto git push`); nothing unexpected stood out
@@ -104,3 +104,17 @@
 - Focused hardcoded-credential scan found no live hardcoded credentials in `/data/workspace`; remaining matches were redacted git history lines, placeholder UI text, or secret-scanner source patterns
 - Security review passed — all clear
 
+\n2026-09-14T06:00:14.[REDACTED_CLIENT_ID]: Auto-redacted 6 exposed credentials from files\n\n2026-09-14T06:00:35.072842: Auto-redacted 1 exposed credentials from files\n
+## 2026-09-14 — Nightly Security Review (02:00 America/New_York)
+- Auto-redaction ran first and removed 1 exposed credential from `memory/security-log.md`; auto-remediated and not escalated per policy
+- Workspace markdown/text/json `sk-` scan found no remaining live workspace secret exposures after redaction; remaining hits were redacted security-log notes, a Playwright prompt artifact under `node_modules`, and secret-scanner source patterns rather than active keys
+- Focused hardcoded-credential scan across `/data/workspace` found no live hardcoded credentials; remaining matches were placeholders, env-var names, normal code references, patch archives, or auth-helper source code rather than embedded secrets
+- Git review (last 24h): expected workspace activity only — `ebfff5c` (`Shelly 🐚 Auto git push 2026-09-13T07:30:06Z`)
+- `/data/.clawdbot/openclaw.json` permissions verified: `600 root:root`
+- Reviewed checked workspace log/config surfaces and found no live unredacted env-var secret values in logs
+- Process list reviewed; only expected core services observed (`openclaw`, `openclaw-gateway`, `node`, `python3`) plus the review commands themselves
+- Disk usage normal (`/` 53%, `/data` 56%); no storage pressure observed
+- `openclaw status --deep` shows Telegram delivery stable (`Telegram OK`) and WhatsApp linked; workspace direct dependencies remain minimal (`express`, `http-proxy`, `playwright`, `tar`) with no `telegraf`, `node-telegram-bot-api`, `whatsapp-web.js`, `baileys`, or `venom` reintroduced
+- `openclaw` deep status/security summary showed `0 critical · 0 warn · 1 info`; informational-only allowlist note, not an incident
+- Update available (`stable v2026.3.8` -> `2026.9.4`); treated as maintenance, not an active security issue
+- Security review passed — all clear
