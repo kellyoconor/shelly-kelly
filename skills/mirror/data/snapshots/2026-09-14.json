@@ -1,0 +1,10 @@
+{
+  "date": "2026-09-14",
+  "day_of_week": "Monday",
+  "oura": null,
+  "strava": {
+    "recent_count": 20,
+    "trained_today": false
+  },
+  "calendar": null
+}

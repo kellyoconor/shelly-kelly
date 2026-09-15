@@ -1,10 +1,10 @@
 {
-  "timestamp": "2026-09-14T07:19:25",
+  "timestamp": "2026-09-15T07:19:17",
   "telegram_first": true,
   "kelly_state": {
-    "physical": "Kelly last ran on 2026-09-12 (2 days ago). Kelly's health metrics are available.",
+    "physical": "Kelly hasn't run since Saturday, 2026-09-12. Kelly's health metrics are available.",
     "schedule": "Kelly's calendar authentication has expired.",
-    "focus": "Recent theme: Tiny mirror thought: It's the weekend. What part of your weekday self are you relieved to set down?",
+    "focus": "Recent theme: Tiny mirror thought: It's Monday. What's one thing you want this week to be about that last week wasn't?",
     "tone": "The recent tone looks clear and relatively grounded.",
     "open_loops": "",
     "avoid": "Calendar auth: | NWSL interview:"
@@ -12,10 +12,10 @@
   "external_events": {
     "health": "\ud83d\udc8d Health data available",
     "obsidian": "\ud83c\udfad Recent mood: clear, clear",
-    "running": "\u274c No recent runs (last: 2026-09-12, 2 days ago)"
+    "running": "\u274c No recent runs (last: 2026-09-12, 3 days ago)"
   },
   "significance_result": {
-    "no_significance": true
+    "significance_message": "Noticed you did some organizing and cleanup work. Feel more grounded with things tidied up?"
   },
   "conversation_check": {
     "running": true,
@@ -28,8 +28,17 @@
     "recent_activity": false,
     "negative_sentiment": false
   },
-  "candidate_messages": [],
-  "recent_log_count_72h": 184,
+  "candidate_messages": [
+    {
+      "source": "significance",
+      "message_mode": "emotional_follow_up",
+      "message": "Noticed you did some organizing and cleanup work. Feel more grounded with things tidied up?",
+      "why_now": "Recent memory/context significance produced a message with actual substance.",
+      "confidence": 0.86,
+      "min_gap_hours": 1
+    }
+  ],
+  "recent_log_count_72h": 209,
   "hours_since_last_meaningful_send": null,
   "recent_send_modes": []
 }
